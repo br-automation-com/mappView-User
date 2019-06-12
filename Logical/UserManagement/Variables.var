@@ -1,0 +1,38 @@
+VAR
+	SetUserName : STRING[128];
+	SetUserPassword : STRING[128];
+	SetUserRole : STRING[128];
+END_VAR
+(*UserCreate*)
+VAR
+	CmdUserCreate : BOOL;
+	UserCreate_0 : ArUserCreate;
+END_VAR
+(*SetPassword*)
+VAR
+	CmdSetPassword : BOOL;
+	SetPassword_0 : ArUserSetPassword;
+END_VAR
+(*AssignRole*)
+VAR
+	UserAssignRole_0 : ArUserAssignRole;
+	CmdAssignRole : BOOL;
+	CmdUserDelete : BOOL;
+	DeleteUser_0 : ArUserDelete;
+END_VAR
+(*Export*)
+VAR
+	CmdExportUser : BOOL;
+	FilePath : STRING[128];
+	Export_0 : ArUserExport;
+END_VAR
+(*Import*)
+VAR
+	CmdImportUser : BOOL;
+	ImportUser_0 : ArUserImport;
+	UserCreatePassword : STRING[128];
+END_VAR
+(*Variables for visualization*)
+VAR
+	visDialogOK : BOOL;
+END_VAR

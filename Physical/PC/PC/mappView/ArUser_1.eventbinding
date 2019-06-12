@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<EventBindingSet id="ArUser_1_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Bindings>
+		<EventBinding id="contentArUser_1.btnUserCreate.Click">
+			<Source contentRefId="contentArUser_1" widgetRefId="btnUserCreate" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:CmdUserCreate">
+						<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="1" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser_1.btnUserDelete.Click">
+			<Source contentRefId="contentArUser_1" widgetRefId="btnUserDelete" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:CmdUserDelete">
+						<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="1" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser_1.Login1.LoginSuccess">
+			<Source contentRefId="contentArUser_1" widgetRefId="Login1" xsi:type="widgets.brease.Login.Event" event="LoginSuccess" />
+			<Operand name="userid" datatype="ANY_STRING">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.userId" > 
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<EventHandler>				
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:SetUserName" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=userid" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser_1.btnUserChangePassword.Click">
+			<Source contentRefId="contentArUser_1" widgetRefId="btnUserChangePassword" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:CmdSetPassword">
+						<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="1" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser_1.btnUserLogoutButton.Click">
+			<Source contentRefId="contentArUser_1" widgetRefId="btnUserLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:SetUserName" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser_1.btnUserExport.Click">
+			<Source contentRefId="contentArUser_1" widgetRefId="btnUserExport" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::UserManage:CmdExportUser">
+						<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="1" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+	</Bindings>
+</EventBindingSet>

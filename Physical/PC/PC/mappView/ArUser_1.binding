@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="ArUser_1_binding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:SetUserPassword" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentArUser_1" widgetRefId="txtUserPassword" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:SetUserName" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentArUser_1" widgetRefId="txtUserName" attribute="value" />
+</Binding>
+</Bindings>
+</BindingsSet>

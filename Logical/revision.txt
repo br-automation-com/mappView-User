@@ -1,0 +1,8 @@
+Version 1.0
+- First release
+
+ToDo
+- Listbox for users
+- Listbox for roles
+- Two text boxes for password
+- Dialog for password change

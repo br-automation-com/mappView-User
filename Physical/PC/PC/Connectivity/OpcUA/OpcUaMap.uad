@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<OpcUaSource FileVersion="4" ArVersion="D4.52">
+  <Aliases>
+    <ACLAliases />
+    <EURangeViolationAliases />
+    <EURangesAliases />
+    <EngineeringUnitAliases />
+  </Aliases>
+  <DefaultView>
+    <Module Name="&lt;Default&gt;">
+      <Task Name="UserManage">
+        <Variable Name="CmdAssignRole" />
+        <Variable Name="CmdSetPassword" />
+        <Variable Name="CmdUserCreate" />
+        <Variable Name="CmdUserDelete" />
+        <Variable Name="UserCreatePassword" />
+        <Variable Name="CmdExportUser" />
+        <Variable Name="CmdImportUser" />
+        <Variable Name="visDialogOK" />
+        <Variable Name="SetUserName" />
+        <Variable Name="SetUserPassword" />
+        <Variable Name="SetUserRole" />
+      </Task>
+    </Module>
+  </DefaultView>
+</OpcUaSource>
