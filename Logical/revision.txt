@@ -6,3 +6,5 @@ ToDo
 - Listbox for roles
 - Two text boxes for password change
 - Dialog for password change
+- Additional dialogs for errors and success
+- Make dialogs show up on calling client only
