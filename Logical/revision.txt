@@ -4,5 +4,5 @@ Version 1.0
 ToDo
 - Listbox for users
 - Listbox for roles
-- Two text boxes for password
+- Two text boxes for password change
 - Dialog for password change
