@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingsSet id="MainBinding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Bindings>
+  
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:UserName" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="InputCreateDeleteUser" attribute="value" />
+</Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::UserManage:SetPasswordName" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="TextOutput1" attribute="value" />
+</Binding>
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:SetPassword" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="Password1" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:UserCreatePassword" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="Password2" attribute="value" />
+</Binding>
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:PrintListUser" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="User" attribute="stringValue" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::UserManage:PrintListRole" attribute="value" />
+<Target xsi:type="brease" contentRefId="content_1" widgetRefId="Role" attribute="stringValue" />
+</Binding>
+</Bindings>
+</BindingsSet>

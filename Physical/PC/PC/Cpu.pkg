@@ -2,8 +2,8 @@
 <?AutomationStudio Version=4.5.2.102?>
 <Cpu xmlns="http://br-automation.co.at/AS/Cpu">
   <Objects>
-    <Object Type="File" Description="Software Konfiguration">Cpu.sw</Object>
     <Object Type="File" Description="Permanente Variablen">Cpu.per</Object>
+    <Object Type="File" Description="Software Konfiguration">Cpu.sw</Object>
     <Object Type="File" Description="I/O Mapping">IoMap.iom</Object>
     <Object Type="File" Description="Variablenzuordnung">PvMap.vvm</Object>
     <Object Type="Package">Connectivity</Object>

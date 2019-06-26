@@ -9,17 +9,18 @@
   <DefaultView>
     <Module Name="&lt;Default&gt;">
       <Task Name="UserManage">
+        <Variable Name="AssignRole" />
+        <Variable Name="AssignRoleName" />
         <Variable Name="CmdAssignRole" />
         <Variable Name="CmdSetPassword" />
         <Variable Name="CmdUserCreate" />
         <Variable Name="CmdUserDelete" />
-        <Variable Name="UserCreatePassword" />
-        <Variable Name="CmdExportUser" />
-        <Variable Name="CmdImportUser" />
-        <Variable Name="visDialogOK" />
-        <Variable Name="SetUserName" />
-        <Variable Name="SetUserPassword" />
-        <Variable Name="SetUserRole" />
+        <Variable Name="SetPassword" />
+        <Variable Name="SetPasswordName" />
+        <Variable Name="UserName" />
+        <Variable Name="CmdExport" />
+        <Variable Name="PrintListUser" EnableArrayElements="True" />
+        <Variable Name="PrintListRole" EnableArrayElements="True" />
       </Task>
     </Module>
   </DefaultView>

@@ -1,38 +1,61 @@
+(*General*)
 VAR
-	SetUserName : STRING[128];
-	SetUserPassword : STRING[128];
-	SetUserRole : STRING[128];
+	NumberOfUsers : INT := 50;
+	ErrorID : DINT;
+	UserManagement : UserManagementEnum := InitState; (*State Machine for UserManagement*)
+	SystemFeedback : STRING[80]; (*General System Information (Errors etc.)*)
+	FilePath : STRING[128]; (*FilePath for Import/Export of the user list*)
+	UserName : STRING[128];
 END_VAR
-(*UserCreate*)
+(*UserCreate -> Create an user with given name; default no password *)
 VAR
 	CmdUserCreate : BOOL;
 	UserCreate_0 : ArUserCreate;
 END_VAR
-(*SetPassword*)
+(*UserDelete -> Delete an user  *)
 VAR
-	CmdSetPassword : BOOL;
-	SetPassword_0 : ArUserSetPassword;
-END_VAR
-(*AssignRole*)
-VAR
-	UserAssignRole_0 : ArUserAssignRole;
-	CmdAssignRole : BOOL;
 	CmdUserDelete : BOOL;
 	DeleteUser_0 : ArUserDelete;
 END_VAR
 (*Export*)
 VAR
-	CmdExportUser : BOOL;
-	FilePath : STRING[128];
+	CmdExport : BOOL;
 	Export_0 : ArUserExport;
+END_VAR
+(*SetPassword*)
+VAR
+	SetPasswordName : STRING[128];
+	SetPassword : STRING[128];
+	CmdSetPassword : BOOL;
+	RepeatPassword : STRING[128];
+	Result : DINT;
+	SetPassword_0 : ArUserSetPassword;
+END_VAR
+(*AssignRole*)
+VAR
+	AssignRoleName : STRING[128];
+	CmdAssignRole : BOOL;
+	AssignRole : STRING[128];
+	UserAssignRole_0 : ArUserAssignRole;
 END_VAR
 (*Import*)
 VAR
-	CmdImportUser : BOOL;
 	ImportUser_0 : ArUserImport;
-	UserCreatePassword : STRING[128];
 END_VAR
-(*Variables for visualization*)
+(*RefreshList -> Create a teable with all user and associated roles*)
 VAR
-	visDialogOK : BOOL;
+	CmdRefreshList : BOOL;
+	ArUserGetFirst_0 : ArUserGetFirst;
+	ArUserGetNext_0 : ArUserGetNext;
+	ArUserInitList_0 : ArUserInitList;
+	RolePar : BYTE := 4; (*ListType Userrole*)
+	PrintListRole : ARRAY[0..49,0..9] OF STRING[128];
+	PrintListUser : ARRAY[0..49] OF STRING[128];
+	i : INT;
+	UserPar : BYTE := 1; (*ListType User*)
+	LoopCounter : INT := 1; (*LoopCounter for creating the table; 1 = second element of array*)
+	ArUserGetFirst_1 : ArUserGetFirst;
+	ArUserInitList_1 : ArUserInitList;
+	CmdReset : BOOL;
+	CmdClearText : BOOL;
 END_VAR

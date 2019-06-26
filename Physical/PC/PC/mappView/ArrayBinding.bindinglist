@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BindingListsSet id="ArrayBinding" 
+  xmlns="http://www.br-automation.com/iat2015/bindingList/engineering/v2" 
+  xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <BindingLists>
+    <List xsi:type="opcUa" id="indexList1" attribute="value">
+      <bt:Element index="0" refId="::iatClient:clientSlots[0].IpAddress"/>
+      <bt:Element index="1" refId="::iatClient:clientSlots[1].IpAddress"/>
+      <bt:Element index="2" refId="::iatClient:clientSlots[2].IpAddress"/>
+      <bt:Element index="3" refId="::iatClient:clientSlots[3].IpAddress"/>
+      <bt:Element index="4" refId="::iatClient:clientSlots[4].IpAddress"/>
+    </List>
+	</BindingLists>
+
+</BindingListsSet>

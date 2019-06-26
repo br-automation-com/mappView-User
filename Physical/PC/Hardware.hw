@@ -6,6 +6,8 @@
       <Parameter ID="InaPort" Value="11159" />
     </Connector>
     <Parameter ID="ConfigurationID" Value="ARuser_PC" />
+    <Parameter ID="Cyclic1Duration" Value="10000" />
+    <Parameter ID="Cyclic3Tolerance" Value="60000000" />
     <Group ID="FileDevice1" />
     <Parameter ID="FileDeviceName1" Value="FileDevice" />
     <Parameter ID="FileDevicePath1" Value="C:\Users\hendricksf\Desktop" />

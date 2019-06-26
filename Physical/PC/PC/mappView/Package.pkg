@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.5.3.86 SP?>
+<?AutomationStudio Version=4.5.2.102?>
 <Package SubType="mappViewControl" PackageType="mappViewControl" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
+    <Object Type="File">Binding.binding</Object>
     <Object Type="File">Config.mappviewcfg</Object>
     <Object Type="File">Visualizat.vis</Object>
-    <Object Type="File">ArUser_1.binding</Object>
-    <Object Type="File">ArUser_1.eventbinding</Object>
-    <Object Type="File">DialogOK.eventbinding</Object>
+    <Object Type="File">content_1.eventbinding</Object>
+    <Object Type="File">ArrayBinding.bindinglist</Object>
   </Objects>
 </Package>

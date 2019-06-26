@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Content id="content_1" height="900" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2">
+  <Widgets>
+    <Widget xsi:type="widgets.brease.Label" id="Header" top="60" left="40" width="160" zIndex="0" text="User Management" />
+    <Widget xsi:type="widgets.brease.Button" id="ButtonCreateUser" top="220" left="160" zIndex="1" text="Create" />
+    <Widget xsi:type="widgets.brease.TextInput" id="InputCreateDeleteUser" top="120" left="160" width="220" height="40" zIndex="2" />
+    <Widget xsi:type="widgets.brease.Label" id="CreateUser" top="120" left="20" width="160" zIndex="3" text="User:" />
+    <Widget xsi:type="widgets.brease.Button" id="ButtonDeleteUser" top="220" left="280" zIndex="4" text="Delete" />
+    <Widget xsi:type="widgets.brease.Label" id="CreateUser1" top="400" left="60" width="160" zIndex="5" text="User:" />
+    <Widget xsi:type="widgets.brease.Label" id="HeaderPw" top="280" left="40" width="180" zIndex="6" text="Passwort Management" />
+    <Widget xsi:type="widgets.brease.Button" id="ButtonChangePassword" top="500" left="260" zIndex="7" text="Change" />
+    <Widget xsi:type="widgets.brease.Label" id="ChangePassword2" top="460" left="40" width="160" zIndex="8" text="New Password:" />
+    <Widget xsi:type="widgets.brease.DropDownBox" id="DropDownRoleSelect" top="180" left="540" width="220" zIndex="9" dataProvider="[{'value':'4','text':'Eintrag1'},{'value':'2','text':'Eintrag2'}]" selectedValue="4" />
+    <Widget xsi:type="widgets.brease.Label" id="RoleManagementHeader" top="60" left="520" width="160" zIndex="10" text="Role Management" />
+    <Widget xsi:type="widgets.brease.TextInput" id="InputChangeRole" top="120" left="540" width="220" height="40" zIndex="11" />
+    <Widget xsi:type="widgets.brease.Label" id="ChangeRoleUser" top="120" left="460" width="160" zIndex="12" text="User:" />
+    <Widget xsi:type="widgets.brease.Button" id="ButtonChangePassword1" top="240" left="660" zIndex="13" text="Change" />
+    <Widget xsi:type="widgets.brease.Label" id="ChangeRole" top="180" left="460" width="160" zIndex="14" text="Role:" />
+    <Widget xsi:type="widgets.brease.Login" id="Login1" top="640" left="40" zIndex="15" />
+    <Widget xsi:type="widgets.brease.LoginInfo" id="LoginInfo1" top="600" left="200" zIndex="16" />
+    <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput1" top="400" left="160" width="200" zIndex="17" />
+    <Widget xsi:type="widgets.brease.Password" id="Password1" top="460" left="160" width="200" zIndex="18" />
+    <Widget xsi:type="widgets.brease.LogoutButton" id="LogoutButton1" top="780" left="260" zIndex="19" text="LogoutButton" />
+    <Widget xsi:type="widgets.brease.Label" id="ChangePassword3" top="180" left="20" width="160" zIndex="20" text="Password:" />
+    <Widget xsi:type="widgets.brease.Password" id="Password2" top="180" left="160" width="220" zIndex="21" />
+    <Widget xsi:type="widgets.brease.Button" id="Button1" top="260" left="280" zIndex="22" text="Export" />
+    <Widget xsi:type="widgets.brease.Table" id="Table1" top="320" left="480" width="260" zIndex="23">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.TableItem" id="User" zIndex="0" text="TableItem1" />
+        <Widget xsi:type="widgets.brease.TableItem" id="Role" zIndex="1" text="TableItem2" />
+      </Widgets>
+    </Widget>
+  </Widgets>
+</Content>
