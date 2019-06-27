@@ -49,4 +49,6 @@ TYPE
 		ComparePasswordState,
 		ClearTextState
 		);
+	Test1 : 	STRUCT 
+	END_STRUCT;
 END_TYPE
