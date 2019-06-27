@@ -1,5 +1,7 @@
 
 TYPE
+	Test : 	STRUCT 
+	END_STRUCT;
 	typUSER : 	STRUCT 
 		CMD : typUSER_CMD;
 		PAR : typUSER_PAR;
