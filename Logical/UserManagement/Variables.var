@@ -1,50 +1,22 @@
 (*General*)
 VAR
-	NumberOfUsers : INT := 50;
-	ErrorID : DINT;
-	UserManagement : UserManagementEnum := InitState; (*State Machine for UserManagement*)
-	SystemFeedback : STRING[80]; (*General System Information (Errors etc.)*)
-	FilePath : STRING[128]; (*FilePath for Import/Export of the user list*)
-	UserName : STRING[128];
-END_VAR
-(*UserCreate -> Create an user with given name; default no password *)
-VAR
-	CmdUserCreate : BOOL;
-	UserCreate_0 : ArUserCreate;
-END_VAR
-(*UserDelete -> Delete an user  *)
-VAR
-	CmdUserDelete : BOOL;
-	DeleteUser_0 : ArUserDelete;
-END_VAR
-(*Export*)
-VAR
-	CmdExport : BOOL;
-	Export_0 : ArUserExport;
-END_VAR
-(*SetPassword*)
-VAR
-	SetPasswordName : STRING[128];
-	SetPassword : STRING[128];
-	CmdSetPassword : BOOL;
-	RepeatPassword : STRING[128];
-	Result : DINT;
+	ArUser : typUSER;
+	NumberOfUsers : INT;
+	UserManagementState : UserManagementEnum := IdleState; (*State Machine for UserManagementState*)
+	UserCreate_0 : ArUserCreate; (*UserCreate -> Create an user with given name; default no password *)
+	DeleteUser_0 : ArUserDelete; (*UserDelete -> Delete an user  *)
+	ExportUser_0 : ArUserExport;
+	ImportUser_0 : ArUserImport;
 	SetPassword_0 : ArUserSetPassword;
 END_VAR
 (*AssignRole*)
 VAR
 	AssignRoleName : STRING[128];
-	CmdAssignRole : BOOL;
 	AssignRole : STRING[128];
 	UserAssignRole_0 : ArUserAssignRole;
 END_VAR
-(*Import*)
-VAR
-	ImportUser_0 : ArUserImport;
-END_VAR
 (*RefreshList -> Create a teable with all user and associated roles*)
 VAR
-	CmdRefreshList : BOOL;
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserGetNext_0 : ArUserGetNext;
 	ArUserInitList_0 : ArUserInitList;
@@ -56,6 +28,5 @@ VAR
 	LoopCounter : INT := 1; (*LoopCounter for creating the table; 1 = second element of array*)
 	ArUserGetFirst_1 : ArUserGetFirst;
 	ArUserInitList_1 : ArUserInitList;
-	CmdReset : BOOL;
-	CmdClearText : BOOL;
+	ERR_PASSWORD_MISMATCH : DINT := 50000;
 END_VAR
