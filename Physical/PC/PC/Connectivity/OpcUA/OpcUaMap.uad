@@ -11,14 +11,6 @@
       <Task Name="UserManage">
         <Variable Name="AssignRole" />
         <Variable Name="AssignRoleName" />
-        <Variable Name="CmdAssignRole" />
-        <Variable Name="CmdSetPassword" />
-        <Variable Name="CmdUserCreate" />
-        <Variable Name="CmdUserDelete" />
-        <Variable Name="SetPassword" />
-        <Variable Name="SetPasswordName" />
-        <Variable Name="UserName" />
-        <Variable Name="CmdExport" />
         <Variable Name="PrintListUser" EnableArrayElements="True" />
         <Variable Name="PrintListRole" EnableArrayElements="True" />
       </Task>
