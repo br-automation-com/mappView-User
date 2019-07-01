@@ -20,13 +20,14 @@ VAR
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserGetNext_0 : ArUserGetNext;
 	ArUserInitList_0 : ArUserInitList;
-	RolePar : BYTE := 4; (*ListType Userrole*)
-	PrintListRole : ARRAY[0..49,0..9] OF STRING[128];
-	PrintListUser : ARRAY[0..49] OF STRING[128];
 	i : INT;
-	UserPar : BYTE := 1; (*ListType User*)
 	LoopCounter : INT := 1; (*LoopCounter for creating the table; 1 = second element of array*)
-	ArUserGetFirst_1 : ArUserGetFirst;
-	ArUserInitList_1 : ArUserInitList;
+	RoleLoopCounter : INT;
 	ERR_PASSWORD_MISMATCH : DINT := 50000;
+	USER_LISTTYPE : BYTE := 1;
+	ROLE_LISTTYPE : BYTE := 2;
+	USERROLE_LISTTYPE : BYTE := 3; (*ListType Userrole*)
+	END_OF_LIST : DINT := -2144327714;
+	ELEMENT_DOES_NOT_EXIST : DINT := -1070585892;
+	ArUserDestroyList_0 : ArUserDestroyList;
 END_VAR

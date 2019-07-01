@@ -11,8 +11,6 @@
       <Task Name="UserManage">
         <Variable Name="AssignRole" />
         <Variable Name="AssignRoleName" />
-        <Variable Name="PrintListUser" EnableArrayElements="True" />
-        <Variable Name="PrintListRole" EnableArrayElements="True" />
       </Task>
     </Module>
   </DefaultView>

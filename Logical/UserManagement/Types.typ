@@ -45,20 +45,22 @@ TYPE
 	UserManagementEnum : 
 		(
 		IdleState,
+		DestroyListState,
 		CreateUserState,
 		DeleteUserState,
 		ExportListState,
 		ImportListState,
 		ChangePasswordState,
 		ComparePasswordState,
-		RefreshListGetNextState,
-		RefreshListGetFirstState,
+		CreateUserListGetNextState,
+		CreateUserListGetFirstState,
 		AssignRoleState,
 		RoleListMainState,
 		RoleListDeleteListState,
 		RoleListInitListState,
-		ErrorState
+		ErrorState,
+		CreateRoleListGetFirstState,
+		CreateRoleListGetNextState,
+		RoleListGetNextState
 		);
-	Test1 : 	STRUCT 
-	END_STRUCT;
 END_TYPE
