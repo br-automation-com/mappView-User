@@ -1,32 +1,32 @@
 (*General*)
 VAR
-	ArUser : typUSER;
-	NumberOfUsers : INT;
+	ArUser : typUSER; (*Type for user data management*)
 	UserManagementState : UserManagementEnum := IdleState; (*State Machine for UserManagementState*)
 	UserCreate_0 : ArUserCreate; (*UserCreate -> Create an user with given name; default no password *)
 	DeleteUser_0 : ArUserDelete; (*UserDelete -> Delete an user  *)
 	ExportUser_0 : ArUserExport;
 	ImportUser_0 : ArUserImport;
 	SetPassword_0 : ArUserSetPassword;
-END_VAR
-(*AssignRole*)
-VAR
-	AssignRoleName : STRING[128];
-	AssignRole : STRING[128];
 	UserAssignRole_0 : ArUserAssignRole;
-END_VAR
-(*RefreshList -> Create a teable with all user and associated roles*)
-VAR
-	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserGetNext_0 : ArUserGetNext;
+	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserInitList_0 : ArUserInitList;
-	RolePar : BYTE := 4; (*ListType Userrole*)
-	PrintListRole : ARRAY[0..49,0..9] OF STRING[128];
-	PrintListUser : ARRAY[0..49] OF STRING[128];
-	i : INT;
-	UserPar : BYTE := 1; (*ListType User*)
-	LoopCounter : INT := 1; (*LoopCounter for creating the table; 1 = second element of array*)
-	ArUserGetFirst_1 : ArUserGetFirst;
-	ArUserInitList_1 : ArUserInitList;
+	ArUserDestroyList_0 : ArUserDestroyList;
+END_VAR
+(*Loop counter*)
+VAR
+	RoleCounter : USINT; (*LoopCounter for creating the table; 1 = second element of array*)
+	ListCounter : USINT;
+END_VAR
+(*List types *)
+VAR CONSTANT
+	USER_LISTTYPE : BYTE := 1; (*List Type User*)
+	ROLE_LISTTYPE : BYTE := 2; (*List Type Role*)
+	USERROLE_LISTTYPE : BYTE := 3; (*List Type UserRole*)
+END_VAR
+(*Error Constants*)
+VAR CONSTANT
 	ERR_PASSWORD_MISMATCH : DINT := 50000;
+	END_OF_LIST : DINT := -2144327714;
+	ELEMENT_DOES_NOT_EXIST : DINT := -1070585892;
 END_VAR

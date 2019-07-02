@@ -8,12 +8,7 @@
   </Aliases>
   <DefaultView>
     <Module Name="&lt;Default&gt;">
-      <Task Name="UserManage">
-        <Variable Name="AssignRole" />
-        <Variable Name="AssignRoleName" />
-        <Variable Name="PrintListUser" EnableArrayElements="True" />
-        <Variable Name="PrintListRole" EnableArrayElements="True" />
-      </Task>
+      <Task Name="UserManage" />
     </Module>
   </DefaultView>
 </OpcUaSource>
