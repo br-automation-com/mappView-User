@@ -25,6 +25,9 @@ TYPE
 		UserRole : STRING[80];
 		Password : STRING[80];
 		PasswordRepeat : STRING[80];
+		NumberOfUsers : USINT;
+		AssignRole : STRING[128];
+		AssignRoleName : STRING[128];
 	END_STRUCT;
 	typUSER_DAT : 	STRUCT 
 		Users : ARRAY[0..49]OF typUSER_DETAILS;

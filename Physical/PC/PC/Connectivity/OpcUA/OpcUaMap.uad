@@ -8,10 +8,7 @@
   </Aliases>
   <DefaultView>
     <Module Name="&lt;Default&gt;">
-      <Task Name="UserManage">
-        <Variable Name="AssignRole" />
-        <Variable Name="AssignRoleName" />
-      </Task>
+      <Task Name="UserManage" />
     </Module>
   </DefaultView>
 </OpcUaSource>
