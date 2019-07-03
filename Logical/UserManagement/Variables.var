@@ -12,6 +12,7 @@ VAR
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserInitList_0 : ArUserInitList;
 	ArUserDestroyList_0 : ArUserDestroyList;
+	tmpUser : STRING[40];
 	tmpStr : STRING[80];
 	idx : USINT;
 END_VAR

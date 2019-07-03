@@ -1,69 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<BindingsSet id="MainBinding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Bindings>
-  
-	<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserName" attribute="value" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword1" attribute="value" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword2" attribute="value" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.DAT.Status" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtLastMessage" attribute="value" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.Number" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorNo" attribute="value" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::UserManage:UserManagementState" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtCurrentState" attribute="value" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.State" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorState" attribute="value" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserRole" attribute="value" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUsers" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="dataProvider" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListRoles" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="dataProvider" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListRoleIndex" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedIndex" />
-</Binding>
-
-
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserIndex" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedIndex" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserRole" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUserRole" attribute="dataProvider" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserRoleIndex" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUserRole" attribute="selectedIndex" />
-</Binding>
-<Binding mode="twoWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.FilePath" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtExportPath" attribute="value" />
-</Binding>
-
-</Bindings>
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<BindingsSet xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="MainBinding">
+	<Bindings>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserName" attribute="value" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword1" attribute="value" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword2" attribute="value" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.DAT.Status" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtLastMessage" attribute="value" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.Number" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorNo" attribute="value" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::UserManage:UserManagementState" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtCurrentState" attribute="value" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.State" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorState" attribute="value" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUsers" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="dataProvider" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListRoles" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="dataProvider" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListRoleIndex" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedIndex" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserIndex" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedIndex" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserRole" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUserRole" attribute="dataProvider" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserRoleIndex" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUserRole" attribute="selectedIndex" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.FilePath" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtExportPath" attribute="value" />
+		</Binding>
+		<Binding mode="oneWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
+		</Binding>
+		<Binding mode="twoWay">
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
+			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedValue" />
+		</Binding>
+	</Bindings>
 </BindingsSet>

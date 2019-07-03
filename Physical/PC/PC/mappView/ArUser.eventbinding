@@ -72,31 +72,7 @@
 				</Action>
 			</EventHandler>
 		</EventBinding>
-		
-		<!-- Create new user role />-->
-		<EventBinding id="contentUser.btnCreateRole.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnCreateRole" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleCreate" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Delete user role />-->
-		<EventBinding id="contentUser.btnDeleteRole.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnDeleteRole" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleDelete" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
+			
 		<!-- Refresh user and role list />-->	
 		<EventBinding id="contentUser.btnRefreshList.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnRefreshList" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -133,7 +109,43 @@
 			</EventHandler>
 		</EventBinding>
 		
+		<!-- User list box index changed />-->	
+		<EventBinding id="contentUser.lstUsers.Click">
+			<Source contentRefId="contentUser" widgetRefId="lstUsers" xsi:type="widgets.brease.ListBox.Event" event="Click" />
+			<!-- Read widget property />-->			
+			<Operand name="SelectedValue" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUsers" > 
+					<Method xsi:type="widgets.brease.ListBox.Action.GetSelectedValue" />
+				</ReadTarget>
+			</Operand>
 
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=SelectedValue" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
 
+		<!-- User role list box index changed />-->	
+		<EventBinding id="contentUser.lstUserRole.Click">
+			<Source contentRefId="contentUser" widgetRefId="lstUserRole" xsi:type="widgets.brease.ListBox.Event" event="Click" />
+			<!-- Read widget property />-->			
+			<Operand name="SelectedValue" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUserRole" > 
+					<Method xsi:type="widgets.brease.ListBox.Action.GetSelectedValue" />
+				</ReadTarget>
+			</Operand>
+
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserRole" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=SelectedValue" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		
 	</Bindings>
 </EventBindingSet>

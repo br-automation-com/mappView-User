@@ -77,9 +77,11 @@ PROGRAM _CYCLIC
 			// Success
 			IF UserCreate_0.Done AND NOT UserCreate_0.Busy THEN				
 				ArUser.DAT.Status := 'User created';
+				tmpUser := ArUser.PAR.UserName;
+				ArUser.PAR.UserName := '';
 				ArUser.CMD.UserCreate := FALSE;
 				UserManagementState := CreateUserListGetFirstState;
-			// Error
+				// Error
 			ELSIF UserCreate_0.Error THEN
 				ArUser.ERR.Number := UserCreate_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
@@ -96,6 +98,8 @@ PROGRAM _CYCLIC
 			// Success
 			IF UserAssignRole_0.Done AND NOT UserAssignRole_0.Busy THEN				
 				ArUser.DAT.Status := 'Role assigned';
+				tmpUser := ArUser.PAR.UserName;
+				ArUser.PAR.UserName := '';
 				ArUser.CMD.RoleAssign := FALSE;
 				UserManagementState := CreateUserListGetFirstState;	
 			// Error
@@ -115,6 +119,8 @@ PROGRAM _CYCLIC
 			// Success
 			IF ArUserReleaseRole_0.Done AND NOT ArUserReleaseRole_0.Busy THEN	
 				ArUser.DAT.Status := 'Role released';
+				tmpUser := ArUser.PAR.UserName;
+				ArUser.PAR.UserName := '';
 				ArUser.CMD.RoleRelease := FALSE;
 				UserManagementState := CreateUserListGetFirstState;	
 				// Error
@@ -134,6 +140,7 @@ PROGRAM _CYCLIC
 			// Success
 			IF DeleteUser_0.Done AND NOT DeleteUser_0.Busy THEN				
 				ArUser.DAT.Status := 'User deleted';
+				tmpUser := '';
 				ArUser.CMD.UserDelete := FALSE;
 				UserManagementState := CreateUserListGetFirstState;
 			// Error
@@ -413,7 +420,8 @@ PROGRAM _CYCLIC
 					ArUserGetFirst_0(Execute := FALSE);
 					ArUserInitList_0(Execute := FALSE);
 					RoleCounter := 0;
-					ArUser.CMD.ListRefresh := FALSE;								
+					ArUser.CMD.ListRefresh := FALSE;
+					ArUser.PAR.UserName := tmpUser;
 					UserManagementState := IdleState;
 				END_IF;			
 			ELSE

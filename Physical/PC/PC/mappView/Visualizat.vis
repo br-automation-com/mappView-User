@@ -3,9 +3,8 @@
   <StartPage pageRefId="MainPage" />
   <Pages>
 		<Page refId="MainPage"/>
-		<Page refId="LoginPage"/>		
   </Pages>
-  <Navigations>
+	<Navigations>
     <!--<Navigation refId="" />-->
   </Navigations>  
   <BindingsSets>
