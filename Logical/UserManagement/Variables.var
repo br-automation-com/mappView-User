@@ -7,6 +7,7 @@ VAR
 	ImportUser_0 : ArUserImport;
 	SetPassword_0 : ArUserSetPassword;
 	UserAssignRole_0 : ArUserAssignRole;
+	ArUserReleaseRole_0 : ArUserReleaseRole;
 	ArUserGetNext_0 : ArUserGetNext;
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserInitList_0 : ArUserInitList;

@@ -8,6 +8,7 @@
 PROGRAM _INIT
 	ArUser.PAR.FilePath := 'c:\Temp\UserDataExport.txt';			// Where to export user data
 	ArUser.PAR.NumberOfUsers := SIZEOF(ArUser.DAT.Users)/SIZEOF(ArUser.DAT.Users[0]);
+	ArUser.CMD.ListRefresh	:= TRUE;
 END_PROGRAM
 
 PROGRAM _CYCLIC
@@ -41,6 +42,9 @@ PROGRAM _CYCLIC
 			ELSIF (ArUser.CMD.RoleAssign) THEN
 				UserAssignRole_0(Execute := FALSE);
 				UserManagementState := AssignRoleState;
+			ELSIF (ArUser.CMD.RoleRelease) THEN	
+				ArUserReleaseRole_0(Execute := FALSE);
+				UserManagementState := ReleaseRoleState;				
 			ELSIF (ArUser.CMD.UserDelete) THEN
 				DeleteUser_0(Execute := FALSE);
 				UserManagementState := DeleteUserState;
@@ -101,6 +105,25 @@ PROGRAM _CYCLIC
 				UserManagementState := ErrorState;
 			END_IF;	
 					 
+		// --------------------------------------------------------------------------------------------------------------------
+		// Release user role
+		// --------------------------------------------------------------------------------------------------------------------								
+		ReleaseRoleState:
+			ArUserReleaseRole_0(Execute := TRUE , UserName := ArUser.PAR.UserName , RoleName := ArUser.PAR.UserRole);
+
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Success
+			IF ArUserReleaseRole_0.Done AND NOT ArUserReleaseRole_0.Busy THEN	
+				ArUser.DAT.Status := 'Role released';
+				ArUser.CMD.RoleRelease := FALSE;
+				UserManagementState := CreateUserListGetFirstState;	
+				// Error
+			ELSIF ArUserReleaseRole_0.Error THEN
+				ArUser.ERR.Number := ArUserReleaseRole_0.ErrorID;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;
+			END_IF;
+			
 		// --------------------------------------------------------------------------------------------------------------------
 		// Delete user
 		// --------------------------------------------------------------------------------------------------------------------					

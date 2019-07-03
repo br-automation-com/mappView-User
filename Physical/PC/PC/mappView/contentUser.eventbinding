@@ -4,16 +4,6 @@
 
 
 
-		<EventBinding id="contentUser.btnExportUserData.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnExportUserData" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="">
-						<Method xsi:type="" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
 
 	</Bindings>
 </EventBindingSet>

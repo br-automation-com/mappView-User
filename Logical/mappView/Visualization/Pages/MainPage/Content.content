@@ -42,6 +42,7 @@
         <Widget xsi:type="widgets.brease.ListBox" id="lstUserRole" top="48" left="304" width="240" height="222" zIndex="6" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
         <Widget xsi:type="widgets.brease.Label" id="labRole" top="18" left="314" width="220" zIndex="7" text="Role" textAlign="center" />
         <Widget xsi:type="widgets.brease.Image" id="imgGainUp" top="133" left="259" width="40" height="40" zIndex="8" image="Media/forward.svg" borderWidth="0px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnReleaseRole" top="333" left="304" width="236" height="40" zIndex="9" text="Release Role" cornerRadius="10px" />
       </Widgets>
     </Widget>
     <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox3" top="580" left="15" width="590" height="190" zIndex="3" text="Import and Export">

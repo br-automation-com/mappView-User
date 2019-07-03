@@ -46,14 +46,8 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListRoleIndex" attribute="value" />
 <Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedIndex" />
 </Binding>
-<Binding mode="oneWayToSource">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
-</Binding>
-<Binding mode="oneWayToSource">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedValue" />
-</Binding>
+
+
 <Binding mode="twoWay">
 <Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUserIndex" attribute="value" />
 <Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedIndex" />
@@ -70,5 +64,6 @@
 <Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.FilePath" attribute="value" />
 <Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtExportPath" attribute="value" />
 </Binding>
+
 </Bindings>
 </BindingsSet>

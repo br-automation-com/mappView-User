@@ -13,6 +13,7 @@ TYPE
 		CreateUserListGetNextState,
 		CreateUserListGetFirstState,
 		AssignRoleState,
+		ReleaseRoleState,
 		RoleListMainState,
 		RoleListDeleteListState,
 		RoleListInitListState,
@@ -35,6 +36,7 @@ TYPE
 		RoleCreate : BOOL;
 		RoleDelete : BOOL;
 		RoleAssign : BOOL;
+		RoleRelease : BOOL;
 		Import : BOOL;
 		Export : BOOL;
 		ListRefresh : BOOL;

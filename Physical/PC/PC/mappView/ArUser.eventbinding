@@ -61,6 +61,18 @@
 			</EventHandler>
 		</EventBinding>
 		
+		<!-- Release user role />-->
+		<EventBinding id="contentUser.btnReleaseRole.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnReleaseRole" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleRelease" >
+						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		
 		<!-- Create new user role />-->
 		<EventBinding id="contentUser.btnCreateRole.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnCreateRole" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -120,6 +132,8 @@
 				</Action>
 			</EventHandler>
 		</EventBinding>
+		
+
 
 	</Bindings>
 </EventBindingSet>
