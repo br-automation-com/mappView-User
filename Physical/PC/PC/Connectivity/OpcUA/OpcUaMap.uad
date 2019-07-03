@@ -1,14 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <OpcUaSource FileVersion="4" ArVersion="D4.52">
   <Aliases>
-    <ACLAliases />
+    <ACLAliases>
+      <ACL Id="1">
+        <ACE RoleId="2" RoleName="Everyone" Access="0x015F" />
+      </ACL>
+      <ACL Id="2">
+        <ACE RoleId="2" RoleName="Everyone" Access="0x017F" />
+      </ACL>
+    </ACLAliases>
     <EURangeViolationAliases />
     <EURangesAliases />
     <EngineeringUnitAliases />
   </Aliases>
-  <DefaultView>
+  <DefaultView AclId="2">
     <Module Name="&lt;Default&gt;">
-      <Task Name="UserManage" />
+      <GlobalVariables Name="Global Variables">
+        <Variable Name="ArUser" AutomaticEnable="True">
+          <Variable Name="VIS">
+            <Variable Name="ListUsers" EnableArrayElements="True" />
+            <Variable Name="ListRoles" EnableArrayElements="True" />
+          </Variable>
+        </Variable>
+      </GlobalVariables>
+      <Task Name="UserManage">
+        <Variable Name="UserManagementState" />
+      </Task>
     </Module>
   </DefaultView>
 </OpcUaSource>

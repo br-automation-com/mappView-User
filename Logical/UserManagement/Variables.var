@@ -1,6 +1,5 @@
 (*General*)
 VAR
-	ArUser : typUSER; (*Type for user data management*)
 	UserManagementState : UserManagementEnum := IdleState; (*State Machine for UserManagementState*)
 	UserCreate_0 : ArUserCreate; (*UserCreate -> Create an user with given name; default no password *)
 	DeleteUser_0 : ArUserDelete; (*UserDelete -> Delete an user  *)
@@ -12,11 +11,13 @@ VAR
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserInitList_0 : ArUserInitList;
 	ArUserDestroyList_0 : ArUserDestroyList;
+	tmpStr : STRING[80];
+	idx : USINT;
 END_VAR
 (*Loop counter*)
 VAR
 	RoleCounter : USINT; (*LoopCounter for creating the table; 1 = second element of array*)
-	ListCounter : USINT;
+	UserCounter : USINT;
 END_VAR
 (*List types *)
 VAR CONSTANT

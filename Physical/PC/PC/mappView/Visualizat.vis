@@ -12,7 +12,7 @@
 		<BindingsSet refId="MainBinding" />
 	</BindingsSets>
   <EventBindingsSets>
-    <EventBindingsSet refId="content_1_eventbinding" />
+    <EventBindingsSet refId="User_eventbinding" />
   </EventBindingsSets>
   <Dialogs>
     <!--<Dialog refId="" />-->
@@ -29,10 +29,10 @@
   <VariablesSets>
     <!--<VariablesSet refId="" />-->
   </VariablesSets>
-  <!--<StartTheme themeRefId="" />
+  <StartTheme themeRefId="BuRTheme1" />
   <Themes>
-    <Theme refId=""/>
-  </Themes>-->
+    <Theme refId="BuRTheme1"/>
+  </Themes>
   <Configurations>
     <Configuration key="activityCount" value="false" />
 	  <Gestures>

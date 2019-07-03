@@ -1,33 +1,55 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="content_1" height="900" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2">
+<Content id="contentUser" height="900" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.Label" id="Header" top="60" left="40" width="160" zIndex="0" text="User Management" />
-    <Widget xsi:type="widgets.brease.Button" id="ButtonCreateUser" top="220" left="160" zIndex="1" text="Create" />
-    <Widget xsi:type="widgets.brease.TextInput" id="InputCreateDeleteUser" top="120" left="160" width="220" height="40" zIndex="2" />
-    <Widget xsi:type="widgets.brease.Label" id="CreateUser" top="120" left="20" width="160" zIndex="3" text="User:" />
-    <Widget xsi:type="widgets.brease.Button" id="ButtonDeleteUser" top="220" left="280" zIndex="4" text="Delete" />
-    <Widget xsi:type="widgets.brease.Label" id="CreateUser1" top="400" left="60" width="160" zIndex="5" text="User:" />
-    <Widget xsi:type="widgets.brease.Label" id="HeaderPw" top="280" left="40" width="180" zIndex="6" text="Passwort Management" />
-    <Widget xsi:type="widgets.brease.Button" id="ButtonChangePassword" top="500" left="260" zIndex="7" text="Change" />
-    <Widget xsi:type="widgets.brease.Label" id="ChangePassword2" top="460" left="40" width="160" zIndex="8" text="New Password:" />
-    <Widget xsi:type="widgets.brease.DropDownBox" id="DropDownRoleSelect" top="180" left="540" width="220" zIndex="9" dataProvider="[{'value':'4','text':'Eintrag1'},{'value':'2','text':'Eintrag2'}]" selectedValue="4" />
-    <Widget xsi:type="widgets.brease.Label" id="RoleManagementHeader" top="60" left="520" width="160" zIndex="10" text="Role Management" />
-    <Widget xsi:type="widgets.brease.TextInput" id="InputChangeRole" top="120" left="540" width="220" height="40" zIndex="11" />
-    <Widget xsi:type="widgets.brease.Label" id="ChangeRoleUser" top="120" left="460" width="160" zIndex="12" text="User:" />
-    <Widget xsi:type="widgets.brease.Button" id="ButtonChangePassword1" top="240" left="660" zIndex="13" text="Change" />
-    <Widget xsi:type="widgets.brease.Label" id="ChangeRole" top="180" left="460" width="160" zIndex="14" text="Role:" />
-    <Widget xsi:type="widgets.brease.Login" id="Login1" top="640" left="40" zIndex="15" />
-    <Widget xsi:type="widgets.brease.LoginInfo" id="LoginInfo1" top="600" left="200" zIndex="16" />
-    <Widget xsi:type="widgets.brease.TextOutput" id="TextOutput1" top="400" left="160" width="200" zIndex="17" />
-    <Widget xsi:type="widgets.brease.Password" id="Password1" top="460" left="160" width="200" zIndex="18" />
-    <Widget xsi:type="widgets.brease.LogoutButton" id="LogoutButton1" top="780" left="260" zIndex="19" text="LogoutButton" />
-    <Widget xsi:type="widgets.brease.Label" id="ChangePassword3" top="180" left="20" width="160" zIndex="20" text="Password:" />
-    <Widget xsi:type="widgets.brease.Password" id="Password2" top="180" left="160" width="220" zIndex="21" />
-    <Widget xsi:type="widgets.brease.Button" id="Button1" top="260" left="280" zIndex="22" text="Export" />
-    <Widget xsi:type="widgets.brease.Table" id="Table1" top="320" left="480" width="260" zIndex="23">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="220" left="10" width="595" height="345" zIndex="0" text="User Managment">
       <Widgets>
-        <Widget xsi:type="widgets.brease.TableItem" id="User" zIndex="0" text="TableItem1" />
-        <Widget xsi:type="widgets.brease.TableItem" id="Role" zIndex="1" text="TableItem2" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser" top="13" left="14" width="95" zIndex="0" text="User" />
+        <Widget xsi:type="widgets.brease.Label" id="ChangePassword3" top="48" left="14" width="95" zIndex="1" text="Password" />
+        <Widget xsi:type="widgets.brease.TextInput" id="txtUserName" top="13" left="114" width="220" zIndex="2" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Password" id="txtUserPassword1" top="48" left="114" width="220" zIndex="3" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnCreateUser" top="13" left="369" width="200" height="40" zIndex="4" text="Create User" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Label" id="ChangePassword4" top="83" left="14" width="95" zIndex="5" text="Repeat Pw" />
+        <Widget xsi:type="widgets.brease.Password" id="txtUserPassword2" top="83" left="114" width="220" zIndex="6" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnDeleteUser" top="63" left="369" width="200" height="40" zIndex="7" text="Delete User" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnChangePassword" top="113" left="369" width="200" height="40" zIndex="8" text="Change Password" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser5" top="198" left="14" width="95" zIndex="9" text="Role" />
+        <Widget xsi:type="widgets.brease.TextInput" id="txtUserRole" top="198" left="114" width="220" zIndex="10" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnCreateRole" top="193" left="369" width="200" height="40" zIndex="11" text="Create Role" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnDeleteRole" top="243" left="369" width="200" height="40" zIndex="12" text="Delete Role" cornerRadius="10px" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox2" top="20" left="10" width="590" height="190" zIndex="1" text="Status">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser1" top="3" left="9" width="116" zIndex="0" text="Error number" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser2" top="38" left="9" width="116" zIndex="1" text="Error state" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser3" top="73" left="9" width="116" zIndex="2" text="Current state" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser4" top="108" left="9" width="116" zIndex="3" text="Last message" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="txtErrorNo" top="3" left="129" width="146" zIndex="4" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="txtErrorState" top="38" left="129" width="81" zIndex="5" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.NumericOutput" id="txtCurrentState" top="73" left="129" width="81" zIndex="6" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="txtLastMessage" top="108" left="129" width="436" zIndex="7" borderWidth="1px" cornerRadius="3px" borderStyle="solid" />
+        <Widget xsi:type="widgets.brease.Button" id="btnResetError" top="8" left="359" width="200" height="40" zIndex="8" text="Reset Error" cornerRadius="10px" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpRoleManagment" top="20" left="620" width="560" height="750" zIndex="2" text="Overview">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.ListBox" id="lstUsers" top="48" left="14" width="240" height="327" zIndex="0" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Label" id="labUsers" top="18" left="24" width="220" zIndex="1" text="Users" textAlign="center" />
+        <Widget xsi:type="widgets.brease.Button" id="btnRefreshList" top="658" left="14" width="241" height="40" zIndex="2" text="Refresh" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.ListBox" id="lstRoles" top="423" left="14" width="240" height="222" zIndex="3" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Label" id="labRoles" top="393" left="24" width="220" zIndex="4" text="Roles" textAlign="center" />
+        <Widget xsi:type="widgets.brease.Button" id="btnAssignRole" top="283" left="304" width="236" height="40" zIndex="5" text="Assign Role" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.ListBox" id="lstUserRole" top="48" left="304" width="240" height="222" zIndex="6" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Label" id="labRole" top="18" left="314" width="220" zIndex="7" text="Role" textAlign="center" />
+        <Widget xsi:type="widgets.brease.Image" id="imgGainUp" top="133" left="259" width="40" height="40" zIndex="8" image="Media/forward.svg" borderWidth="0px" />
+      </Widgets>
+    </Widget>
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox3" top="580" left="15" width="590" height="190" zIndex="3" text="Import and Export">
+      <Widgets>
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser6" top="13" left="4" width="95" zIndex="0" text="Path" />
+        <Widget xsi:type="widgets.brease.TextInput" id="txtExportPath" top="13" left="104" width="461" zIndex="1" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnExportUserData" top="58" left="104" width="200" height="40" zIndex="2" text="Export User Data" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnImportUserData" top="58" left="364" width="200" height="40" zIndex="3" text="Import User Data" cornerRadius="10px" />
       </Widgets>
     </Widget>
   </Widgets>
