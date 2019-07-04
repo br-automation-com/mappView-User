@@ -63,7 +63,7 @@ PROGRAM _CYCLIC
 			
 			// --------------------------------------------------------------------------------------------------------------------
 			// Reset fields on new command
-			IF ArUser.CMD.UserCreate OR ArUser.CMD.UserDelete OR ArUser.CMD.RoleCreate OR ArUser.CMD.RoleCreate OR ArUser.CMD.RoleDelete OR ArUser.CMD.RoleAssign OR ArUser.CMD.PasswordChange OR ArUser.CMD.ListRefresh OR ArUser.CMD.Import OR ArUser.CMD.Export OR ArUser.CMD.ErrorReset THEN
+			IF ArUser.CMD.UserCreate OR ArUser.CMD.UserDelete OR ArUser.CMD.RoleAssign OR ArUser.CMD.PasswordChange OR ArUser.CMD.ListRefresh OR ArUser.CMD.Import OR ArUser.CMD.Export OR ArUser.CMD.ErrorReset THEN
 				ArUser.DAT.Status := '';
 			END_IF;
 			

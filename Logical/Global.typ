@@ -33,8 +33,6 @@ TYPE
 		UserCreate : BOOL;
 		UserDelete : BOOL;
 		PasswordChange : BOOL;
-		RoleCreate : BOOL;
-		RoleDelete : BOOL;
 		RoleAssign : BOOL;
 		RoleRelease : BOOL;
 		Import : BOOL;
