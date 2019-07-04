@@ -1,6 +1,8 @@
 ## Introduction
 This is sample project for user managment with mappView. It uses the B&R library to access and modify user rights.
 
+![I'm a relative reference to a repository file](https://github.com/stephan1827/mappView-User/blob/master/Logical/mappView/Resources/Media/screenshot.png)
+
 ### Requirements
 * Automation Studio 4.5
 * mappView 5.6
