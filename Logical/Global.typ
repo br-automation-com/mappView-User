@@ -46,7 +46,6 @@ TYPE
 		UserRole : STRING[40];
 		Password : STRING[40];
 		PasswordRepeat : STRING[40];
-		NumberOfUsers : USINT;
 	END_STRUCT;
 	typUSER_DAT : 	STRUCT 
 		Users : ARRAY[0..MaxUserNames]OF typUSER_DETAILS;
@@ -60,6 +59,8 @@ TYPE
 		ListUserRoleIndex : UINT;
 		ListRoles : ARRAY[0..MaxUserRoles]OF STRING[80];
 		ListRoleIndex : UINT;
+		RoleDeleteEnabled : BOOL;
+		UserDeleteEnabled : BOOL;
 	END_STRUCT;
 	typUSER_ERR : 	STRUCT 
 		Number : DINT;

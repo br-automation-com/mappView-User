@@ -7,7 +7,6 @@
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
 	ArUser.PAR.FilePath := 'c:\Temp\UserDataExport.txt';			// Where to export user data
-	ArUser.PAR.NumberOfUsers := SIZEOF(ArUser.DAT.Users)/SIZEOF(ArUser.DAT.Users[0]);
 	ArUser.CMD.ListRefresh	:= TRUE;
 END_PROGRAM
 
@@ -33,6 +32,12 @@ PROGRAM _CYCLIC
 				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR('"}'));
 				idx := idx + 1;
 			END_WHILE;
+			// Make sure we dont delete last user
+			IF(idx > 1) THEN
+				ArUser.VIS.RoleDeleteEnabled := TRUE;
+			ELSE
+				ArUser.VIS.RoleDeleteEnabled := FALSE;
+			END_IF
 
 			// --------------------------------------------------------------------------------------------------------------------
 			// Wait for new command
@@ -41,9 +46,11 @@ PROGRAM _CYCLIC
 				UserManagementState := CreateUserState;
 			ELSIF (ArUser.CMD.RoleAssign) THEN
 				UserAssignRole_0(Execute := FALSE);
+				ArUser.PAR.UserRole := ArUser.DAT.Roles[ArUser.VIS.ListRoleIndex];
 				UserManagementState := AssignRoleState;
 			ELSIF (ArUser.CMD.RoleRelease) THEN	
 				ArUserReleaseRole_0(Execute := FALSE);
+				ArUser.PAR.UserRole := ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[ArUser.VIS.ListUserRoleIndex];
 				UserManagementState := ReleaseRoleState;				
 			ELSIF (ArUser.CMD.UserDelete) THEN
 				DeleteUser_0(Execute := FALSE);
@@ -259,7 +266,7 @@ PROGRAM _CYCLIC
 			
 		CreateUserListGetNextState:
 			// Make sure we have space left
-			IF UserCounter < ArUser.PAR.NumberOfUsers THEN
+			IF UserCounter < SIZEOF(ArUser.DAT.Users)/SIZEOF(ArUser.DAT.Users[0]) THEN
 				// Get next user
 				ArUserGetNext_0(Execute := TRUE , List := ArUserInitList_0.List);
 				
@@ -274,7 +281,7 @@ PROGRAM _CYCLIC
 					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
 					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR('"}'));
 					// Reset function block and get next name
-					ArUserGetNext_0(Execute := FALSE , List := ArUserInitList_0.List);
+					ArUserGetNext_0(Execute := FALSE);
 					UserCounter := UserCounter + 1;
 				// Error
 				ELSIF ArUserGetNext_0.Error AND NOT (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN
@@ -283,25 +290,31 @@ PROGRAM _CYCLIC
 					UserManagementState := ErrorState;		
 				// List is complete
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
+					// Make sure we dont delete last user
+					IF(UserCounter > 1) THEN
+						ArUser.VIS.UserDeleteEnabled := TRUE;
+					ELSE
+						ArUser.VIS.UserDeleteEnabled := FALSE;
+					END_IF
 					// Reset function blocks and counters
 					ArUserGetNext_0(Execute := FALSE);
 					ArUserGetFirst_0(Execute := FALSE);
 					ArUserInitList_0(Execute := FALSE);
 					UserCounter := 0;																
-					RoleCounter := 0;																
+					RoleCounter := 0;
 					UserManagementState := RoleListInitListState;
 				END_IF;			
-//			ELSE
-//				ArUser.ERR.Number := ArUserGetNext_0.ErrorID;
-//				ArUser.ERR.State := UserManagementState;
-//				UserManagementState := ErrorState;					
+			ELSE
+				ArUser.ERR.Number := ERR_USER_LIST_TOO_SHORT;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;						
 			END_IF;	
 			
 		// --------------------------------------------------------------------------------------------------------------------
 		// Create table of roles assigned to the table of users 
 		// --------------------------------------------------------------------------------------------------------------------			
 		RoleListInitListState:			
-			IF UserCounter < ArUser.PAR.NumberOfUsers XOR (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN				
+			IF ArUser.DAT.Users[UserCounter].Name <> '' THEN				
 				ArUserInitList_0(Execute := TRUE, ListType := USERROLE_LISTTYPE , ElementName := ArUser.DAT.Users[UserCounter].Name);				
 
 				// --------------------------------------------------------------------------------------------------------------------	
@@ -314,22 +327,18 @@ PROGRAM _CYCLIC
 					UserManagementState:= RoleListGetNextState;							
 				// Error
 				ELSIF ArUserInitList_0.Error THEN						
-					IF ArUserInitList_0.ErrorID = ELEMENT_DOES_NOT_EXIST THEN
-						ArUserInitList_0(Execute := FALSE, ListType :=USERROLE_LISTTYPE , ElementName :=ArUser.DAT.Users[UserCounter].Name );
-						ArUserGetFirst_0(Execute := FALSE , List := ArUserInitList_0.List);
-						UserCounter := 1;
-						RoleCounter := 0;	
-						UserManagementState := CreateRoleListGetFirstState;	 
-					ELSE
-						ArUser.ERR.Number := ArUserInitList_0.ErrorID;
-						ArUser.ERR.State := UserManagementState;
-						UserManagementState := ErrorState;
-					END_IF;				
+					ArUser.ERR.Number := ArUserInitList_0.ErrorID;
+					ArUser.ERR.State := UserManagementState;
+					UserManagementState := ErrorState;
 				END_IF;
-			ELSE		
-			
-//				UserManagementState := CreateRoleListGetFirstState;		
-			END_IF;		
+			// Finish when user roles are complete
+			ELSE
+				ArUserInitList_0(Execute := FALSE);
+				ArUserGetFirst_0(Execute := FALSE);
+				UserCounter := 1;
+				RoleCounter := 0;	
+				UserManagementState := CreateRoleListGetFirstState;	 					
+			END_IF;
 			
 		RoleListGetNextState:						
 			ArUserGetNext_0(Execute := TRUE, List := ArUserInitList_0.List);
@@ -344,8 +353,8 @@ PROGRAM _CYCLIC
 			// List is complete
 			ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN					
 				UserCounter := UserCounter + 1;
-				ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);				
-				ArUserInitList_0(Execute := FALSE, ListType :=USERROLE_LISTTYPE , ElementName :=ArUser.DAT.Users[UserCounter].Name );
+				ArUserGetNext_0(Execute := FALSE);				
+				ArUserInitList_0(Execute := FALSE);
 				UserManagementState := RoleListInitListState;	
 			// Error				
 			ELSIF ArUserGetNext_0.Error THEN				
@@ -393,7 +402,7 @@ PROGRAM _CYCLIC
 			END_IF;
 			
 		CreateRoleListGetNextState:						
-			IF UserCounter < ArUser.PAR.NumberOfUsers THEN										
+			IF UserCounter < SIZEOF(ArUser.DAT.Roles)/SIZEOF(ArUser.DAT.Roles[0]) THEN										
 				ArUserGetNext_0(Execute := TRUE , List := ArUserInitList_0.List);
 
 				// --------------------------------------------------------------------------------------------------------------------	
@@ -421,11 +430,17 @@ PROGRAM _CYCLIC
 					ArUserInitList_0(Execute := FALSE);
 					RoleCounter := 0;
 					ArUser.CMD.ListRefresh := FALSE;
-					ArUser.PAR.UserName := tmpUser;
+					IF(tmpUser <> '') THEN
+						ArUser.PAR.UserName := tmpUser;
+					ELSE
+						ArUser.PAR.UserName := ArUser.DAT.Users[0].Name;
+					END_IF
 					UserManagementState := IdleState;
 				END_IF;			
 			ELSE
-//				UserManagementState := IdleState;					
+				ArUser.ERR.Number := ERR_ROLE_LIST_TOO_SHORT;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;	
 			END_IF;	
 		
 		// --------------------------------------------------------------------------------------------------------------------
@@ -442,6 +457,10 @@ PROGRAM _CYCLIC
 				ArUser.DAT.Status := 'ERR: User/Role does not exist';
 			ELSIF(ArUser.ERR.Number = ERR_PASSWORD_MISMATCH) THEN
 				ArUser.DAT.Status := 'ERR: Passwords do not match';
+			ELSIF(ArUser.ERR.Number = ERR_USER_LIST_TOO_SHORT) THEN
+				ArUser.DAT.Status := 'ERR: User list is too short';
+			ELSIF(ArUser.ERR.Number = ERR_ROLE_LIST_TOO_SHORT) THEN
+				ArUser.DAT.Status := 'ERR: Role list is too short';
 			END_IF							
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Return to idle state

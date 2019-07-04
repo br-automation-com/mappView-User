@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Content id="contentUser" height="900" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Content id="contentUser" height="800" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="220" left="15" width="590" height="210" zIndex="0" text="User Managment">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="220" left="15" width="590" height="175" zIndex="0" text="User Managment">
       <Widgets>
         <Widget xsi:type="widgets.brease.Label" id="CreateUser" top="13" left="14" width="95" zIndex="0" text="User" />
         <Widget xsi:type="widgets.brease.Label" id="ChangePassword3" top="48" left="14" width="95" zIndex="1" text="Password" />
@@ -10,8 +10,7 @@
         <Widget xsi:type="widgets.brease.Button" id="btnCreateUser" top="13" left="369" width="200" height="40" zIndex="4" text="Create User" cornerRadius="10px" />
         <Widget xsi:type="widgets.brease.Label" id="ChangePassword4" top="83" left="14" width="95" zIndex="5" text="Repeat Pw" />
         <Widget xsi:type="widgets.brease.Password" id="txtUserPassword2" top="83" left="114" width="220" zIndex="6" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnDeleteUser" top="63" left="369" width="200" height="40" zIndex="7" text="Delete User" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnChangePassword" top="113" left="369" width="200" height="40" zIndex="8" text="Change Password" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnChangePassword" top="63" left="369" width="200" height="40" zIndex="7" text="Change Password" cornerRadius="10px" />
       </Widgets>
     </Widget>
     <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox2" top="20" left="15" width="590" height="190" zIndex="1" text="Status">
@@ -27,27 +26,28 @@
         <Widget xsi:type="widgets.brease.Button" id="btnResetError" top="8" left="359" width="200" height="40" zIndex="8" text="Reset Error" cornerRadius="10px" />
       </Widgets>
     </Widget>
-    <Widget xsi:type="widgets.brease.GroupBox" id="grpRoleManagment" top="20" left="620" width="560" height="750" zIndex="2" text="Overview">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpRoleManagment" top="20" left="620" width="560" height="765" zIndex="2" text="Overview">
       <Widgets>
-        <Widget xsi:type="widgets.brease.ListBox" id="lstUsers" top="48" left="14" width="240" height="327" zIndex="0" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.ListBox" id="lstUsers" top="48" left="14" width="240" height="317" zIndex="0" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
         <Widget xsi:type="widgets.brease.Label" id="labUsers" top="18" left="24" width="220" zIndex="1" text="Users" textAlign="center" />
-        <Widget xsi:type="widgets.brease.Button" id="btnRefreshList" top="658" left="14" width="241" height="40" zIndex="2" text="Refresh" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.ListBox" id="lstRoles" top="423" left="14" width="240" height="222" zIndex="3" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.Label" id="labRoles" top="393" left="24" width="220" zIndex="4" text="Roles" textAlign="center" />
-        <Widget xsi:type="widgets.brease.Button" id="btnAssignRole" top="423" left="309" width="236" height="40" zIndex="5" text="Assign Role" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnRefreshList" top="673" left="14" width="241" height="40" zIndex="2" text="Refresh" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.ListBox" id="lstRoles" top="438" left="14" width="240" height="222" zIndex="3" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Label" id="labRoles" top="408" left="24" width="220" zIndex="4" text="Roles" textAlign="center" />
+        <Widget xsi:type="widgets.brease.Button" id="btnAssignRole" top="438" left="309" width="236" height="40" zIndex="5" text="Assign Role" cornerRadius="10px" />
         <Widget xsi:type="widgets.brease.ListBox" id="lstUserRole" top="48" left="304" width="240" height="222" zIndex="6" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
         <Widget xsi:type="widgets.brease.Label" id="labRole" top="18" left="314" width="220" zIndex="7" text="Role" textAlign="center" />
         <Widget xsi:type="widgets.brease.Image" id="imgGainUp" top="148" left="259" width="40" height="40" zIndex="8" image="Media/forward.svg" borderWidth="0px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnReleaseRole" top="278" left="304" width="236" height="40" zIndex="9" text="Release Role" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.Image" id="imgGainUp1" top="423" left="259" width="40" height="40" zIndex="10" image="Media/forward.svg" borderWidth="0px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnReleaseRole" top="278" left="304" width="236" height="40" zIndex="9" text="Remove Role" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Image" id="imgGainUp1" top="438" left="259" width="40" height="40" zIndex="10" image="Media/forward.svg" borderWidth="0px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnDeleteUser" top="328" left="304" width="241" height="40" zIndex="11" text="Delete User" cornerRadius="10px" backGroundGradient="linear-gradient(to bottom,#eb0909 0%,#eda6a6 100%)" />
       </Widgets>
     </Widget>
-    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox3" top="440" left="15" width="590" height="190" zIndex="3" text="Import and Export">
+    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox3" top="410" left="15" width="590" height="175" zIndex="3" text="Import and Export">
       <Widgets>
-        <Widget xsi:type="widgets.brease.Label" id="CreateUser6" top="13" left="4" width="95" zIndex="0" text="Path" />
-        <Widget xsi:type="widgets.brease.TextInput" id="txtExportPath" top="13" left="104" width="461" zIndex="1" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnExportUserData" top="58" left="104" width="200" height="40" zIndex="2" text="Export User Data" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnImportUserData" top="58" left="364" width="200" height="40" zIndex="3" text="Import User Data" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Label" id="CreateUser6" top="23" left="4" width="95" zIndex="0" text="Path" />
+        <Widget xsi:type="widgets.brease.TextInput" id="txtExportPath" top="23" left="104" width="461" zIndex="1" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnExportUserData" top="68" left="104" width="200" height="40" zIndex="2" text="Export User Data" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnImportUserData" top="68" left="364" width="200" height="40" zIndex="3" text="Import User Data" cornerRadius="10px" />
       </Widgets>
     </Widget>
   </Widgets>
