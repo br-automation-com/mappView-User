@@ -34,7 +34,7 @@ TYPE
 		UserDelete : BOOL;
 		PasswordChange : BOOL;
 		RoleAssign : BOOL;
-		RoleRelease : BOOL;
+		RoleRemove : BOOL;
 		Import : BOOL;
 		Export : BOOL;
 		ListRefresh : BOOL;

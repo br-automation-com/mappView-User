@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="User_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Bindings>
 		<!-- Reset error />-->
@@ -66,7 +66,7 @@
 			<Source contentRefId="contentUser" widgetRefId="btnReleaseRole" xsi:type="widgets.brease.Button.Event" event="Click" />
 			<EventHandler>
 				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleRelease" >
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleRemove" >
 						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
 					</Target>
 				</Action>

@@ -48,7 +48,7 @@ PROGRAM _CYCLIC
 				UserAssignRole_0(Execute := FALSE);
 				ArUser.PAR.UserRole := ArUser.DAT.Roles[ArUser.VIS.ListRoleIndex];
 				UserManagementState := AssignRoleState;
-			ELSIF (ArUser.CMD.RoleRelease) THEN	
+			ELSIF (ArUser.CMD.RoleRemove) THEN	
 				ArUserReleaseRole_0(Execute := FALSE);
 				ArUser.PAR.UserRole := ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[ArUser.VIS.ListUserRoleIndex];
 				UserManagementState := ReleaseRoleState;				
@@ -64,7 +64,8 @@ PROGRAM _CYCLIC
 			ELSIF (ArUser.CMD.PasswordChange) THEN
 				SetPassword_0(Execute := FALSE);	
 				UserManagementState := ComparePasswordState;
-			ELSIF (ArUser.CMD.ListRefresh) THEN	
+			ELSIF (ArUser.CMD.ListRefresh) THEN
+				tmpUser := '';
 				UserManagementState := CreateUserListGetFirstState;
 			END_IF;
 			
@@ -128,7 +129,7 @@ PROGRAM _CYCLIC
 				ArUser.DAT.Status := 'Role released';
 				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
-				ArUser.CMD.RoleRelease := FALSE;
+				ArUser.CMD.RoleRemove := FALSE;
 				UserManagementState := CreateUserListGetFirstState;	
 				// Error
 			ELSIF ArUserReleaseRole_0.Error THEN
