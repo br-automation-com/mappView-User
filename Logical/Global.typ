@@ -51,6 +51,7 @@ TYPE
 		Users : ARRAY[0..MaxUserNames]OF typUSER_DETAILS;
 		Roles : ARRAY[0..MaxUserRoles]OF STRING[40];
 		Status : STRING[80];
+		UserActive : STRING[40];
 	END_STRUCT;
 	typUSER_VIS : 	STRUCT 
 		ListUsers : ARRAY[0..MaxUserNames]OF STRING[80];

@@ -18,6 +18,7 @@ END_VAR
 VAR
 	RoleCounter : USINT; (*LoopCounter for creating the table; 1 = second element of array*)
 	UserCounter : USINT;
+	UserCounterTotal : USINT;
 END_VAR
 (*List types *)
 VAR CONSTANT

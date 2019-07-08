@@ -194,15 +194,44 @@
 			</EventHandler>
 		</EventBinding>
 		
+		<!-- Login sucessfull />-->
+		<EventBinding id="contentUser.btnLoginButton.LoginSuccess">
+			<Source contentRefId="contentUser" widgetRefId="btnLoginButton" xsi:type="widgets.brease.LoginButton.Event" event="LoginSuccess" />
+			<!-- Read value from PLC />-->	
+			<Operand name="LoginUser" datatype="ANY_STRING">
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+					<Method xsi:type="opcUa.NodeAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.DAT.UserActive" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=LoginUser" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		
 		<!-- Logout />-->
 		<EventBinding id="contentUser.btnLogoutButton.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
 			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-						<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
-					</Target>
-				</Action>
+				<Sequence>
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+							</Target>
+						</Action>
+					</Step>
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.DAT.UserActive" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
 			</EventHandler>
 		</EventBinding>
 	</Bindings>

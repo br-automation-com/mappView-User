@@ -32,13 +32,19 @@ PROGRAM _CYCLIC
 				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR('"}'));
 				idx := idx + 1;
 			END_WHILE;
-			// Make sure we dont delete last user
+			// Make sure we dont delete last user role
 			IF(idx > 1) THEN
 				ArUser.VIS.RoleDeleteEnabled := TRUE;
 			ELSE
 				ArUser.VIS.RoleDeleteEnabled := FALSE;
 			END_IF
-
+			// Make sure we dont delete user that is logged in or last user
+			IF(brsstrcmp(ADR(ArUser.PAR.UserName), ADR(ArUser.DAT.UserActive)) <> 0 AND UserCounterTotal > 1) THEN				
+				ArUser.VIS.UserDeleteEnabled := TRUE;
+			ELSE
+				ArUser.VIS.UserDeleteEnabled := FALSE;
+			END_IF
+			
 			// --------------------------------------------------------------------------------------------------------------------
 			// Wait for new command
 			IF  (ArUser.CMD.UserCreate) THEN
@@ -105,7 +111,7 @@ PROGRAM _CYCLIC
 			//			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF UserAssignRole_0.Done AND NOT UserAssignRole_0.Busy THEN				
-				ArUser.DAT.Status := 'Role assigned';
+				ArUser.DAT.Status := 'Role assigned to user';
 				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
 				UserManagementState := CreateUserListGetFirstState;	
@@ -125,7 +131,7 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF ArUserReleaseRole_0.Done AND NOT ArUserReleaseRole_0.Busy THEN	
-				ArUser.DAT.Status := 'Role released';
+				ArUser.DAT.Status := 'Role removed from user';
 				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
 				UserManagementState := CreateUserListGetFirstState;	
@@ -291,16 +297,11 @@ PROGRAM _CYCLIC
 					UserManagementState := ErrorState;		
 					// List is complete
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
-					// Make sure we dont delete last user
-					IF(UserCounter > 1) THEN
-						ArUser.VIS.UserDeleteEnabled := TRUE;
-					ELSE
-						ArUser.VIS.UserDeleteEnabled := FALSE;
-					END_IF
 					// Reset function blocks and counters
 					ArUserGetNext_0(Execute := FALSE);
 					ArUserGetFirst_0(Execute := FALSE);
 					ArUserInitList_0(Execute := FALSE);
+					UserCounterTotal := UserCounter;
 					UserCounter := 0;																
 					RoleCounter := 0;
 					UserManagementState := RoleListInitListState;

@@ -65,5 +65,13 @@
 <Source xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameLogin" attribute="value" />
 <Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnLoginButton" attribute="userName" />
 </Binding>
+<Binding mode="oneWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.UserDeleteEnabled" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnDeleteUser" attribute="enable" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.RoleDeleteEnabled" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnReleaseRole" attribute="enable" />
+</Binding>
 </Bindings>
 </BindingsSet>
