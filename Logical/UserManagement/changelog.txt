@@ -1,2 +1,5 @@
+Version 0.2
+- Added message boxes for success and failed commands
+
 Version 0.1
 - First public release

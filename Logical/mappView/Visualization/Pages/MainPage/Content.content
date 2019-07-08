@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Content id="contentUser" height="800" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
-    <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="220" left="15" width="590" height="175" zIndex="0" text="User Managment">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="20" left="20" width="590" height="175" zIndex="0" text="User Managment">
       <Widgets>
         <Widget xsi:type="widgets.brease.Label" id="CreateUser" top="13" left="14" width="95" zIndex="0" text="User" />
         <Widget xsi:type="widgets.brease.Label" id="ChangePassword3" top="48" left="14" width="95" zIndex="1" text="Password" />
@@ -13,20 +13,7 @@
         <Widget xsi:type="widgets.brease.Button" id="btnChangePassword" top="63" left="369" width="200" height="40" zIndex="7" text="Change Password" cornerRadius="10px" />
       </Widgets>
     </Widget>
-    <Widget xsi:type="widgets.brease.GroupBox" id="GroupBox2" top="20" left="15" width="590" height="190" zIndex="1" text="Status">
-      <Widgets>
-        <Widget xsi:type="widgets.brease.Label" id="CreateUser1" top="3" left="9" width="116" zIndex="0" text="Error number" />
-        <Widget xsi:type="widgets.brease.Label" id="CreateUser2" top="38" left="9" width="116" zIndex="1" text="Error state" />
-        <Widget xsi:type="widgets.brease.Label" id="CreateUser3" top="73" left="9" width="116" zIndex="2" text="Current state" />
-        <Widget xsi:type="widgets.brease.Label" id="CreateUser4" top="108" left="9" width="116" zIndex="3" text="Last message" />
-        <Widget xsi:type="widgets.brease.NumericOutput" id="txtErrorNo" top="3" left="129" width="146" zIndex="4" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.NumericOutput" id="txtErrorState" top="38" left="129" width="81" zIndex="5" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.NumericOutput" id="txtCurrentState" top="73" left="129" width="81" zIndex="6" format="{'metric':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial':{'decimalPlaces':0,'minimumIntegerDigits':1},'imperial-us':{'decimalPlaces':0,'minimumIntegerDigits':1}}" borderWidth="1px" cornerRadius="3px" />
-        <Widget xsi:type="widgets.brease.TextOutput" id="txtLastMessage" top="108" left="129" width="436" zIndex="7" borderWidth="1px" cornerRadius="3px" borderStyle="solid" />
-        <Widget xsi:type="widgets.brease.Button" id="btnResetError" top="8" left="359" width="200" height="40" zIndex="8" text="Reset Error" cornerRadius="10px" />
-      </Widgets>
-    </Widget>
-    <Widget xsi:type="widgets.brease.GroupBox" id="grpRoleManagment" top="20" left="620" width="560" height="765" zIndex="2" text="Overview">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpRoleManagment" top="20" left="620" width="560" height="765" zIndex="1" text="Overview">
       <Widgets>
         <Widget xsi:type="widgets.brease.ListBox" id="lstUsers" top="48" left="14" width="240" height="317" zIndex="0" dataProvider="[]" borderWidth="1px" cornerRadius="3px" />
         <Widget xsi:type="widgets.brease.Label" id="labUsers" top="18" left="24" width="220" zIndex="1" text="Users" textAlign="center" />
@@ -42,7 +29,7 @@
         <Widget xsi:type="widgets.brease.Button" id="btnDeleteUser" top="328" left="304" width="241" height="40" zIndex="11" text="Delete User" cornerRadius="10px" backGroundGradient="linear-gradient(to bottom,#eb0909 0%,#eda6a6 100%)" />
       </Widgets>
     </Widget>
-    <Widget xsi:type="widgets.brease.GroupBox" id="grpExportUserdata" top="410" left="15" width="590" height="175" zIndex="3" text="Import and Export">
+    <Widget xsi:type="widgets.brease.GroupBox" id="grpExportUserdata" top="210" left="20" width="590" height="175" zIndex="2" text="Import and Export">
       <Widgets>
         <Widget xsi:type="widgets.brease.Label" id="labExportUsers" top="23" left="4" width="95" zIndex="0" text="Path" />
         <Widget xsi:type="widgets.brease.TextInput" id="txtExportPath" top="23" left="104" width="461" zIndex="1" cornerRadius="3px" />

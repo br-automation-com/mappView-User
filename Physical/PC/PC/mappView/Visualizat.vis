@@ -14,7 +14,7 @@
     <EventBindingsSet refId="User_eventbinding" />
   </EventBindingsSets>
   <Dialogs>
-    <!--<Dialog refId="" />-->
+    <!--<Dialog refId="dialogOK" />-->
   </Dialogs>
   <Contents>
     <!--<Content refId="" />-->

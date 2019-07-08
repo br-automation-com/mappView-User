@@ -13,22 +13,6 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword2" attribute="value" />
 		</Binding>
-		<Binding mode="oneWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.DAT.Status" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtLastMessage" attribute="value" />
-		</Binding>
-		<Binding mode="oneWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.Number" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorNo" attribute="value" />
-		</Binding>
-		<Binding mode="oneWay">
-			<Source xsi:type="opcUa" refId="::UserManage:UserManagementState" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtCurrentState" attribute="value" />
-		</Binding>
-		<Binding mode="oneWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.ERR.State" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtErrorState" attribute="value" />
-		</Binding>
 		<Binding mode="twoWay">
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUsers" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="dataProvider" />
@@ -65,13 +49,5 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedValue" />
 		</Binding>
-	<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.UserDeleteEnabled" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnDeleteUser" attribute="enable" />
-</Binding>
-<Binding mode="oneWay">
-<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.RoleDeleteEnabled" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnReleaseRole" attribute="enable" />
-</Binding>
-</Bindings>
+	</Bindings>
 </BindingsSet>

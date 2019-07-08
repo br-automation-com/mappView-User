@@ -6,6 +6,5 @@
     <Object Type="File">Config.mappviewcfg</Object>
     <Object Type="File">ArUser.binding</Object>
     <Object Type="File">ArUser.eventbinding</Object>
-    <Object Type="File">contentUser.eventbinding</Object>
   </Objects>
 </Package>

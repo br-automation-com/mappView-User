@@ -61,6 +61,8 @@ TYPE
 		ListRoleIndex : UINT;
 		RoleDeleteEnabled : BOOL;
 		UserDeleteEnabled : BOOL;
+		ShowMessageBoxOK : BOOL;
+		ShowMessageBoxError : BOOL;
 	END_STRUCT;
 	typUSER_ERR : 	STRUCT 
 		Number : DINT;
