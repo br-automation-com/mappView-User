@@ -8,7 +8,7 @@ The passwords for the users in this demo is the user name all lower case.
 ## Requirements
 * Automation Studio 4.5
 * mappView 5.6
-* Automation Runtime A.5
+* Automation Runtime D4.52
 
 ## Description
 The sample consists of two main components. The sample page to manage all important settings for users and the task that drives the ArUser library. The following functions are currently supported.
