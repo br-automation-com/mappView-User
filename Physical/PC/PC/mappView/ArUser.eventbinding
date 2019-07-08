@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="User_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Bindings>
-		<!-- Reset error />-->
-		<EventBinding id="contentUser.btnResetError.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnResetError" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ErrorReset" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-
 		<!-- Create new user />-->
 		<EventBinding id="contentUser.btnCreateUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnCreateUser" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -182,6 +170,40 @@
 					</Result>
 				</Action>
 			</EventHandler>
-		</EventBinding>	
+		</EventBinding>
+		
+		<!-- Login failed />-->
+		<EventBinding id="contentUser.btnLoginButton.LoginFailed">
+			<Source contentRefId="contentUser" widgetRefId="btnLoginButton" xsi:type="widgets.brease.LoginButton.Event" event="LoginFailed" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="Login failed. Please verify password." header="Error" icon="Error"  />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentUser.btnLoginButton.AuthentificationFailed">
+			<Source contentRefId="contentUser" widgetRefId="btnLoginButton" xsi:type="widgets.brease.LoginButton.Event" event="AuthentificationFailed" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="Login failed. Please verify password." header="Error" icon="Error"  />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		
+		<!-- Logout />-->
+		<EventBinding id="contentUser.btnLogoutButton.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+						<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
 	</Bindings>
 </EventBindingSet>

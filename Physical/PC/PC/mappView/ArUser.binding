@@ -2,18 +2,6 @@
 <BindingsSet xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="MainBinding">
 	<Bindings>
 		<Binding mode="twoWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserName" attribute="value" />
-		</Binding>
-		<Binding mode="twoWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword1" attribute="value" />
-		</Binding>
-		<Binding mode="twoWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword2" attribute="value" />
-		</Binding>
-		<Binding mode="twoWay">
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.ListUsers" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="dataProvider" />
 		</Binding>
@@ -49,5 +37,33 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedValue" />
 		</Binding>
-	</Bindings>
+	<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameManagment" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameLogin" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPasswordLogin" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword1Managment" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword2Managment" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPasswordLogin" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnLoginButton" attribute="password" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameLogin" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnLoginButton" attribute="userName" />
+</Binding>
+</Bindings>
 </BindingsSet>

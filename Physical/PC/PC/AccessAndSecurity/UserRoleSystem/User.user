@@ -11,6 +11,7 @@
     <Property ID="Password" Value="BjBGh8DAssJt/jsPnTJWpFZScN9Q44TA1uk0g5joZE092ymZQr4=" Description="john" />
     <Group ID="Roles">
       <Property ID="Role[1]" Value="Operator" />
+      <Property ID="Role[2]" Value="Everyone" />
     </Group>
   </Element>
   <Element ID="Dave" Type="User">
@@ -19,6 +20,7 @@
     <Group ID="Roles">
       <Property ID="Role[1]" Value="Operator" />
       <Property ID="Role[2]" Value="Service" />
+      <Property ID="Role[3]" Value="Everyone" />
     </Group>
   </Element>
   <Element ID="Bob" Type="User">
@@ -28,6 +30,7 @@
       <Property ID="Role[1]" Value="Operator" />
       <Property ID="Role[2]" Value="Service" />
       <Property ID="Role[3]" Value="Administrators" />
+      <Property ID="Role[4]" Value="Everyone" />
     </Group>
   </Element>
 </Configuration>
