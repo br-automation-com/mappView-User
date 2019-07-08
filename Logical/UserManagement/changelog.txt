@@ -1,4 +1,5 @@
 Version 0.2
+- Added groupbox with login
 - Added message boxes for success and failed commands
 
 Version 0.1
