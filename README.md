@@ -3,7 +3,9 @@ This is sample project for user managment with mappView. It uses the B&R library
 
 ![I'm a relative reference to a repository file](https://github.com/stephan1827/mappView-User/blob/master/Logical/mappView/Resources/Media/screenshot.png)
 
-### Requirements
+The passwords for the users in this demo is the user name all lower case.
+
+## Requirements
 * Automation Studio 4.5
 * mappView 5.6
 * Automation Runtime A.5
