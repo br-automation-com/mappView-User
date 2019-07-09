@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <vdef:Visualization id="visArUser" xmlns:vdef="http://www.br-automation.com/iat2015/visualizationDefinition/v2">
-  <StartPage pageRefId="MainPage" />
+  <StartPage pageRefId="ArUserPage" />
   <Pages>
-		<Page refId="MainPage"/>
+		<Page refId="ArUserPage"/>
   </Pages>
 	<Navigations>
     <!--<Navigation refId="" />-->
   </Navigations>  
   <BindingsSets>
-		<BindingsSet refId="MainBinding" />
+		<BindingsSet refId="ArUser_binding" />
 	</BindingsSets>
   <EventBindingsSets>
-    <EventBindingsSet refId="User_eventbinding" />
+    <EventBindingsSet refId="ArUser_eventbinding" />
   </EventBindingsSets>
   <Dialogs>
     <!--<Dialog refId="dialogOK" />-->
