@@ -61,7 +61,7 @@ ArUser
 
 ## Revision History
 
-#### Version 0.2
+#### [**Version 0.2**](https://github.com/stephan1827/mappView-User/releases/tag/V0.2)
 - Make sure last user can not be deleted
 - Make sure last user can not delete himself
 - Make sure last user can not be deleted
@@ -69,5 +69,5 @@ ArUser
 - Added message boxes for success and failed commands
 - Visual tweaks and bugfixes
 
-#### Version 0.1
+#### [**Version 0.1**](https://github.com/stephan1827/mappView-User/releases/tag/V0.1)
 First public release
