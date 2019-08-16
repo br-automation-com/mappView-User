@@ -6,6 +6,7 @@ TYPE
 		DestroyListState,
 		CreateUserState,
 		DeleteUserState,
+		RenameUserState,
 		ExportListState,
 		ImportListState,
 		ChangePasswordState,
@@ -17,10 +18,12 @@ TYPE
 		RoleListMainState,
 		RoleListDeleteListState,
 		RoleListInitListState,
-		ErrorState,
 		CreateRoleListGetFirstState,
 		CreateRoleListGetNextState,
-		RoleListGetNextState
+		RoleListGetNextState,
+		PropertyRead,
+		PropertyWrite,
+		ErrorState
 		);
 	typUSER : 	STRUCT 
 		CMD : typUSER_CMD;
@@ -32,6 +35,7 @@ TYPE
 	typUSER_CMD : 	STRUCT 
 		UserCreate : BOOL;
 		UserDelete : BOOL;
+		UserRename : BOOL;
 		PasswordChange : BOOL;
 		RoleAssign : BOOL;
 		RoleRemove : BOOL;
@@ -43,6 +47,7 @@ TYPE
 	typUSER_PAR : 	STRUCT 
 		FilePath : STRING[80];
 		UserName : STRING[40];
+		UserNameNew : STRING[40];
 		UserRole : STRING[40];
 		Password : STRING[40];
 		PasswordRepeat : STRING[40];

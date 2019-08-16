@@ -11,6 +11,10 @@ VAR
 	ArUserGetNext_0 : ArUserGetNext;
 	ArUserGetFirst_0 : ArUserGetFirst;
 	ArUserInitList_0 : ArUserInitList;
+	ArUserGetProperty_0 : ArUserGetProperty;
+	ArUserSetProperty_0 : ArUserSetProperty;
+	PropertyName : STRING[40];
+	tmpUserIdx : USINT;
 	tmpUser : STRING[40];
 	idx : USINT;
 END_VAR
@@ -33,4 +37,5 @@ VAR CONSTANT
 	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002;
 	END_OF_LIST : DINT := -2144327714;
 	ELEMENT_DOES_NOT_EXIST : DINT := -1070585892;
+	ONE : BOOL := TRUE;
 END_VAR

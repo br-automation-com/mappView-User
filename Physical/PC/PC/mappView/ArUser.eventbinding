@@ -37,6 +37,18 @@
 			</EventHandler>
 		</EventBinding>
 		
+		<!-- Change user name />-->
+		<EventBinding id="contentUser.btnRenameUser.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnRenameUser" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<EventHandler>
+				<Action>
+					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserRename" >
+						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		
 		<!-- Assign user role />-->
 		<EventBinding id="contentUser.btnAssignRole.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnAssignRole" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -216,6 +228,7 @@
 		<EventBinding id="contentUser.btnLogoutButton.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
 			<EventHandler>
+				<!-- Delete user name and password />-->
 				<Sequence>
 					<Step order="0">
 						<Action>
@@ -225,6 +238,13 @@
 						</Action>
 					</Step>
 					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.Password" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+							</Target>
+						</Action>
+					</Step>
+					<Step order="2">
 						<Action>
 							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.DAT.UserActive" >
 								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />

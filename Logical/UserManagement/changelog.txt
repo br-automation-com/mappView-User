@@ -1,3 +1,8 @@
+Version 0.3
+- Automatically set password when new user is created
+- Erase password field when user logs out
+- New command to rename user
+
 Version 0.2
 - Make sure last user can not be deleted
 - Make sure last user can not delete himself

@@ -1,9 +1,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 // General user task. This is a support task for the mappView visualization. The following functions are implemneted
-// - Create and delete user
+// - Create,rename and delete user
 // - Create and delete roles
 // - Change password and assign roles to users
-// Version 0.1
+// - Ecport and import user data
+// Version 0.3
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
 	ArUser.PAR.FilePath := 'c:\Temp\UserDataExport.txt';			// Where to export user data
@@ -38,7 +39,7 @@ PROGRAM _CYCLIC
 			ELSE
 				ArUser.VIS.RoleDeleteEnabled := FALSE;
 			END_IF
-			// Make sure we dont delete user that is logged in or last user
+			// Make sure we dont delete or rename the user that is logged in or last user
 			IF(brsstrcmp(ADR(ArUser.PAR.UserName), ADR(ArUser.DAT.UserActive)) <> 0 AND UserCounterTotal > 1) THEN				
 				ArUser.VIS.UserDeleteEnabled := TRUE;
 			ELSE
@@ -48,9 +49,11 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------
 			// Wait for new command
 			IF  (ArUser.CMD.UserCreate) THEN
+				tmpUser := ArUser.PAR.UserName;
 				UserCreate_0(Execute := FALSE);
 				UserManagementState := CreateUserState;
 			ELSIF (ArUser.CMD.RoleAssign) THEN
+				tmpUser := ArUser.PAR.UserName;
 				UserAssignRole_0(Execute := FALSE);
 				ArUser.PAR.UserRole := ArUser.DAT.Roles[ArUser.VIS.ListRoleIndex];
 				UserManagementState := AssignRoleState;
@@ -61,6 +64,12 @@ PROGRAM _CYCLIC
 			ELSIF (ArUser.CMD.UserDelete) THEN
 				DeleteUser_0(Execute := FALSE);
 				UserManagementState := DeleteUserState;
+			ELSIF (ArUser.CMD.UserRename) THEN
+				ArUserGetProperty_0(Execute := FALSE);	
+				ArUserSetProperty_0(Execute := FALSE);	
+				UserAssignRole_0(Execute := FALSE);
+				DeleteUser_0(Execute := FALSE);
+				UserManagementState := RenameUserState;
 			ELSIF (ArUser.CMD.Export) THEN
 				ExportUser_0(Execute := FALSE);
 				UserManagementState := ExportListState;
@@ -77,54 +86,76 @@ PROGRAM _CYCLIC
 			
 			// --------------------------------------------------------------------------------------------------------------------
 			// Reset fields on new command
-			IF ArUser.CMD.UserCreate OR ArUser.CMD.UserDelete OR ArUser.CMD.RoleAssign OR ArUser.CMD.PasswordChange OR ArUser.CMD.ListRefresh OR ArUser.CMD.Import OR ArUser.CMD.Export OR ArUser.CMD.ErrorReset THEN
-				ArUser.DAT.Status := '';
-			END_IF;
+			FOR idx:=0 TO SIZEOF(ArUser.CMD) DO
+				IF brsmemcmp(ADR(ArUser.CMD) + idx, ADR(ONE), 1) = 0 THEN
+					ArUser.DAT.Status := '';
+ 				END_IF
+			END_FOR
 			ArUser.CMD.ErrorReset := FALSE;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Create new user
-			// --------------------------------------------------------------------------------------------------------------------	
-		CreateUserState:	
-			UserCreate_0(Execute := TRUE , UserName := ArUser.PAR.UserName);		
+		// --------------------------------------------------------------------------------------------------------------------
+		// Create new user
+		// --------------------------------------------------------------------------------------------------------------------	
+		CreateUserState:
+			UserCreate_0(Execute := TRUE , UserName := tmpUser);		
 
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
-			IF UserCreate_0.Done AND NOT UserCreate_0.Busy THEN				
-				ArUser.DAT.Status := 'User created';
-				tmpUser := ArUser.PAR.UserName;
-				ArUser.PAR.UserName := '';
-				UserManagementState := CreateUserListGetFirstState;
-				// Error
+			IF UserCreate_0.Done AND NOT UserCreate_0.Busy THEN
+				// Create new user 
+				IF(ArUser.CMD.UserCreate) THEN
+					ArUser.DAT.Status := 'User created';				
+					// Set password when it exists
+					IF ArUser.PAR.Password <> '' THEN
+						UserManagementState := ComparePasswordState;
+					ELSE
+						ArUser.PAR.UserName := '';
+						UserManagementState := CreateUserListGetFirstState;
+					END_IF;
+				// Rename existing user
+				ELSE
+					PropertyName := 'UserID';
+					UserManagementState := PropertyRead;				
+				END_IF
+			// Error
 			ELSIF UserCreate_0.Error THEN
 				ArUser.ERR.Number := UserCreate_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;	
 			END_IF;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Assign user role
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Assign user role
+		// --------------------------------------------------------------------------------------------------------------------					
 		AssignRoleState:	
-			UserAssignRole_0(Execute := TRUE , UserName := ArUser.PAR.UserName , RoleName := ArUser.PAR.UserRole);
+			UserAssignRole_0(Execute := TRUE , UserName := tmpUser , RoleName := ArUser.PAR.UserRole);
 			
-			//			// --------------------------------------------------------------------------------------------------------------------	
+			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
-			IF UserAssignRole_0.Done AND NOT UserAssignRole_0.Busy THEN				
+			IF ArUser.CMD.RoleAssign AND UserAssignRole_0.Done AND NOT UserAssignRole_0.Busy THEN
 				ArUser.DAT.Status := 'Role assigned to user';
-				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
-				UserManagementState := CreateUserListGetFirstState;	
-				// Error
+				UserManagementState := CreateUserListGetFirstState;
+			ELSIF ArUser.CMD.UserRename AND ((UserAssignRole_0.Done AND NOT UserAssignRole_0.Busy) OR (UserAssignRole_0.ErrorID = arUSER_ERR_ALREADY_EXISTS)) THEN
+				idx := idx +1;
+				// Assign next role if it exists
+				IF ArUser.DAT.Users[tmpUserIdx].Roles[idx] <> '' AND idx < MaxUserRoles THEN
+					UserAssignRole_0(Execute := FALSE);
+					ArUser.PAR.UserRole := ArUser.DAT.Users[tmpUserIdx].Roles[idx];
+				// Delete old user
+				ELSE
+					UserManagementState := DeleteUserState;	
+				END_IF
+			// Error
 			ELSIF UserAssignRole_0.Error THEN
 				ArUser.ERR.Number := UserAssignRole_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;	
 					 
-			// --------------------------------------------------------------------------------------------------------------------
-			// Release user role
-			// --------------------------------------------------------------------------------------------------------------------								
+		// --------------------------------------------------------------------------------------------------------------------
+		// Release user role
+		// --------------------------------------------------------------------------------------------------------------------								
 		ReleaseRoleState:
 			ArUserReleaseRole_0(Execute := TRUE , UserName := ArUser.PAR.UserName , RoleName := ArUser.PAR.UserRole);
 
@@ -135,35 +166,109 @@ PROGRAM _CYCLIC
 				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
 				UserManagementState := CreateUserListGetFirstState;	
-				// Error
+			// Error
 			ELSIF ArUserReleaseRole_0.Error THEN
 				ArUser.ERR.Number := ArUserReleaseRole_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Delete user
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Delete user
+		// --------------------------------------------------------------------------------------------------------------------					
 		DeleteUserState:	
 			DeleteUser_0(Execute := TRUE , UserName := ArUser.PAR.UserName);		
 
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
-			IF DeleteUser_0.Done AND NOT DeleteUser_0.Busy THEN				
-				ArUser.DAT.Status := 'User deleted';
-				tmpUser := '';
+			IF DeleteUser_0.Done AND NOT DeleteUser_0.Busy THEN
+				// User delete command
+				IF ArUser.CMD.UserDelete THEN
+					ArUser.DAT.Status := 'User deleted';
+					tmpUser := '';
+				// User rename command
+				ELSE			
+					ArUser.DAT.Status := 'User renamed';
+					ArUser.PAR.UserName := '';
+				END_IF
 				UserManagementState := CreateUserListGetFirstState;
-				// Error
+			// Error
 			ELSIF DeleteUser_0.Error THEN
 				ArUser.ERR.Number := DeleteUser_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;			
-			END_IF;	
+			END_IF;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Export user list to file
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Rename user
+		// --------------------------------------------------------------------------------------------------------------------					
+		RenameUserState:
+			tmpUserIdx := 0;
+			// Find user name in list
+			WHILE (brsstrcmp(ADR(ArUser.DAT.Users[tmpUserIdx].Name), ADR(ArUser.PAR.UserName)) <> 0) AND (tmpUserIdx < MaxUserNames) DO
+				tmpUserIdx := tmpUserIdx + 1;
+			END_WHILE;
+			
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Success
+			IF(tmpUserIdx < MaxUserNames) THEN
+				tmpUser := ArUser.PAR.UserNameNew;
+				UserCreate_0(Execute := FALSE);
+				UserManagementState := CreateUserState;
+			// Error when user was not found
+			ELSE
+				ArUser.ERR.Number := arUSER_ERR_DOES_NOT_EXIST;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;
+			END_IF
+			
+		// --------------------------------------------------------------------------------------------------------------------
+		// Read user property
+		// --------------------------------------------------------------------------------------------------------------------					
+		PropertyRead:	
+			ArUserGetProperty_0(Execute := TRUE, ElementType := arUSER_USER_PROPERTIES , ElementName := ArUser.PAR.UserName , PropertyName := PropertyName );			
+
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Success
+			IF ArUserGetProperty_0.Done AND NOT ArUserGetProperty_0.Busy THEN
+				ArUserSetProperty_0(Execute := FALSE);	
+				UserManagementState := PropertyWrite;
+			// Error
+			ELSIF ArUserGetProperty_0.Error THEN
+				ArUser.ERR.Number := ArUserGetProperty_0.ErrorID;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;			
+			END_IF;
+		// --------------------------------------------------------------------------------------------------------------------
+		// Write user property
+		// --------------------------------------------------------------------------------------------------------------------					
+		PropertyWrite:	
+			ArUserSetProperty_0(Execute := TRUE, ElementType := arUSER_USER_PROPERTIES , ElementName := ArUser.PAR.UserNameNew , PropertyName := PropertyName , PropertyValue := ArUserGetProperty_0.PropertyValue);
+
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Success
+			IF ArUserSetProperty_0.Done AND NOT ArUserSetProperty_0.Busy THEN
+				// Read password after user ID
+				IF PropertyName = 'UserID' THEN
+					PropertyName := 'Password';
+					ArUserGetProperty_0(Execute := FALSE);	
+					UserManagementState := PropertyRead;
+					// Assign roles after password
+				ELSIF PropertyName = 'Password' THEN
+					idx := 0;
+					ArUser.PAR.UserRole := ArUser.DAT.Users[tmpUserIdx].Roles[idx];
+					UserManagementState := AssignRoleState;
+				END_IF
+			// Error
+			ELSIF ArUserSetProperty_0.Error THEN
+				ArUser.ERR.Number := ArUserSetProperty_0.ErrorID;
+				ArUser.ERR.State := UserManagementState;
+				UserManagementState := ErrorState;			
+			END_IF;
+			
+		// --------------------------------------------------------------------------------------------------------------------
+		// Export user list to file
+		// --------------------------------------------------------------------------------------------------------------------					
 		ExportListState:
 			ExportUser_0(Execute := TRUE , FilePath := ArUser.PAR.FilePath);		
 
@@ -174,15 +279,16 @@ PROGRAM _CYCLIC
 				ArUser.CMD.Export := FALSE;
 				ArUser.VIS.ShowMessageBoxOK := TRUE;
 				UserManagementState := IdleState;						
+			// Error
 			ELSIF ExportUser_0.Error THEN
 				ArUser.ERR.Number := ExportUser_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;
 
-			// --------------------------------------------------------------------------------------------------------------------
-			// Import user list from file
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Import user list from file
+		// --------------------------------------------------------------------------------------------------------------------					
 		ImportListState:
 			ImportUser_0(Execute := TRUE , FilePath := ArUser.PAR.FilePath);		
 
@@ -193,46 +299,55 @@ PROGRAM _CYCLIC
 				ArUser.CMD.Import := FALSE;
 				ArUser.VIS.ShowMessageBoxOK := TRUE;
 				UserManagementState := CreateUserListGetFirstState;						
+			// Error
 			ELSIF ImportUser_0.Error THEN
 				ArUser.ERR.Number := ImportUser_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;
 
-			// --------------------------------------------------------------------------------------------------------------------
-			// Change password, make sure both passwords are correct
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Change password, make sure both passwords are correct
+		// --------------------------------------------------------------------------------------------------------------------					
 		ComparePasswordState:
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Success
 			IF brsstrcmp(ADR(ArUser.PAR.Password), ADR(ArUser.PAR.PasswordRepeat)) = 0 THEN				
 				UserManagementState := ChangePasswordState;				
+			// Error
 			ELSE				
 				ArUser.ERR.Number := ERR_PASSWORD_MISMATCH;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Change password, execute password change
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Change password, execute password change
+		// --------------------------------------------------------------------------------------------------------------------					
 		ChangePasswordState:		
 			SetPassword_0(Execute := TRUE , UserName := ArUser.PAR.UserName , Password := ArUser.PAR.Password );			
 
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF SetPassword_0.Done AND NOT SetPassword_0.Busy THEN
-				ArUser.DAT.Status := 'Password changed!';
-				ArUser.CMD.PasswordChange := FALSE;
-				ArUser.VIS.ShowMessageBoxOK := TRUE;
-				UserManagementState := IdleState;
+				IF ArUser.CMD.PasswordChange THEN
+					ArUser.DAT.Status := 'Password changed!';
+					ArUser.CMD.PasswordChange := FALSE;
+					ArUser.VIS.ShowMessageBoxOK := TRUE;
+					UserManagementState := IdleState;
+				ELSE
+					UserManagementState := CreateUserListGetFirstState;					
+				END_IF;
+			// Error
 			ELSIF SetPassword_0.Error THEN
 				ArUser.ERR.Number := SetPassword_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;
 			END_IF;
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Create list of users and roles
-			// --------------------------------------------------------------------------------------------------------------------	
+		// --------------------------------------------------------------------------------------------------------------------
+		// Create list of users and roles
+		// --------------------------------------------------------------------------------------------------------------------	
 		CreateUserListGetFirstState:
 			// Initialize user list
 			ArUserInitList_0(Execute := TRUE, ListType := USER_LISTTYPE, ElementName :='');	
@@ -263,7 +378,7 @@ PROGRAM _CYCLIC
 					UserCounter := 1;																
 					RoleCounter := 0;															
 					UserManagementState := CreateUserListGetNextState;
-					// Error
+				// Error
 				ELSIF ArUserGetFirst_0.Error THEN
 					ArUser.ERR.Number := ArUserGetFirst_0.ErrorID;
 					ArUser.ERR.State := UserManagementState;
@@ -290,12 +405,12 @@ PROGRAM _CYCLIC
 					// Reset function block and get next name
 					ArUserGetNext_0(Execute := FALSE);
 					UserCounter := UserCounter + 1;
-					// Error
+				// Error
 				ELSIF ArUserGetNext_0.Error AND NOT (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN
 					ArUser.ERR.Number := ArUserGetNext_0.ErrorID;
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorState;		
-					// List is complete
+				// List is complete
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
 					// Reset function blocks and counters
 					ArUserGetNext_0(Execute := FALSE);
@@ -306,15 +421,16 @@ PROGRAM _CYCLIC
 					RoleCounter := 0;
 					UserManagementState := RoleListInitListState;
 				END_IF;			
+			// Error
 			ELSE
 				ArUser.ERR.Number := ERR_USER_LIST_TOO_SHORT;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;						
 			END_IF;	
 			
-			// --------------------------------------------------------------------------------------------------------------------
-			// Create table of roles assigned to the table of users 
-			// --------------------------------------------------------------------------------------------------------------------			
+		// --------------------------------------------------------------------------------------------------------------------
+		// Create table of roles assigned to the table of users 
+		// --------------------------------------------------------------------------------------------------------------------			
 		RoleListInitListState:			
 			IF ArUser.DAT.Users[UserCounter].Name <> '' THEN				
 				ArUserInitList_0(Execute := TRUE, ListType := USERROLE_LISTTYPE , ElementName := ArUser.DAT.Users[UserCounter].Name);				
@@ -333,7 +449,7 @@ PROGRAM _CYCLIC
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorState;
 				END_IF;
-				// Finish when user roles are complete
+			// Finish when user roles are complete
 			ELSE
 				ArUserInitList_0(Execute := FALSE);
 				ArUserGetFirst_0(Execute := FALSE);
@@ -352,22 +468,22 @@ PROGRAM _CYCLIC
 				ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
 				//				UserCounter := UserCounter + 1;
 				RoleCounter := RoleCounter + 1;
-				// List is complete
+			// List is complete
 			ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN					
 				UserCounter := UserCounter + 1;
 				ArUserGetNext_0(Execute := FALSE);				
 				ArUserInitList_0(Execute := FALSE);
 				UserManagementState := RoleListInitListState;	
-				// Error				
+			// Error				
 			ELSIF ArUserGetNext_0.Error THEN				
 				ArUser.ERR.Number := ArUserGetNext_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;					 
 			END_IF;
 				
-			// --------------------------------------------------------------------------------------------------------------------
-			// Create table of roles
-			// --------------------------------------------------------------------------------------------------------------------	
+		// --------------------------------------------------------------------------------------------------------------------
+		// Create table of roles
+		// --------------------------------------------------------------------------------------------------------------------	
 		CreateRoleListGetFirstState:						
 			ArUserInitList_0(Execute := TRUE, ListType := ROLE_LISTTYPE , ElementName :='' );	 
 
@@ -396,7 +512,7 @@ PROGRAM _CYCLIC
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorState;					
 				END_IF;
-				// Error				
+			// Error				
 			ELSIF ArUserInitList_0.Error THEN
 				ArUser.ERR.Number := ArUserInitList_0.ErrorID;
 				ArUser.ERR.State := UserManagementState;
@@ -420,12 +536,12 @@ PROGRAM _CYCLIC
 					// Reset function block and get next name
 					ArUserGetNext_0(Execute := FALSE);
 					RoleCounter := RoleCounter + 1;
-					// Error				
+				// Error				
 				ELSIF ArUserGetNext_0.Error AND NOT (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN
 					ArUser.ERR.Number := ArUserGetNext_0.ErrorID;
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorState;		
-					// End of list reached				
+				// End of list reached				
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
 					// Show message box after succesful command except refresh
 					IF(NOT ArUser.CMD.ListRefresh) THEN
@@ -437,11 +553,7 @@ PROGRAM _CYCLIC
 					ArUserInitList_0(Execute := FALSE);
 					RoleCounter := 0;
 					// Reset command
-					ArUser.CMD.UserCreate := FALSE;
-					ArUser.CMD.UserDelete := FALSE;
-					ArUser.CMD.RoleAssign := FALSE;
-					ArUser.CMD.RoleRemove := FALSE;
-					ArUser.CMD.ListRefresh := FALSE;
+					brsmemset(ADR(ArUser.CMD), 0, SIZEOF(ArUser.CMD));
 					// Select last user if possible
 					IF(tmpUser <> '') THEN
 						ArUser.PAR.UserName := tmpUser;
@@ -449,23 +561,23 @@ PROGRAM _CYCLIC
 						ArUser.PAR.UserName := ArUser.DAT.Users[0].Name;
 					END_IF
 					UserManagementState := IdleState;
-
 				END_IF;			
+			// Error				
 			ELSE
 				ArUser.ERR.Number := ERR_ROLE_LIST_TOO_SHORT;
 				ArUser.ERR.State := UserManagementState;
 				UserManagementState := ErrorState;	
 			END_IF;	
 		
-			// --------------------------------------------------------------------------------------------------------------------
-			// Error state
-			// --------------------------------------------------------------------------------------------------------------------					
+		// --------------------------------------------------------------------------------------------------------------------
+		// Error state
+		// --------------------------------------------------------------------------------------------------------------------					
 		ErrorState:		
 			ArUser.VIS.ShowMessageBoxError := TRUE;
 			// --------------------------------------------------------------------------------------------------------------------					
 			// Generate text for most common errors
 			IF(ArUser.ERR.Number = arUSER_ERR_ALREADY_EXISTS) THEN
-				ArUser.DAT.Status := 'ERR: User/Role already exists';
+				ArUser.DAT.Status := 'ERR: User/Role already exists or is already assigned';
 			ELSIF(ArUser.ERR.Number = arUSER_ERR_PARAMETER) THEN
 				ArUser.DAT.Status := 'ERR: User/Role is empty';
 			ELSIF(ArUser.ERR.Number = arUSER_ERR_DOES_NOT_EXIST) THEN
