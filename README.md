@@ -7,7 +7,7 @@
 
 <a name="Introduction"></a>
 ## Introduction
-This is a sample project for a user managment with mappView. It uses the B&R library ArUser to access and modify user rights.
+This is a sample project for a user managment with mappView. It uses the B&R library ArUser to access and modify user rights. There is an extended sample with RFID reader support available as separat [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
