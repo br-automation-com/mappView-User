@@ -36,7 +36,7 @@ The structure looks as follows:
 
 RFID
 * CMD -> Used to trigger commands like assign and remove token, ... A command is triggered by setting it to true, when the command is finished the task will reset the command. This indicates that the command is finished. Do not change any parameters or set another command until the previous command is finished.
-  * AutoScan -> Start detecting and reading data from the RFID reader
+  * ReaderEnable -> Start detecting and reading data from the RFID reader
   * TokenAssign -> Assign token to user
   * TokenAssign -> Remove token from user
 * PAR -> Parameters like refresh intervall, auto login...
