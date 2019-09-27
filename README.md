@@ -64,11 +64,11 @@ ArUser
   * ListRolesIndex -> Index for role list box
   * RoleDeleteEnabled -> Enables/Disables the button to delete a role
   * UserDeleteEnabled -> Enables/Disables the button to delete or rename a user
-  * ShowMessageBoxOK -> Show a message box when command was successfull
-  * ShowMessageBoxError -> Show a message box when command was not successfull
+  * ShowMessageBoxOK -> Show a message box when command was successful
+  * ShowMessageBoxError -> Show a message box when command was not successful
 * ERR -> Information about errors
   * Number -> Error number
-  * State -> State where the error occured
+  * State -> State where the error occurred
 
 <a name="Limitations"></a>
 ## Limitations
