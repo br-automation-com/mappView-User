@@ -117,7 +117,6 @@ PROGRAM _CYCLIC
 							IF(brsstrlen(ADR(data_read)) >= RFID.PAR.DataMinLen) THEN
 								// Maintain stats, move data, identify token
 								RFID.DAT.Cnt := RFID.DAT.Cnt + 1;
-								RFID.PAR.DataMinLen := brsstrlen(ADR(data_read));
 								RFID.VIS.ExecuteLogin := FALSE;
 								brsmemset(ADR(RFID.DAT.Data), 0, SIZEOF(RFID.DAT.Data));
 								brsstrcpy(ADR(RFID.DAT.Data), ADR(data_read));

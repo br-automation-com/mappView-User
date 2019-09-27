@@ -41,7 +41,6 @@ TYPE
 	END_STRUCT;
 	rfidDAT : 	STRUCT 
 		Data : STRING[80];
-		Len : UDINT;
 		Cnt : UDINT;
 		Status : STRING[80];
 	END_STRUCT;
