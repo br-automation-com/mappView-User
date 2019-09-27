@@ -26,7 +26,7 @@ TYPE
 		ErrorRFID (*Error state*)
 		);
 	rfidCMD : 	STRUCT 
-		AutoScan : BOOL; (*Scan USB ports automatically*)
+		ReaderEnable : BOOL; (*Scan USB ports automatically*)
 		TokenAssign : BOOL;
 		TokenRemove : BOOL;
 		ErrorReset : BOOL; (*Reset error*)

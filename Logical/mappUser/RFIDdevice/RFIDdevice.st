@@ -11,7 +11,7 @@
 PROGRAM _INIT
 	// -----------------------------------------------------------------------------------------------------------
 	// Start auto scan, set default parameters
-	RFID.CMD.AutoScan := TRUE;					// AutoScan for RFID reader and token data
+	RFID.CMD.ReaderEnable := TRUE;				// AutoScan for RFID reader and token data
 	RFID.PAR.AutoLogin := TRUE;					// Auto login user when token is detected
 	RFID.PAR.RefreshInterval := 50;				// Read data every 500ms
 	RFID.PAR.DataMinLen := 16;					// Mimimum length of RFID data, everything shorter will be ignored	
@@ -47,7 +47,7 @@ PROGRAM _CYCLIC
 				rfid_state := SetToken;
 			END_IF
 			// Refresh USB data every X seconds when enabled
-			IF RFID.CMD.AutoScan = TRUE THEN
+			IF RFID.CMD.ReaderEnable = TRUE THEN
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Get new RFID data
 				TimerAutoScan(IN:=1, PT:=RFID.PAR.RefreshInterval);
@@ -251,14 +251,17 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF UsbNodeListGet_0.status = 0 THEN
+				RFID.DAT.Status := 'Device found';
 				rfid_state := ReadDeviceData;
 				// No USB devices found
 			ELSIF UsbNodeListGet_0.status = asusbERR_USB_NOTFOUND THEN
-				// Unlink old device if it is gone now otherwise IdleRFID for next round
+				// Unlink old device if it is gone now otherwise report error
 				IF(RFID.DAT.IsConnected) THEN
 					rfid_state := CloseDevice;
 				ELSE
-					rfid_state := IdleRFID;
+					RFID.ERR.Number := UsbNodeListGet_0.status;
+					RFID.DAT.Status := 'No USB reader detected';
+					rfid_state := ErrorRFID;  
 				END_IF
 				// Error
 			ELSIF UsbNodeListGet_0.status <> ERR_FUB_BUSY THEN
@@ -350,6 +353,7 @@ PROGRAM _CYCLIC
 				rfid_state := DataWrite;
 			ELSE
 				RFID.DAT.IsConnected := TRUE;
+				RFID.DAT.Status := 'Reader connected';
 				rfid_state := IdleRFID;
 			END_IF;			
 		
@@ -462,7 +466,7 @@ PROGRAM _CYCLIC
 			// Success
 			IF FRM_close_0.status = 0 THEN
 				RFID.DAT.IsConnected := FALSE;
-				IF(RFID.CMD.AutoScan) THEN
+				IF(RFID.CMD.ReaderEnable) THEN
 					rfid_init := 0;
 					rfid_state := InitDevice;
 				ELSE
@@ -478,7 +482,7 @@ PROGRAM _CYCLIC
 		// -----------------------------------------------------------------------------------------------------------	
 		ErrorRFID:
 			// Reset commands
-			RFID.CMD.AutoScan := FALSE;
+			RFID.CMD.ReaderEnable := FALSE;
 			RFID.CMD.TokenAssign := FALSE;
 			RFID.CMD.TokenRemove := FALSE;
 			RFID.DAT.IsConnected := FALSE;

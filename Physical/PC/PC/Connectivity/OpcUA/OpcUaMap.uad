@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<OpcUaSource FileVersion="4" ArVersion="D4.52">
+<OpcUaSource FileVersion="4" ArVersion="B4.53">
   <Aliases>
     <ACLAliases>
       <ACL Id="1">
@@ -24,9 +24,7 @@
         </Variable>
         <Variable Name="RFID" AutomaticEnable="True" />
       </GlobalVariables>
-      <Task Name="UserManage">
-        <Variable Name="UserManagementState" />
-      </Task>
+      <Task Name="UserManage" />
     </Module>
   </DefaultView>
 </OpcUaSource>

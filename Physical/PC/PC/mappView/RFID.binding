@@ -25,9 +25,31 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.PAR.AutoLogin" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="chkRFIDenable" attribute="value" />
 		</Binding>
-  <Binding mode="twoWay">
+  
+
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.Status" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtReaderState" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
 <Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.IsConnected" attribute="value" />
-<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="grpRFID" attribute="enable" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="chkRFIDenable" attribute="enable" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.IsConnected" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="chkRFIDscan" attribute="enable" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.IsConnected" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnUserAssignToken" attribute="enable" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.IsConnected" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnUserRemoveToken" attribute="enable" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.CMD.ReaderEnable" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="chkRFIDscan" attribute="value" />
 </Binding>
 </Bindings>
 </BindingsSet>
