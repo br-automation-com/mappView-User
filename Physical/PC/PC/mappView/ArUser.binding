@@ -27,10 +27,8 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserRole" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstRoles" attribute="selectedValue" />
 		</Binding>
-		<Binding mode="twoWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.UserName" attribute="value" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameManagment" attribute="value" />
-		</Binding>
+		
+		
 		<Binding mode="twoWay">
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.Password" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPassword1Managment" attribute="value" />
@@ -63,9 +61,13 @@
 			<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.VIS.UserDeleteEnabled" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnRenameUser" attribute="enable" />
 		</Binding>
-		<Binding mode="twoWay">
-			<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameLogin" attribute="value" />
-		</Binding>
-	</Bindings>
+	<Binding mode="twoWay">
+<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameLogin" attribute="value" />
+</Binding>
+<Binding mode="twoWay">
+<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserNameManagment" attribute="value" />
+</Binding>
+</Bindings>
 </BindingsSet>
