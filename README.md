@@ -57,7 +57,7 @@ RFID
   * Number -> Error number
   * State -> State where the error occurred
 
-# Assign new token to user
+### Assign a token to user
 1.	Select the user to which the token should be assigned. If this is a new user create the user with an empty password first
 2.	Present the token to the reader, a message box should indicate that this token is not assigned to any user yet
 
@@ -68,6 +68,8 @@ RFID
 
 ![](/Logical/mappView/Resources/Media/RFID1.png)
 
+### Remove token from user
+If the token is removed from a user the password will be set identically to the user name. Remember to change the password to something more advanced after removing the token from a user.
 
 <a name="Limitations"></a>
 ## Limitations
