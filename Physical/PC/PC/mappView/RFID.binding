@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <BindingsSet id="RFID_binding" xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Bindings>
 		<Binding mode="oneWay">
@@ -18,7 +18,7 @@
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedIndex" />
 		</Binding>
 		<Binding mode="twoWay">
-			<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.PAR.IsConnected" attribute="value" />
+			<Source xsi:type="opcUa" refId="::AsGlobalPV:RFID.DAT.IsConnected" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="chkRFIDconnected" attribute="value" />
 		</Binding>
 		<Binding mode="twoWay">

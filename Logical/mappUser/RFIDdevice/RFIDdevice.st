@@ -54,7 +54,7 @@ PROGRAM _CYCLIC
 				IF(TimerAutoScan.Q) THEN
 					TimerAutoScan(IN:=0);
 					node := 0;
-					IF(RFID.PAR.IsConnected) THEN
+					IF(RFID.DAT.IsConnected) THEN
 						data_write := REQ_ACTIVE;
 						callback := IdleRFID;
 						rfid_state := DataWrite;
@@ -66,7 +66,7 @@ PROGRAM _CYCLIC
 				
 				// --------------------------------------------------------------------------------------------------------------------	
 				// When RFID reader is connected
-				IF RFID.PAR.IsConnected = TRUE THEN
+				IF RFID.DAT.IsConnected = TRUE THEN
 					// --------------------------------------------------------------------------------------------------------------------	
 					// Assign token to user
 					IF (RFID.CMD.TokenAssign) THEN
@@ -94,7 +94,7 @@ PROGRAM _CYCLIC
 						brsmemset(ADR(data_read), 0, SIZEOF(data_read));
 						brsmemcpy(ADR(data_read), FRM_read_0.buffer, FRM_read_0.buflng);
 						// Make sure data is valid
-						IF(RFID.PAR.IsConnected AND brsmemcmp(ADR(data_read), ADR('[,'), 2) <> 0) THEN
+						IF(RFID.DAT.IsConnected AND brsmemcmp(ADR(data_read), ADR('[,'), 2) <> 0) THEN
 							// Remove unwanted characters from token data
 							idx := 0;
 							REPEAT
@@ -148,7 +148,7 @@ PROGRAM _CYCLIC
 					RFID.CMD.TokenAssign := FALSE;
 				END_IF
 				// Close USB connection
-			ELSIF RFID.PAR.IsConnected = TRUE THEN
+			ELSIF RFID.DAT.IsConnected = TRUE THEN
 				rfid_state := CloseDevice;
 			ELSE
 				RFID.CMD.TokenAssign := FALSE;
@@ -255,7 +255,7 @@ PROGRAM _CYCLIC
 				// No USB devices found
 			ELSIF UsbNodeListGet_0.status = asusbERR_USB_NOTFOUND THEN
 				// Unlink old device if it is gone now otherwise IdleRFID for next round
-				IF(RFID.PAR.IsConnected) THEN
+				IF(RFID.DAT.IsConnected) THEN
 					rfid_state := CloseDevice;
 				ELSE
 					rfid_state := IdleRFID;
@@ -296,7 +296,7 @@ PROGRAM _CYCLIC
 		// -----------------------------------------------------------------------------------------------------------			
 		CheckDevice:
 			// Check if device is already linked
-			IF(RFID.PAR.IsConnected) THEN
+			IF(RFID.DAT.IsConnected) THEN
 				// Device is already linked, return to IdleRFID state
 				IF(brsmemcmp(ADR(usb_data_linked), ADR(usb_data[idx]), SIZEOF(usb_data[idx])) = 0) THEN
 					rfid_state := IdleRFID;
@@ -349,7 +349,7 @@ PROGRAM _CYCLIC
 				rfid_init := rfid_init + 1;
 				rfid_state := DataWrite;
 			ELSE
-				RFID.PAR.IsConnected := TRUE;
+				RFID.DAT.IsConnected := TRUE;
 				rfid_state := IdleRFID;
 			END_IF;			
 		
@@ -367,7 +367,7 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF FRM_write_0.status = 0 THEN
-				IF RFID.PAR.IsConnected THEN
+				IF RFID.DAT.IsConnected THEN
 					rfid_state := callback;
 				ELSE
 					rfid_state := DataRead;
@@ -461,7 +461,7 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF FRM_close_0.status = 0 THEN
-				RFID.PAR.IsConnected := FALSE;
+				RFID.DAT.IsConnected := FALSE;
 				IF(RFID.CMD.AutoScan) THEN
 					rfid_init := 0;
 					rfid_state := InitDevice;
@@ -481,7 +481,7 @@ PROGRAM _CYCLIC
 			RFID.CMD.AutoScan := FALSE;
 			RFID.CMD.TokenAssign := FALSE;
 			RFID.CMD.TokenRemove := FALSE;
-			RFID.PAR.IsConnected := FALSE;
+			RFID.DAT.IsConnected := FALSE;
 
 			// Reset error
 			IF(RFID.CMD.ErrorReset) THEN

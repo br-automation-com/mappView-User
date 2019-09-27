@@ -33,13 +33,13 @@ TYPE
 	END_STRUCT;
 	rfidPAR : 	STRUCT 
 		RefreshInterval : UINT; (*Intervall timer for USB device refresh*)
-		IsConnected : BOOL; (*Shows if a USB stick is connected*)
 		DataMinLen : UDINT;
 		AutoLogin : BOOL;
 		UserName : STRING[40];
 		Password : STRING[40];
 	END_STRUCT;
 	rfidDAT : 	STRUCT 
+		IsConnected : BOOL; (*Shows if a USB stick is connected*)
 		Data : STRING[80];
 		Cnt : UDINT;
 		Status : STRING[80];
