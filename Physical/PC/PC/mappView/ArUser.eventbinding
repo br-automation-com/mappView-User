@@ -225,7 +225,7 @@
 		</EventBinding>
 		
 		<!-- Logout />-->
-		<EventBinding id="contentUser.btnLogoutButton.Click">
+		<EventBinding id="contentUser.btnLogoutButton.ClickArUser">
 			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
 			<EventHandler>
 				<!-- Delete user name and password />-->
