@@ -9,10 +9,12 @@
   </Navigations>  
   <BindingsSets>
 		<BindingsSet refId="ArUser_binding" />
+		<BindingsSet refId="RFID_binding" />
 	</BindingsSets>
   <EventBindingsSets>
     <EventBindingsSet refId="ArUser_eventbinding" />
-  </EventBindingsSets>
+	<EventBindingsSet refId="RFID_eventbinding" />
+	</EventBindingsSets>
   <Dialogs>
     <!--<Dialog refId="dialogOK" />-->
   </Dialogs>

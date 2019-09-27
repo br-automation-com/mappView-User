@@ -1,6 +1,7 @@
 Version 0.4
 - Software structure change to work with future expansion
 - Make sure passwords match before user is created
+- Added support for RFID reader
 
 Version 0.3
 - Automatically set password when new user is created

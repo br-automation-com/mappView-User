@@ -1,0 +1,46 @@
+(*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*)
+(*Local functions*)
+VAR
+	TimerAutoScan : TON_10ms; (*Scan timer for tokens*)
+	TimerTimeout : TON_10ms; (*Timeout for read response*)
+	UsbNodeListGet_0 : UsbNodeListGet; (*Type of FUB UsbNodeListGet*)
+	UsbNodeGet_0 : UsbNodeGet; (*Type of FUB UsbNodeGet*)
+	FRM_xopen_0 : FRM_xopen;
+	FRM_write_0 : FRM_write;
+	FRM_read_0 : FRM_read;
+	FRM_rbuf_0 : FRM_rbuf;
+	FRM_robuf_0 : FRM_robuf;
+	FRM_close_0 : FRM_close;
+	ArUserSetPassword_0 : ArUserSetPassword;
+	ArUserSetToken_0 : ArUserSetToken;
+	ArUserAuthToken_0 : ArUserAuthenticateToken;
+END_VAR
+(*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*)
+(*Local variables*)
+VAR
+	rfid_state : rfidManagementEnum := IdleRFID; (*State machine for RFID readet*)
+	rfid_init : USINT; (*Init state*)
+	callback : rfidManagementEnum; (*Return state after write*)
+	usb_data : ARRAY[0..4] OF usbNode_typ; (*Data of all available USB devices*)
+	usb_data_linked : usbNode_typ; (*Data of the linked device*)
+	data_write : STRING[80]; (*Write data buffer*)
+	data_read : STRING[80]; (*Read data buffer*)
+	node_id_buffer : ARRAY[0..4] OF UDINT; (*Different nodeIDs saved in array-elements*)
+	node : USINT; (*Node number*)
+	idx : USINT;
+	tmpTokenOld : STRING[80];
+	ArUserNameLen : UDINT;
+	ArUserNameAdr : UDINT;
+	ArUserPasswordLen : UDINT;
+	ArUserPasswordAdr : UDINT;
+END_VAR
+(*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*)
+(*RFID configuration constants*)
+VAR
+	CFG_ACTIVE : ARRAY[0..9] OF STRING[30];
+	REQ_ACTIVE : STRING[30];
+END_VAR
+VAR CONSTANT
+	CFG_5C9010_29 : ARRAY[0..3] OF STRING[30] := ['010A0003041800260000','010C00030410002101000000','0109000304F0000000','0109000304F1FF0000']; (*Reset to Ready, set protocol, set AGC, set receiver mode*)
+	REQ_5C9010_29 : STRING[30] := '010B000304140401000000'; (*Acquire the unique token ID*)
+END_VAR

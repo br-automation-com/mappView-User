@@ -5,6 +5,7 @@
     <Object Type="File">UserTypes.typ</Object>
     <Object Type="File">UserVariables.var</Object>
     <Object Type="Program" Language="IEC">UserManagement</Object>
+    <Object Type="Program" Language="IEC" Description="Sample for all AsUSB-Library-Functions">RFIDdevice</Object>
     <Object Type="File">changelog.txt</Object>
     <Object Type="File">HowToImport.pdf</Object>
   </Objects>

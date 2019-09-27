@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<?AutomationStudio Version=4.5.3.86 SP?>
+<Package SubType="mappViewControl" PackageType="mappViewControl" xmlns="http://br-automation.co.at/AS/Package">
+  <Objects>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\Config.mappviewcfg</Object>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\Visualizat.vis</Object>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\ArUser.eventbinding</Object>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\ArUser.binding</Object>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\RFID.eventbinding</Object>
+    <Object Type="File" Reference="true">\Physical\PC\PC\mappView\RFID.binding</Object>
+  </Objects>
+</Package>

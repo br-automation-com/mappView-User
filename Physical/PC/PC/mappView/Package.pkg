@@ -2,9 +2,11 @@
 <?AutomationStudio Version=4.5.3.86 SP?>
 <Package SubType="mappViewControl" PackageType="mappViewControl" xmlns="http://br-automation.co.at/AS/Package">
   <Objects>
-    <Object Type="File">Visualizat.vis</Object>
     <Object Type="File">Config.mappviewcfg</Object>
-    <Object Type="File">ArUser.binding</Object>
+    <Object Type="File">Visualizat.vis</Object>
     <Object Type="File">ArUser.eventbinding</Object>
+    <Object Type="File">ArUser.binding</Object>
+    <Object Type="File">RFID.eventbinding</Object>
+    <Object Type="File">RFID.binding</Object>
   </Objects>
 </Package>

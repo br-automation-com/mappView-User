@@ -22,8 +22,11 @@
             <Variable Name="ListRoles" EnableArrayElements="True" />
           </Variable>
         </Variable>
+        <Variable Name="RFID" AutomaticEnable="True" />
       </GlobalVariables>
-      <Task Name="UserManage" />
+      <Task Name="UserManage">
+        <Variable Name="UserManagementState" />
+      </Task>
     </Module>
   </DefaultView>
 </OpcUaSource>

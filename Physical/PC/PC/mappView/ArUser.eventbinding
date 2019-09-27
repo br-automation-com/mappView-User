@@ -36,7 +36,7 @@
 				</Action>
 			</EventHandler>
 		</EventBinding>
-		
+			
 		<!-- Change user name />-->
 		<EventBinding id="contentUser.btnRenameUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnRenameUser" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -225,7 +225,7 @@
 		</EventBinding>
 		
 		<!-- Logout />-->
-		<EventBinding id="contentUser.btnLogoutButton.Click">
+		<EventBinding id="contentUser.btnLogoutButton.Click.ArUser">
 			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
 			<EventHandler>
 				<!-- Delete user name and password />-->
