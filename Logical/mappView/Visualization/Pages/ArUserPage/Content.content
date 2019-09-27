@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Content id="contentUser" height="800" width="1200" xmlns="http://www.br-automation.com/iat2015/contentDefinition/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Widgets>
     <Widget xsi:type="widgets.brease.GroupBox" id="grpUserManagment" top="380" left="10" width="610" height="235" zIndex="0" text="User Managment">
@@ -56,7 +56,7 @@
       <Widgets>
         <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDenable" top="68" left="9" width="165" zIndex="0" imageAlign="right" text="Enable auto login" textAlign="right" />
         <Widget xsi:type="widgets.brease.Label" id="labTokenData" top="18" left="4" width="130" zIndex="1" text="Token data" />
-        <Widget xsi:type="widgets.brease.Button" id="btnUserSetToken" top="13" left="379" width="200" height="40" zIndex="2" text="Set Token" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnUserAssignToken" top="13" left="379" width="200" height="40" zIndex="2" text="AssignToken" cornerRadius="10px" />
         <Widget xsi:type="widgets.brease.TextOutput" id="txtUserTokenData" top="18" left="149" width="211" zIndex="3" borderWidth="1px" borderStyle="solid" />
         <Widget xsi:type="widgets.brease.Button" id="btnUserRemoveToken" top="68" left="379" width="200" height="40" zIndex="4" text="Remove Token" cornerRadius="10px" />
       </Widgets>
