@@ -4,5 +4,7 @@
   <Objects>
     <Object Type="File">forward.svg</Object>
     <Object Type="File">screenshot.png</Object>
+    <Object Type="File">RFID1.png</Object>
+    <Object Type="File">RFID2.png</Object>
   </Objects>
 </Package>

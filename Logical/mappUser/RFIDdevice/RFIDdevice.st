@@ -18,8 +18,8 @@ PROGRAM _INIT
 	
 	// -----------------------------------------------------------------------------------------------------------
 	// Use configuration for RFID reader 5C9010.29
-	brsmemcpy(ADR(CFG_ACTIVE), ADR(CFG_5C9010_29), SIZEOF(CFG_5C9010_29));		// Active configuration for RFID reader
-	REQ_ACTIVE := REQ_5C9010_29;												// Active command to request token ID
+	brsmemcpy(ADR(CFG_ACTIVE), ADR(CFG_5E9010_29), SIZEOF(CFG_5E9010_29));		// Active configuration for RFID reader
+	REQ_ACTIVE := REQ_5E9010_29;												// Active command to request token ID
 	
 	// -----------------------------------------------------------------------------------------------------------
 	// Use mappUser sample variables when it exists
