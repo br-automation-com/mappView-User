@@ -23,7 +23,7 @@ Recommended task class is #8 with a 10ms cycle time.
 
 <a name="Description"></a>
 ## Description
-The sample consists of two main components. The sample page is used to display all important settings for users and roles. The task UserManagement drives the user managamnet and uses the ArUser library in the backgrounbd. The following functions are currently supported.
+The sample consists of two main components. The sample page is used to display all important settings for users and roles. The task UserManagement drives the user managamnet and uses the ArUser library in the background. The following functions are currently supported.
 
 * Create, rename and delete user
 * Assign and remove roles from users
