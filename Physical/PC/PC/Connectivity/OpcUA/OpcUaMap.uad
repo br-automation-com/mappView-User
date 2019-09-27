@@ -23,9 +23,7 @@
           </Variable>
         </Variable>
       </GlobalVariables>
-      <Task Name="UserManage">
-        <Variable Name="UserManagementState" />
-      </Task>
+      <Task Name="UserManage" />
     </Module>
   </DefaultView>
 </OpcUaSource>

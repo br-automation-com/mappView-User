@@ -1,7 +1,0 @@
-VAR
-	ArUser : typUSER; (*Type for user data management*)
-END_VAR
-VAR CONSTANT
-	MaxUserRoles : USINT := 20;
-	MaxUserNames : USINT := 50;
-END_VAR

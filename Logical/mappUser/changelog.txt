@@ -1,3 +1,7 @@
+Version 0.4
+- Software structure change to work with future expansion
+- Make sure passwords match before user is created
+
 Version 0.3
 - Automatically set password when new user is created
 - Erase password field when user logs out

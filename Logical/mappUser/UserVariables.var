@@ -1,0 +1,9 @@
+VAR CONSTANT
+	MaxUserRoles : USINT := 20;
+	MaxUserNames : USINT := 50;
+END_VAR
+VAR
+	ArUser : userMAIN; (*Type for user data management*)
+	ClientInfoCurrent : ClientInfoType;
+	ClientInfo : ARRAY[0..4] OF ClientInfoType;
+END_VAR
