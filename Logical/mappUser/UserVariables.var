@@ -4,6 +4,4 @@ VAR CONSTANT
 END_VAR
 VAR
 	ArUser : userMAIN; (*Type for user data management*)
-	ClientInfoCurrent : ClientInfoType;
-	ClientInfo : ARRAY[0..4] OF ClientInfoType;
 END_VAR

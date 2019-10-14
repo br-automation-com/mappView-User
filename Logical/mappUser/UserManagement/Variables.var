@@ -17,12 +17,13 @@ VAR
 	tmpUserIdx : USINT;
 	tmpUser : STRING[40];
 	idx : USINT;
+	idy : USINT;
 END_VAR
 (*Loop counter*)
 VAR
 	RoleCounter : USINT; (*LoopCounter for creating the table; 1 = second element of array*)
 	UserCounter : USINT;
-	UserCounterTotal : USINT;
+	UserCounterTotal : ARRAY[0..2] OF USINT;
 END_VAR
 (*List types *)
 VAR CONSTANT
@@ -35,6 +36,8 @@ VAR CONSTANT
 	ERR_PASSWORD_MISMATCH : DINT := 50000;
 	ERR_USER_LIST_TOO_SHORT : DINT := 50001;
 	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002;
+	ERR_DELETE_LAST_USER : DINT := 50003;
+	ERR_RENAME_LAST_USER : DINT := 50004;
 	END_OF_LIST : DINT := -2144327714;
 END_VAR
 VAR

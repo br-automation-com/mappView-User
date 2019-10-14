@@ -55,13 +55,15 @@ ArUser
     * Name -> Name of user
     * Roles -> Roles assigned with user
   * Roles -> A list with all roles in the system
-  * Status -> Shows the last command result or error message
+  * Status -> Shows the result for the last command
   * UserActive -> This is the user that is currently logged in
 * VIS -> Data specific for the visualization
-  * ListUsers -> Data provider for list box
-  * ListUsersIndex -> Index for user list box
-  * ListRoles -> Data provider for list box
-  * ListRolesIndex -> Index for role list box
+  * ListUsers -> Data provider of list box for all users
+  * ListUsersIndex -> Index of user list box for all users
+  * ListUserRole -> Data provider of list box for selected user roles
+  * ListUserRoleIndex -> Index of user list box for selected user roles
+  * ListRoles -> Data provider of list box for all roles
+  * ListRolesIndex -> Index of role list box for all roles
   * RoleDeleteEnabled -> Enables/Disables the button to delete a role
   * UserDeleteEnabled -> Enables/Disables the button to delete or rename a user
   * ShowMessageBoxOK -> Show a message box when command was successful

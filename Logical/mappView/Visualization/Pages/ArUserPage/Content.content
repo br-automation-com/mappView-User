@@ -35,7 +35,7 @@
     <Widget xsi:type="widgets.brease.GroupBox" id="grpExportUserdata" top="440" left="10" width="610" height="175" zIndex="2" text="Import and export user data">
       <Widgets>
         <Widget xsi:type="widgets.brease.Label" id="labExportUsers" top="23" left="4" width="95" zIndex="0" text="Path" />
-        <Widget xsi:type="widgets.brease.TextInput" id="txtExportPath" top="23" left="104" width="461" zIndex="1" cornerRadius="3px" />
+        <Widget xsi:type="widgets.brease.TextInput" id="txtFilePath" top="23" left="104" width="461" zIndex="1" value="c:\Temp\UserDataExport.txt" cornerRadius="3px" />
         <Widget xsi:type="widgets.brease.Button" id="btnExportUserData" top="68" left="104" width="200" height="40" zIndex="2" text="Export User Data" cornerRadius="10px" />
         <Widget xsi:type="widgets.brease.Button" id="btnImportUserData" top="68" left="364" width="200" height="40" zIndex="3" text="Import User Data" cornerRadius="10px" />
       </Widgets>

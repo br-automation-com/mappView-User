@@ -3,16 +3,16 @@
 // - Create,rename and delete user
 // - Create and delete roles
 // - Change password and assign roles to users
-// - Ecport and import user data
-// Version 0.3
+// - Export and import user data
+// Version 0.5
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
 	ArUser.PAR.FilePath := 'c:\Temp\UserDataExport.txt';			// Where to export user data
-	ArUser.CMD.ListRefresh	:= TRUE;
+	ArUser.CMD.ListRefresh	:= TRUE;								// Refresh user data on boot
 END_PROGRAM
 
 PROGRAM _CYCLIC
-
+	
 	// --------------------------------------------------------------------------------------------------------------------
 	// Main  machine
 	// --------------------------------------------------------------------------------------------------------------------
@@ -21,33 +21,35 @@ PROGRAM _CYCLIC
 		// IdleUser 
 		// --------------------------------------------------------------------------------------------------------------------
 		IdleUser:
-			// --------------------------------------------------------------------------------------------------------------------
-			// Create role list for current user
-			idx := 0;
-			brsmemset(ADR(ArUser.VIS.ListUserRole), 0, SIZEOF(ArUser.VIS.ListUserRole));			
-			WHILE brsstrcmp(ADR(ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[idx]), ADR('')) <> 0 DO
-				ArUser.VIS.ListUserRole[idx] := '{"value":"';
-				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[idx]));
-				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR('","text":"'));	
-				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[idx]));
-				brsstrcat(ADR(ArUser.VIS.ListUserRole[idx]), ADR('"}'));
-				idx := idx + 1;
-			END_WHILE;
-			// Make sure we dont delete last user role
-			IF(idx > 1) THEN
-				ArUser.VIS.RoleDeleteEnabled := TRUE;
-			ELSE
-				ArUser.VIS.RoleDeleteEnabled := FALSE;
-			END_IF
-			// Make sure we dont delete or rename the user that is logged in or last user
-			IF(brsstrcmp(ADR(ArUser.PAR.UserName), ADR(ArUser.DAT.UserActive)) <> 0 AND UserCounterTotal > 1) THEN				
-				ArUser.VIS.UserDeleteEnabled := TRUE;
-			ELSE
-				ArUser.VIS.UserDeleteEnabled := FALSE;
-			END_IF
+			FOR idy:=0 TO SIZEOF(ArUser.VIS)/SIZEOF(ArUser.VIS[0])-1 DO
+				// --------------------------------------------------------------------------------------------------------------------
+				// Create role list for current user
+				idx := 0;
+				brsmemset(ADR(ArUser.VIS[idy].ListUserRole), 0, SIZEOF(ArUser.VIS[idy].ListUserRole));			
+				WHILE brsstrcmp(ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]), ADR('')) <> 0 DO
+					ArUser.VIS[idy].ListUserRole[idx] := '{"value":"';
+					brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
+					brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('","text":"'));	
+					brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
+					brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('"}'));
+					idx := idx + 1;
+				END_WHILE;
+				// Make sure we dont delete last user role
+				IF(idx > 1) THEN
+					ArUser.VIS[idy].RoleDeleteEnabled := TRUE;
+				ELSE
+					ArUser.VIS[idy].RoleDeleteEnabled := FALSE;
+				END_IF
+				// Make sure we dont delete last user
+				IF(UserCounterTotal[idy] > 1) THEN				
+					ArUser.VIS[idy].UserDeleteEnabled := TRUE;
+				ELSE
+					ArUser.VIS[idy].UserDeleteEnabled := FALSE;
+				END_IF	 
+			END_FOR;			
 	
 			// --------------------------------------------------------------------------------------------------------------------
-			// Wait for new command
+			// Create new user
 			IF  (ArUser.CMD.UserCreate) THEN
 				// Make sure passwords match before user is created
 				IF((ArUser.PAR.Password <> '' OR ArUser.PAR.PasswordRepeat <> '') AND ArUser.PAR.Password <> ArUser.PAR.PasswordRepeat) THEN
@@ -59,33 +61,55 @@ PROGRAM _CYCLIC
 					ArUserCreate_0(Execute := FALSE);
 					UserManagementState := CreateUser;
 				END_IF
+			// Assign role to user
 			ELSIF (ArUser.CMD.RoleAssign) THEN
 				tmpUser := ArUser.PAR.UserName;
 				ArUserAssignRole_0(Execute := FALSE);
-				ArUser.PAR.UserRole := ArUser.DAT.Roles[ArUser.VIS.ListRoleIndex];
+				ArUser.PAR.UserRole := ArUser.DAT.Roles[ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoleIndex];
 				UserManagementState := AssignRole;
+			// Remove role from user
 			ELSIF (ArUser.CMD.RoleRemove) THEN	
 				ArUserReleaseRole_0(Execute := FALSE);
-				ArUser.PAR.UserRole := ArUser.DAT.Users[ArUser.VIS.ListUserIndex].Roles[ArUser.VIS.ListUserRoleIndex];
-				UserManagementState := ReleaseRole;				
+				ArUser.PAR.UserRole := ArUser.DAT.Users[ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserIndex].Roles[ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserRoleIndex];
+				UserManagementState := ReleaseRole;
+			// Delete user
 			ELSIF (ArUser.CMD.UserDelete) THEN
-				ArUserDelete_0(Execute := FALSE);
-				UserManagementState := DeleteUser;
+				// Make sure we dont delete user that is logged in
+				IF(brsstrcmp(ADR(ArUser.DAT.UserActive[ArUser.PAR.VisuSlotID]), ADR(ArUser.PAR.UserName)) = 0) THEN
+					ArUser.ERR.Number := ERR_DELETE_LAST_USER;
+					ArUser.ERR.State := UserManagementState;
+					UserManagementState := ErrorUser;
+				ELSE
+					ArUserDelete_0(Execute := FALSE);
+					UserManagementState := DeleteUser;
+				END_IF
+			// Rename user
 			ELSIF (ArUser.CMD.UserRename) THEN
-				ArUserGetProperty_0(Execute := FALSE);	
-				ArUserSetProperty_0(Execute := FALSE);	
-				ArUserAssignRole_0(Execute := FALSE);
-				ArUserDelete_0(Execute := FALSE);
-				UserManagementState := RenameUser;
+				// Make sure we dont delete user that is logged in
+				IF(brsstrcmp(ADR(ArUser.DAT.UserActive[ArUser.PAR.VisuSlotID]), ADR(ArUser.PAR.UserName)) = 0) THEN
+					ArUser.ERR.Number := ERR_RENAME_LAST_USER;
+					ArUser.ERR.State := UserManagementState;
+					UserManagementState := ErrorUser;
+				ELSE
+					ArUserGetProperty_0(Execute := FALSE);	
+					ArUserSetProperty_0(Execute := FALSE);	
+					ArUserAssignRole_0(Execute := FALSE);
+					ArUserDelete_0(Execute := FALSE);
+					UserManagementState := RenameUser;
+				END_IF
+			// Export user data
 			ELSIF (ArUser.CMD.Export) THEN
 				ArUserExport_0(Execute := FALSE);
 				UserManagementState := ExportList;
+			// Import user data
 			ELSIF (ArUser.CMD.Import) THEN
 				ArUserImport_0(Execute := FALSE);
 				UserManagementState := ImportList;
+			// Change user password
 			ELSIF (ArUser.CMD.PasswordChange) THEN
 				ArUserSetPassword_0(Execute := FALSE);	
 				UserManagementState := ComparePassword;				
+			// Refresh user list
 			ELSIF (ArUser.CMD.ListRefresh) THEN
 				tmpUser := '';
 				UserManagementState := CreateUserListGetFirst;
@@ -111,7 +135,9 @@ PROGRAM _CYCLIC
 			IF ArUserCreate_0.Done AND NOT ArUserCreate_0.Busy THEN
 				// Create new user 
 				IF(ArUser.CMD.UserCreate) THEN
-					ArUser.DAT.Status := 'User created';				
+					ArUser.DAT.Status := 'User ';				
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(' created'));					
 					// Set password when it exists
 					IF ArUser.PAR.Password <> '' THEN
 						UserManagementState := ComparePassword;
@@ -140,7 +166,10 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF ArUser.CMD.RoleAssign AND ArUserAssignRole_0.Done AND NOT ArUserAssignRole_0.Busy THEN
-				ArUser.DAT.Status := 'Role assigned to user';
+				ArUser.DAT.Status := 'Role >';
+				brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserRole));
+				brsstrcat(ADR(ArUser.DAT.Status), ADR('< assigned to user '));
+				brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
 				ArUser.PAR.UserName := '';
 				UserManagementState := CreateUserListGetFirst;
 			ELSIF ArUser.CMD.UserRename AND ((ArUserAssignRole_0.Done AND NOT ArUserAssignRole_0.Busy) OR (ArUserAssignRole_0.ErrorID = arUSER_ERR_ALREADY_EXISTS)) THEN
@@ -169,7 +198,10 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Success
 			IF ArUserReleaseRole_0.Done AND NOT ArUserReleaseRole_0.Busy THEN	
-				ArUser.DAT.Status := 'Role removed from user';
+				ArUser.DAT.Status := 'Role >';
+				brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserRole));
+				brsstrcat(ADR(ArUser.DAT.Status), ADR('< removed from user '));
+				brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
 				tmpUser := ArUser.PAR.UserName;
 				ArUser.PAR.UserName := '';
 				UserManagementState := CreateUserListGetFirst;	
@@ -191,11 +223,17 @@ PROGRAM _CYCLIC
 			IF ArUserDelete_0.Done AND NOT ArUserDelete_0.Busy THEN
 				// User delete command
 				IF ArUser.CMD.UserDelete THEN
-					ArUser.DAT.Status := 'User deleted';
+					ArUser.DAT.Status := 'User >';
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
+					brsstrcat(ADR(ArUser.DAT.Status), ADR('< deleted'));					
 					tmpUser := '';
 				// User rename command
 				ELSE			
-					ArUser.DAT.Status := 'User renamed';
+					ArUser.DAT.Status := 'User ';
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(' renamed to >'));					
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserNameNew));
+					brsstrcat(ADR(ArUser.DAT.Status), ADR('<'));					
 					ArUser.PAR.UserName := '';
 				END_IF
 				UserManagementState := CreateUserListGetFirst;
@@ -284,7 +322,7 @@ PROGRAM _CYCLIC
 			IF ArUserExport_0.Done AND NOT ArUserExport_0.Busy THEN
 				ArUser.DAT.Status := 'Export finished';
 				ArUser.CMD.Export := FALSE;
-				ArUser.VIS.ShowMessageBoxOK := TRUE;
+				ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 				UserManagementState := IdleUser;						
 			// Error
 			ELSIF ArUserExport_0.Error THEN
@@ -304,7 +342,7 @@ PROGRAM _CYCLIC
 			IF ArUserImport_0.Done AND NOT ArUserImport_0.Busy THEN
 				ArUser.DAT.Status := 'Import finished';
 				ArUser.CMD.Import := FALSE;
-				ArUser.VIS.ShowMessageBoxOK := TRUE;
+				ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 				UserManagementState := CreateUserListGetFirst;						
 			// Error
 			ELSIF ArUserImport_0.Error THEN
@@ -338,9 +376,11 @@ PROGRAM _CYCLIC
 			// Success
 			IF ArUserSetPassword_0.Done AND NOT ArUserSetPassword_0.Busy THEN
 				IF ArUser.CMD.PasswordChange THEN
-					ArUser.DAT.Status := 'Password changed!';
+					ArUser.DAT.Status := 'Password for user >';
+					brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserName));
+					brsstrcat(ADR(ArUser.DAT.Status), ADR('< changed'));					
 					ArUser.CMD.PasswordChange := FALSE;
-					ArUser.VIS.ShowMessageBoxOK := TRUE;
+					ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 					UserManagementState := IdleUser;
 				ELSE
 					UserManagementState := CreateUserListGetFirst;					
@@ -369,23 +409,23 @@ PROGRAM _CYCLIC
 				IF ArUserGetFirst_0.Done THEN
 					// Clear data, store user name and generate data provider for vis
 					brsmemset(ADR(ArUser.DAT.Users), 0, SIZEOF(ArUser.DAT.Users));
-					brsmemset(ADR(ArUser.VIS.ListUsers), 0, SIZEOF(ArUser.VIS.ListUsers));
-					brsmemset(ADR(ArUser.VIS.ListRoles), 0, SIZEOF(ArUser.VIS.ListRoles));
+					brsmemset(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers), 0, SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers));
+					brsmemset(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles), 0, SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles));
 					UserCounter := 0;																
 
 					ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
-					ArUser.VIS.ListUsers[UserCounter] := '{"value":"';
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR('","text":"'));
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR('"}'));
+					ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
 
 					// Reset function block and init counters
 					ArUserGetFirst_0(Execute := FALSE);
 					UserCounter := 1;																
 					RoleCounter := 0;															
 					UserManagementState := CreateUserListGetNext;
-					// Error
+				// Error
 				ELSIF ArUserGetFirst_0.Error THEN
 					ArUser.ERR.Number := ArUserGetFirst_0.ErrorID;
 					ArUser.ERR.State := UserManagementState;
@@ -404,11 +444,11 @@ PROGRAM _CYCLIC
 				IF ArUserGetNext_0.Done THEN
 					// Store user name and generate data provider for vis
 					ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
-					ArUser.VIS.ListUsers[UserCounter] := '{"value":"';
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR('","text":"'));	
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-					brsstrcat(ADR(ArUser.VIS.ListUsers[UserCounter]), ADR('"}'));
+					ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));	
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
 					// Reset function block and get next name
 					ArUserGetNext_0(Execute := FALSE);
 					UserCounter := UserCounter + 1;
@@ -423,7 +463,7 @@ PROGRAM _CYCLIC
 					ArUserGetNext_0(Execute := FALSE);
 					ArUserGetFirst_0(Execute := FALSE);
 					ArUserInitList_0(Execute := FALSE);
-					UserCounterTotal := UserCounter;
+					UserCounterTotal[ArUser.PAR.VisuSlotID] := UserCounter;
 					UserCounter := 0;																
 					RoleCounter := 0;
 					UserManagementState := RoleListInitList;
@@ -473,7 +513,7 @@ PROGRAM _CYCLIC
 			IF ArUserGetNext_0.Done THEN				
 				ArUser.DAT.Users[UserCounter].Roles[RoleCounter] := ArUserGetNext_0.ElementName;
 				ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
-				//				UserCounter := UserCounter + 1;
+				//	UserCounter := UserCounter + 1;
 				RoleCounter := RoleCounter + 1;
 			// List is complete
 			ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN					
@@ -504,11 +544,11 @@ PROGRAM _CYCLIC
 				IF ArUserGetFirst_0.Done THEN
 					// Store role names and generate data provider for vis
 					ArUser.DAT.Roles[RoleCounter] := ArUserGetFirst_0.ElementName;
-					ArUser.VIS.ListRoles[RoleCounter] := '{"value":"';
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR('","text":"'));
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR('"}'));
+					ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
 					// Reset function block and init counters
 					ArUserGetFirst_0(Execute := FALSE);
 					RoleCounter := 1;
@@ -535,11 +575,11 @@ PROGRAM _CYCLIC
 				IF ArUserGetNext_0.Done THEN
 					// Store user name and generate data provider for vis
 					ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
-					ArUser.VIS.ListRoles[RoleCounter] := '{"value":"';
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR('","text":"'));	
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-					brsstrcat(ADR(ArUser.VIS.ListRoles[RoleCounter]), ADR('"}'));
+					ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));	
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
+					brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
 					// Reset function block and get next name
 					ArUserGetNext_0(Execute := FALSE);
 					RoleCounter := RoleCounter + 1;
@@ -552,7 +592,7 @@ PROGRAM _CYCLIC
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
 					// Show message box after succesful command except refresh
 					IF(NOT ArUser.CMD.ListRefresh) THEN
-						ArUser.VIS.ShowMessageBoxOK := TRUE;
+						ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 					END_IF
 					// Reset function blocks
 					ArUserGetNext_0(Execute := FALSE);
@@ -563,13 +603,21 @@ PROGRAM _CYCLIC
 					brsmemset(ADR(ArUser.CMD), 0, SIZEOF(ArUser.CMD));
 					// Select last user if possible
 					IF(tmpUser <> '') THEN
-						ArUser.PAR.UserName := tmpUser;
+						ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserValue := tmpUser;
 					ELSE
 						ArUser.PAR.UserName := ArUser.DAT.Users[0].Name;
 					END_IF
+					// Copy user data into all slots on first boot
+					FOR idy:=0 TO SIZEOF(ArUser.VIS)/SIZEOF(ArUser.VIS[0])-1 DO
+						IF(idy <> ArUser.PAR.VisuSlotID) THEN
+							brsmemcpy(ADR(ArUser.VIS[idy].ListUsers), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers), SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers));
+							brsmemcpy(ADR(ArUser.VIS[idy].ListRoles), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles), SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles));
+							UserCounterTotal[idy] := UserCounterTotal[ArUser.PAR.VisuSlotID];
+						END_IF
+					END_FOR
 					UserManagementState := IdleUser;
 				END_IF;			
-			// Error				
+				// Error				
 			ELSE
 				ArUser.ERR.Number := ERR_ROLE_LIST_TOO_SHORT;
 				ArUser.ERR.State := UserManagementState;
@@ -580,7 +628,7 @@ PROGRAM _CYCLIC
 		// Error 
 		// --------------------------------------------------------------------------------------------------------------------					
 		ErrorUser:		
-			ArUser.VIS.ShowMessageBoxError := TRUE;
+			ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxError := TRUE;
 			// --------------------------------------------------------------------------------------------------------------------					
 			// Generate text for most common errors
 			IF(ArUser.ERR.Number = arUSER_ERR_ALREADY_EXISTS) THEN
@@ -595,6 +643,10 @@ PROGRAM _CYCLIC
 				ArUser.DAT.Status := 'ERR: User list is too short';
 			ELSIF(ArUser.ERR.Number = ERR_ROLE_LIST_TOO_SHORT) THEN
 				ArUser.DAT.Status := 'ERR: Role list is too short';
+			ELSIF(ArUser.ERR.Number = ERR_DELETE_LAST_USER) THEN
+				ArUser.DAT.Status := 'ERR: Can not delete user that is logged in';
+			ELSIF(ArUser.ERR.Number = ERR_RENAME_LAST_USER) THEN
+				ArUser.DAT.Status := 'ERR: Can not rename user that is logged in';
 			ELSE
 				ArUser.DAT.Status := 'Error executing command';
 			END_IF							
@@ -608,7 +660,7 @@ PROGRAM _CYCLIC
 			
 				brsmemset(ADR(ArUser.ERR), 0, SIZEOF(ArUser.ERR));
 				ArUser.CMD.ErrorReset := FALSE;
-				ArUser.VIS.ShowMessageBoxError := FALSE;
+				ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxError := FALSE;
 				UserManagementState := IdleUser;
 			END_IF;	
 			brsmemset(ADR(ArUser.CMD), 0, SIZEOF(ArUser.CMD));

@@ -37,7 +37,7 @@ TYPE
 		CMD : userCMD;
 		PAR : userPAR;
 		DAT : userDAT;
-		VIS : userVIS;
+		VIS : ARRAY[0..2]OF userVIS;
 		ERR : userERR;
 	END_STRUCT;
 	userCMD : 	STRUCT 
@@ -59,16 +59,18 @@ TYPE
 		UserRole : STRING[40];
 		Password : STRING[40];
 		PasswordRepeat : STRING[40];
+		VisuSlotID : USINT;
 	END_STRUCT;
 	userDAT : 	STRUCT 
 		Users : ARRAY[0..MaxUserNames]OF userDETAILS;
 		Roles : ARRAY[0..MaxUserRoles]OF STRING[40];
 		Status : STRING[80];
-		UserActive : STRING[40];
+		UserActive : ARRAY[0..2]OF STRING[40];
 	END_STRUCT;
 	userVIS : 	STRUCT 
 		ListUsers : ARRAY[0..MaxUserNames]OF STRING[80];
 		ListUserIndex : UINT;
+		ListUserValue : STRING[80];
 		ListUserRole : ARRAY[0..MaxUserRoles]OF STRING[80];
 		ListUserRoleIndex : UINT;
 		ListRoles : ARRAY[0..MaxUserRoles]OF STRING[80];

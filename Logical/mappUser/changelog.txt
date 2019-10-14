@@ -1,3 +1,6 @@
+Version 0.5
+- Multi client support
+
 Version 0.4
 - Software structure change to work with future expansion
 - Make sure passwords match before user is created
