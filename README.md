@@ -11,7 +11,7 @@ This is a sample project for a user managment with mappView. It uses the B&R lib
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
-The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/UserManagement/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/archive/V0.3.zip)
+The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/mappUser/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/archive/V0.3.zip)
 
 <a name="Requirements"></a>
 ## Requirements
