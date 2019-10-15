@@ -2,8 +2,7 @@
 <BindingsSet xmlns="http://www.br-automation.com/iat2015/binding/engineering/v2" xmlns:be="http://www.br-automation.com/iat2015/bindingListEmbedded/engineering/v2" xmlns:bt="http://www.br-automation.com/iat2015/bindingListTypes/engineering/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ArUser_binding">
 	<Bindings>
 		
-		<!-- Simple direct bindings />-->
-		
+		<!-- Simple direct bindings />-->	
 		<Binding mode="twoWay">
 			<Source xsi:type="brease" contentRefId="contentUser" widgetRefId="txtUserPasswordLogin" attribute="value" />
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnLoginButton" attribute="password" />
