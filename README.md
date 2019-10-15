@@ -31,7 +31,7 @@ The sample consists of two main components. The sample page is used to display a
 * Import export user information
 
 
-The task and mappView visualization use an interface to communicate that can also be used to trigger functions external. The structure looks as follows:
+The sample supports up to 3 concurrent client connections. While the task itself can only execute one command at a time the commands are executed so fast that this should not be an issue. The refresh command may take longer but the response data is distributed to all seesions. The task and mappView visualization use an interface to communicate that can also be used to trigger functions external. The structure looks as follows:
 
 ArUser
 * CMD -> Used to trigger commands like create user, change password, ... A command is triggered by setting it to true, when the command is finished the task will reset the command. This indicates that the command is finished. Do not change any parameters or set another command until the previous command is finished.
@@ -43,23 +43,27 @@ ArUser
   * RoleRemove
   * Import
   * Export
+  * ListRefresh
+  * ErrorReset
 * PAR -> Parameters like user name, file path to export data, ...
-  * FilePath -> This is where import and export files are stored
+  * FilePath -> This is where import and export files are stored. Note that this is the absolute path and not a file device as it would be used for many other functions. Use "F:/" for the user partition.
   * UserName -> The user name affected by a command
   * UserNameNew -> The new user name used when renaming a user
   * UserRole -> The user role used with the assign and remove command
   * Password -> Password used for user create and password change
   * PasswordRepeat -> Must match the password in prvious variable 'Password'
+  * VisuSlotID -> This is the session ID for the current command. This is used to identify where to send response messages.
 * DAT -> User data and roles as well as some status information
   * Users -> A list with all users in the system
     * Name -> Name of user
     * Roles -> Roles assigned with user
   * Roles -> A list with all roles in the system
   * Status -> Shows the result for the last command
-  * UserActive -> This is the user that is currently logged in
-* VIS -> Data specific for the visualization
+  * UserActive -> This is a list of users that are currently logged in
+* VIS -> Data specific for the visualization. The structure is an array, one for each client session
   * ListUsers -> Data provider of list box for all users
   * ListUsersIndex -> Index of user list box for all users
+  * ListUserValue -> Selected user name
   * ListUserRole -> Data provider of list box for selected user roles
   * ListUserRoleIndex -> Index of user list box for selected user roles
   * ListRoles -> Data provider of list box for all roles
@@ -69,16 +73,24 @@ ArUser
   * ShowMessageBoxOK -> Show a message box when command was successful
   * ShowMessageBoxError -> Show a message box when command was not successful
 * ERR -> Information about errors
-  * Number -> Error number
+  * No -> Error number
   * State -> State where the error occurred
+  * Text -> Error text
 
 <a name="Limitations"></a>
 ## Limitations
-* The sample is not yet multi client capable
 * Roles cannot be created or deleted. This is because the permission for roles cannot be changed on the fly.
 
 <a name="Revision-History"></a>
 ## Revision History
+
+#### Version 0.5
+- Multi client support
+- Changed error structure
+
+#### Version 0.4
+- Software structure change to work with future expansion
+- Make sure passwords match before user is created
 
 #### Version 0.3
 - Automatically set password when new user is created
