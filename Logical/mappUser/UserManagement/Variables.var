@@ -16,12 +16,17 @@ VAR
 	PropertyName : STRING[40];
 	tmpUserIdx : USINT;
 	tmpUser : STRING[40];
+	tmpUserOld : STRING[40];
 	idx : USINT;
 	idy : USINT;
+	override : USINT;
+END_VAR
+VAR CONSTANT
+	MAX_CYCLES : USINT := 10; (*Maximum number of override cycles*)
 END_VAR
 (*Loop counter*)
 VAR
-	RoleCounter : USINT; (*LoopCounter for creating the table; 1 = second element of array*)
+	RoleCounter : USINT;
 	UserCounter : USINT;
 	UserCounterTotal : ARRAY[0..2] OF USINT;
 END_VAR
@@ -33,16 +38,12 @@ VAR CONSTANT
 END_VAR
 (*Error Constants*)
 VAR CONSTANT
-	ERR_PASSWORD_MISMATCH : DINT := 50000;
-	ERR_USER_LIST_TOO_SHORT : DINT := 50001;
-	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002;
-	ERR_DELETE_LAST_USER : DINT := 50003;
-	ERR_RENAME_LAST_USER : DINT := 50004;
-	END_OF_LIST : DINT := -2144327714;
-END_VAR
-VAR
-	ELEMENT_DOES_NOT_EXIST : REFERENCE TO DINT;
-END_VAR
-VAR CONSTANT
+	ERR_PASSWORD_MISMATCH : DINT := 50000; (*Passwords dont match*)
+	ERR_USER_LIST_TOO_SHORT : DINT := 50001; (*More users found than fit into user list*)
+	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002; (*More roles found than fit into the role list*)
+	ERR_DELETE_CURRENT_USER : DINT := 50003; (*Logged in user can not be deleted*)
+	ERR_RENAME_CURRENT_USER : DINT := 50004; (*Logged in user can not be renamed*)
+	ERR_TOO_MANY_CLIENTS : DINT := 50005; (*More than 3 clients try to connect to user managment*)
+	END_OF_LIST : DINT := -2144327714; (*End of list reached*)
 	ONE : BOOL := TRUE;
 END_VAR

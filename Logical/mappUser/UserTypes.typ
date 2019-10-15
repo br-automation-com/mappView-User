@@ -81,8 +81,9 @@ TYPE
 		ShowMessageBoxError : BOOL;
 	END_STRUCT;
 	userERR : 	STRUCT 
-		Number : DINT;
+		No : DINT;
 		State : userManagementEnum;
+		Text : STRING[200];
 	END_STRUCT;
 	userDETAILS : 	STRUCT 
 		Roles : ARRAY[0..9]OF STRING[40];

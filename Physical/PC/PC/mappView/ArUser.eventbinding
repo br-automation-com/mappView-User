@@ -1,37 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="ArUser_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Bindings>
-		<!-- Refresh listbox data when page is loaded />-->
-		<EventBinding>
-			<Source xsi:type="clientSystem.Event" event="ContentLoaded" />
-			<!-- Read session id />-->
-			<Operand name="slotId" datatype="ANY_INT">
-				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
-					<Method xsi:type="session.VariableAction.GetValue" />
-				</ReadTarget>
-			</Operand>
-			<EventHandler >
-				<Sequence>
-					<!-- Set slot ID />-->
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
-								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set command />-->
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ListRefresh" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
-			</EventHandler>
-		</EventBinding>
-		
+	<Bindings>	
 		<!-- Command create new user />-->
 		<EventBinding id="contentUser.btnCreateUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnCreateUser" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -490,7 +459,7 @@
 						</Action>
 					</Step>
 					<!-- Set command />-->
-					<Step order="1">
+					<Step order="2">
 						<Action>
 							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.Import" >
 								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
@@ -613,7 +582,7 @@
 			</Operand>
 			<!-- Read value from PLC />-->	
 			<Operand name="MessageBoxText" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
 					<Method xsi:type="opcUa.NodeAction.GetValue" />
 				</ReadTarget>
 			</Operand>
@@ -646,7 +615,7 @@
 			</Operand>
 			<!-- Read value from PLC />-->	
 			<Operand name="MessageBoxText" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
 					<Method xsi:type="opcUa.NodeAction.GetValue" />
 				</ReadTarget>
 			</Operand>
@@ -679,7 +648,7 @@
 			</Operand>
 			<!-- Read value from PLC />-->	
 			<Operand name="MessageBoxText" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
 					<Method xsi:type="opcUa.NodeAction.GetValue" />
 				</ReadTarget>
 			</Operand>
