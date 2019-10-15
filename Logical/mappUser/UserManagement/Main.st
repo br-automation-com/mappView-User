@@ -7,7 +7,6 @@
 // Version 0.5
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
-	ArUser.PAR.FilePath := 'c:\Temp\UserDataExport.txt';			// Where to export user data
 	ArUser.CMD.ListRefresh	:= TRUE;								// Refresh user data on boot
 END_PROGRAM
 

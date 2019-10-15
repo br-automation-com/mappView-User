@@ -1,5 +1,6 @@
 Version 0.5
 - Multi client support
+- Changed error structure
 
 Version 0.4
 - Software structure change to work with future expansion
