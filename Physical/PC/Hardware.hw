@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<?AutomationStudio Version=4.5.3.86?>
+<?AutomationStudio Version=4.5.4.123?>
 <Hardware xmlns="http://br-automation.co.at/AS/Hardware">
   <Module Name="PC" Type="PC_any" Version="1.1.0.0" OrderNumber="PC">
     <Connector Name="IF3">
@@ -8,7 +8,7 @@
     <Parameter ID="ConfigurationID" Value="ARuser_PC" />
     <Parameter ID="Cyclic1Duration" Value="10000" />
     <Parameter ID="Cyclic3Tolerance" Value="60000000" />
-    <Parameter ID="Cyclic8Duration" Value="50000" />
+    <Parameter ID="Cyclic8Duration" Value="10000" />
     <Group ID="FileDevice1" />
     <Parameter ID="FileDeviceName1" Value="FileDevice" />
     <Parameter ID="FileDevicePath1" Value="C:\Users\hendricksf\Desktop" />

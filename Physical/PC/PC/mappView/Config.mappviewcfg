@@ -5,14 +5,16 @@
       <Selector ID="WebServerProtocol" Value="1">
         <Property ID="WebServerPort" Value="81" />
       </Selector>
-      <Property ID="MaxClientConnections" Value="2" />
+      <Property ID="MaxClientConnections" Value="3" />
       <Property ID="MaxBRClientConnections" Value="0" />
       <Selector ID="ClientConnectionsLicensingMode" Value="LicensingModeConfiguredMaxClients" />
       <Group ID="TcpProxyConf">
         <Selector ID="InsecureMode" Value="1" />
       </Group>
       <Group ID="DiagnosticPageConf">
-        <Selector ID="DiagnosticPageSelection" Value="1" />
+        <Selector ID="DiagnosticPageSelection" Value="2">
+          <Property ID="DiagnosticPageRole[1]" Value="Service" />
+        </Selector>
       </Group>
     </Group>
     <Group ID="OpcUa">

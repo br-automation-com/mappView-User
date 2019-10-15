@@ -1,144 +1,493 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="ArUser_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Bindings>
-		<!-- Create new user />-->
+	<Bindings>	
+		<!-- Command create new user />-->
 		<EventBinding id="contentUser.btnCreateUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnCreateUser" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="txtUserNameManagment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameManagment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user password />-->
+			<Operand name="txtUserPassword1Managment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserPassword1Managment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user password repeat />-->
+			<Operand name="txtUserPassword2Managment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserPassword2Managment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
 			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserCreate" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
+				<Sequence>
+					<!-- Set user name />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user password />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.Password" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserPassword1Managment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user password repeat />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserPassword2Managment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set slot ID />-->
+					<Step order="3">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="4">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserCreate" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>				
 			</EventHandler>
 		</EventBinding>
 		
-		<!-- Delete user />-->
-		<EventBinding id="contentUser.btnDeleteUser.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnDeleteUser" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Change user password />-->
+		<!-- Command change user password />-->
 		<EventBinding id="contentUser.btnChangePassword.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnChangePassword" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="txtUserNameManagment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameManagment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user password />-->
+			<Operand name="txtUserPassword1Managment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserPassword1Managment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user password repeat />-->
+			<Operand name="txtUserPassword2Managment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserPassword2Managment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
 			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.PasswordChange" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
+				<Sequence>
+					<!-- Set user name />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user password />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.Password" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserPassword1Managment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user password repeat />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.PasswordRepeat" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserPassword2Managment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set slot ID />-->
+					<Step order="3">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="4">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.PasswordChange" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
 			</EventHandler>
 		</EventBinding>
-			
-		<!-- Change user name />-->
+		
+		<!-- Command change user name />-->
 		<EventBinding id="contentUser.btnRenameUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnRenameUser" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserRename" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Assign user role />-->
-		<EventBinding id="contentUser.btnAssignRole.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnAssignRole" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleAssign" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Release user role />-->
-		<EventBinding id="contentUser.btnReleaseRole.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnReleaseRole" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleRemove" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="txtUserNameManagment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameManagment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read new user name />-->
+			<Operand name="txtUserNameNewManagment" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameNewManagment" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
 			
-		<!-- Refresh user and role list />-->	
-		<EventBinding id="contentUser.btnRefreshList.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnRefreshList" xsi:type="widgets.brease.Button.Event" event="Click" />
 			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ListRefresh" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
+				<Sequence>
+					<!-- Set user name />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set new user name />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserNameNew" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameNewManagment" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set slot ID />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="3">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserRename" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
 			</EventHandler>
 		</EventBinding>
 		
-		<!-- Export user data />-->	
-		<EventBinding id="contentUser.btnExportUserData.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnExportUserData" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.Export" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Import user data />-->	
-		<EventBinding id="contentUser.btnImportUserData.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnImportUserData" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.Import" >
-						<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- User list box index changed />-->	
-		<EventBinding id="contentUser.lstUsers.Click">
-			<Source contentRefId="contentUser" widgetRefId="lstUsers" xsi:type="widgets.brease.ListBox.Event" event="Click" />
-			<!-- Read widget property />-->			
-			<Operand name="SelectedValue" datatype="ANY_STRING">
-				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUsers" > 
+		<!-- Command delete user />-->
+		<EventBinding id="contentUser.btnDeleteUser.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnDeleteUser" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="lstUsers" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUsers" >
 					<Method xsi:type="widgets.brease.ListBox.Action.GetSelectedValue" />
 				</ReadTarget>
 			</Operand>
-
+			
 			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=SelectedValue" />
-					</Target>
-				</Action>
+				<Sequence>
+					<!-- Set slot ID />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user name />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
+			</EventHandler>
+		</EventBinding>
+		
+		<!-- Command assign user role />-->
+		<EventBinding id="contentUser.btnAssignRole.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnAssignRole" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="lstUsers" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUsers" >
+					<Method xsi:type="widgets.brease.ListBox.Action.GetSelectedValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler>
+				<Sequence>
+					<!-- Set slot ID />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user name />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleAssign" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
+			</EventHandler>
+		</EventBinding>
+		
+		<!-- Command release user role />-->
+		<EventBinding id="contentUser.btnReleaseRole.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnReleaseRole" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read user name />-->
+			<Operand name="lstUsers" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.ListBox.ReadAction" contentRefId="contentUser" widgetRefId="lstUsers" >
+					<Method xsi:type="widgets.brease.ListBox.Action.GetSelectedValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler>
+				<Sequence>
+					<!-- Set slot ID />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set user name />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.RoleRemove" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
+			</EventHandler>
+		</EventBinding>
+			
+		<!-- Command refresh user and role list />-->	
+		<EventBinding id="contentUser.btnRefreshList.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnRefreshList" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler>
+				<Sequence>
+					<!-- Set slot ID />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ListRefresh" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>
+					</Step>
+				</Sequence>
+			</EventHandler>
+		</EventBinding>
+		
+		<!-- Command export user data />-->	
+		<EventBinding id="contentUser.btnExportUserData.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnExportUserData" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read file path />-->
+			<Operand name="txtFilePath" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtFilePath" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler>
+				<Sequence>
+					<!-- Set user file path />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.FilePath" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtFilePath" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set slot ID />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.Export" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>					
+					</Step>
+				</Sequence>
+			</EventHandler>
+		</EventBinding>
+		
+		<!-- Command import user data />-->	
+		<EventBinding id="contentUser.btnImportUserData.Click">
+			<Source contentRefId="contentUser" widgetRefId="btnImportUserData" xsi:type="widgets.brease.Button.Event" event="Click" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read file path />-->
+			<Operand name="txtFilePath" datatype="ANY_STRING">
+				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtFilePath" >
+					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler>
+				<Sequence>
+					<!-- Set user file path />-->
+					<Step order="0">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.FilePath" >
+								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtFilePath" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set slot ID />-->
+					<Step order="1">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+							</Target>
+						</Action>
+					</Step>
+					<!-- Set command />-->
+					<Step order="2">
+						<Action>
+							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.Import" >
+								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+							</Target>
+						</Action>				
+					</Step>
+				</Sequence>
 			</EventHandler>
 		</EventBinding>
 		
 		<!-- Open message OK />-->
-		<EventBinding>
-			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS.ShowMessageBoxOK" event="ValueChanged" />
+		<EventBinding id="ArUser.ShowMessageBoxOK_0">
+			<!-- Trigger when new value />-->
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[0].ShowMessageBoxOK" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
 			<!-- Read value from PLC />-->	
 			<Operand name="MessageBoxText" datatype="ANY_STRING">
 				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
 					<Method xsi:type="opcUa.NodeAction.GetValue" />
 				</ReadTarget>
 			</Operand>
-			
-			<EventHandler condition="newValue" >		
+			<!-- Execute command when conditions are met />-->
+			<EventHandler condition="slotId=0 AND newValue" >
 				<Action>					
 					<Target xsi:type="clientSystem.Action">
 						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Information" icon="Information"  />
@@ -146,7 +495,73 @@
 					<Result>
 						<ResultHandler condition="result = 4">
 							<Action>					
-								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.VIS.ShowMessageBoxOK" >
+								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.VIS[0].ShowMessageBoxOK" >
+									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
+								</Target>
+							</Action>
+						</ResultHandler>
+					</Result>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="ArUser.ShowMessageBoxOK_1">
+			<!-- Trigger when new value />-->
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[1].ShowMessageBoxOK" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read value from PLC />-->	
+			<Operand name="MessageBoxText" datatype="ANY_STRING">
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+					<Method xsi:type="opcUa.NodeAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Execute command when conditions are met />-->
+			<EventHandler condition="slotId=1 AND newValue" >
+				<Action>					
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Information" icon="Information"  />
+					</Target>
+					<Result>
+						<ResultHandler condition="result = 4">
+							<Action>					
+								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.VIS[1].ShowMessageBoxOK" >
+									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
+								</Target>
+							</Action>
+						</ResultHandler>
+					</Result>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="ArUser.ShowMessageBoxOK_2">
+			<!-- Trigger when new value />-->
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[2].ShowMessageBoxOK" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read value from PLC />-->	
+			<Operand name="MessageBoxText" datatype="ANY_STRING">
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+					<Method xsi:type="opcUa.NodeAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Execute command when conditions are met />-->
+			<EventHandler condition="slotId=2 AND newValue" >
+				<Action>					
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Information" icon="Information"  />
+					</Target>
+					<Result>
+						<ResultHandler condition="result = 4">
+							<Action>					
+								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.VIS[2].ShowMessageBoxOK" >
 									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
 								</Target>
 							</Action>
@@ -157,22 +572,95 @@
 		</EventBinding>
 		
 		<!-- Open message error />-->
-		<EventBinding>
-			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS.ShowMessageBoxError" event="ValueChanged" />
+		<EventBinding id="ArUser.ShowMessageBoxError_0">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[0].ShowMessageBoxError" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
 			<!-- Read value from PLC />-->	
 			<Operand name="MessageBoxText" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.DAT.Status" >
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
 					<Method xsi:type="opcUa.NodeAction.GetValue" />
 				</ReadTarget>
 			</Operand>
 			
-			<EventHandler condition="newValue" >		
+			<EventHandler condition="slotId=0 AND newValue" >		
 				<Action>					
 					<Target xsi:type="clientSystem.Action">
 						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Error" icon="Error"  />
 					</Target>
 					<Result>
 						<ResultHandler condition="result = 4">
+							<!-- Set command />-->
+							<Action>					
+								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ErrorReset" >
+									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+								</Target>
+							</Action>
+						</ResultHandler>
+					</Result>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="ArUser.ShowMessageBoxError_1">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[1].ShowMessageBoxError" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read value from PLC />-->	
+			<Operand name="MessageBoxText" datatype="ANY_STRING">
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
+					<Method xsi:type="opcUa.NodeAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler condition="slotId=1 AND newValue" >		
+				<Action>					
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Error" icon="Error"  />
+					</Target>
+					<Result>
+						<ResultHandler condition="result = 4">
+							<!-- Set command />-->
+							<Action>					
+								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ErrorReset" >
+									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+								</Target>
+							</Action>
+						</ResultHandler>
+					</Result>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="ArUser.ShowMessageBoxError_2">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[2].ShowMessageBoxError" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<!-- Read value from PLC />-->	
+			<Operand name="MessageBoxText" datatype="ANY_STRING">
+				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.ERR.Text" >
+					<Method xsi:type="opcUa.NodeAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			
+			<EventHandler condition="slotId=2 AND newValue" >		
+				<Action>					
+					<Target xsi:type="clientSystem.Action">
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Error" icon="Error"  />
+					</Target>
+					<Result>
+						<ResultHandler condition="result = 4">
+							<!-- Set command />-->
 							<Action>					
 								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.ErrorReset" >
 									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
@@ -206,53 +694,5 @@
 			</EventHandler>
 		</EventBinding>
 		
-		<!-- Login sucessfull />-->
-		<EventBinding id="contentUser.btnLoginButton.LoginSuccess">
-			<Source contentRefId="contentUser" widgetRefId="btnLoginButton" xsi:type="widgets.brease.LoginButton.Event" event="LoginSuccess" />
-			<!-- Read value from PLC />-->	
-			<Operand name="LoginUser" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-					<Method xsi:type="opcUa.NodeAction.GetValue" />
-				</ReadTarget>
-			</Operand>
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.DAT.UserActive" >
-						<Method xsi:type="opcUa.NodeAction.SetValueString" value="=LoginUser" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Logout />-->
-		<EventBinding id="contentUser.btnLogoutButton.Click.ArUser">
-			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
-			<EventHandler>
-				<!-- Delete user name and password />-->
-				<Sequence>
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
-							</Target>
-						</Action>
-					</Step>
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.Password" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
-							</Target>
-						</Action>
-					</Step>
-					<Step order="2">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.DAT.UserActive" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
-			</EventHandler>
-		</EventBinding>
 	</Bindings>
 </EventBindingSet>

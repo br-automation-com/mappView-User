@@ -17,9 +17,9 @@
     <Module Name="&lt;Default&gt;">
       <GlobalVariables Name="Global Variables">
         <Variable Name="ArUser" AutomaticEnable="True">
-          <Variable Name="VIS">
-            <Variable Name="ListUsers" EnableArrayElements="True" />
-            <Variable Name="ListRoles" EnableArrayElements="True" />
+          <Variable Name="VIS" EnableArrayElements="True" />
+          <Variable Name="DAT">
+            <Variable Name="UserActive" EnableArrayElements="True" />
           </Variable>
         </Variable>
         <Variable Name="RFID" AutomaticEnable="True" />

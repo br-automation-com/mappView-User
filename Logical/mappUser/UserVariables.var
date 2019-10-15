@@ -5,6 +5,4 @@ END_VAR
 VAR
 	ArUser : userMAIN; (*Type for user data management*)
 	RFID : rfidMAIN;
-	ClientInfoCurrent : ClientInfoType;
-	ClientInfo : ARRAY[0..4] OF ClientInfoType;
 END_VAR
