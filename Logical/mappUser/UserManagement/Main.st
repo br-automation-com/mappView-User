@@ -38,11 +38,7 @@ PROGRAM _CYCLIC
 					idx := 0;
 					brsmemset(ADR(ArUser.VIS[idy].ListUserRole), 0, SIZEOF(ArUser.VIS[idy].ListUserRole));			
 					WHILE brsstrcmp(ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]), ADR('')) <> 0 DO
-						ArUser.VIS[idy].ListUserRole[idx] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('","text":"'));	
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('"}'));
+						String2DataProvider(ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]), ADR(ArUser.VIS[idy].ListUserRole[idx]));
 						idx := idx + 1;
 					END_WHILE;
 					// Make sure we dont delete last user role
@@ -435,21 +431,16 @@ PROGRAM _CYCLIC
 						brsmemset(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles), 0, SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles));
 						UserCounter := 0;																
 	
-						ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
 						// Make sure user name fits
 						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_ITEM_LENGTH) THEN
-							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
-		
+							ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
+							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
 							// Reset function block and init counters
 							ArUserGetFirst_0(Execute := FALSE);
 							UserCounter := 1;																
 							RoleCounter := 0;															
 							UserManagementState := CreateUserListGetNext;
-						// User name is too long
+							// User name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 							ArUser.ERR.State := UserManagementState;
@@ -481,15 +472,11 @@ PROGRAM _CYCLIC
 						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_ITEM_LENGTH) THEN
 							// Store user name and generate data provider for vis
 							ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
-							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));	
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
+							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
 							// Reset function block and get next name
 							ArUserGetNext_0(Execute := FALSE);
 							UserCounter := UserCounter + 1;
-						// User name is too long
+							// User name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 							ArUser.ERR.State := UserManagementState;
@@ -613,11 +600,7 @@ PROGRAM _CYCLIC
 						// Make sure role name fits
 						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_ITEM_LENGTH) THEN
 							ArUser.DAT.Roles[RoleCounter] := ArUserGetFirst_0.ElementName;
-							ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
+							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
 							// Reset function block and init counters
 							ArUserGetFirst_0(Execute := FALSE);
 							RoleCounter := 1;
@@ -651,11 +634,7 @@ PROGRAM _CYCLIC
 						// Make sure user name fits
 						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_ITEM_LENGTH) THEN				
 							ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
-							ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));	
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-							brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
+							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
 							// Reset function block and get next name
 							ArUserGetNext_0(Execute := FALSE);
 							RoleCounter := RoleCounter + 1;
