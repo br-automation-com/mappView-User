@@ -1,4 +1,7 @@
 Version 0.5
+- Code cleanup
+
+Version 0.5
 - Multi client support
 - Changed error structure
 
