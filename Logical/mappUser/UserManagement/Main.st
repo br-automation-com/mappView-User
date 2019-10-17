@@ -735,8 +735,6 @@ PROGRAM _CYCLIC
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Return to idle state
 				IF ArUser.CMD.ErrorReset THEN
-					ArUser.ERR.Text := '';
-					
 					UserCounter := 1;	
 					RoleCounter := 0;	
 				
