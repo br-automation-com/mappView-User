@@ -143,18 +143,6 @@
 			</Source>
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnRenameUser" attribute="enable" />
 		</Binding>
-			
-		<Binding mode="oneWay">
-			<Source xsi:type="listElement">
-				<Selector xsi:type="session" refId="::SYSTEM:clientInfo.slotId" attribute="value" />
-				<be:List xsi:type="be:opcUa" attribute="value">
-					<bt:Element index="0" refId="::AsGlobalPV:ArUser.VIS[0].ListUserValue" />
-					<bt:Element index="1" refId="::AsGlobalPV:ArUser.VIS[1].ListUserValue" />
-					<bt:Element index="2" refId="::AsGlobalPV:ArUser.VIS[2].ListUserValue" />
-				</be:List>
-			</Source>
-			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="lstUsers" attribute="selectedValue" />
-		</Binding>
-		
+				
 	</Bindings>
 </BindingsSet>

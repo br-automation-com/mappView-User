@@ -197,7 +197,9 @@ PROGRAM _CYCLIC
 						ArUser.PAR.UserRole := ArUser.DAT.Users[tmpUserIdx].Roles[idx];
 					// Delete old user
 					ELSE
-						tmpUser := tmpUserOld;
+						// Move user names around
+						tmpUserNew 	:= tmpUser;
+						tmpUser 	:= tmpUserOld;
 						UserManagementState := DeleteUser;	
 					END_IF
 				// Error
@@ -243,16 +245,16 @@ PROGRAM _CYCLIC
 						ArUser.DAT.Status := 'User >';
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(tmpUser));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR('< deleted'));					
-						tmpUser := '';
-					// User rename command
+						// User rename command
 					ELSE			
 						ArUser.DAT.Status := 'User ';
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(tmpUserOld));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(' renamed to >'));					
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserNameNew));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR('<'));					
-						ArUser.PAR.UserName := '';
 					END_IF
+					ArUser.PAR.UserName := '';
+					tmpUser := '';
 					UserManagementState := CreateUserListGetFirst;
 				// Error
 				ELSIF ArUserDelete_0.Error THEN
@@ -665,6 +667,8 @@ PROGRAM _CYCLIC
 						// Select last user if possible
 						IF(tmpUser <> '') THEN
 							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserValue := tmpUser;
+						ELSIF(tmpUserNew <> '') THEN
+							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserValue := tmpUserNew;
 						ELSE
 							ArUser.PAR.UserName := ArUser.DAT.Users[0].Name;
 						END_IF
