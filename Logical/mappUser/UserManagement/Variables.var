@@ -15,9 +15,9 @@ VAR
 	ArUserSetProperty_0 : ArUserSetProperty;
 	PropertyName : STRING[100];
 	tmpUserIdx : USINT;
-	tmpUser : STRING[MAX_ITEM_LENGTH];
-	tmpUserOld : STRING[MAX_ITEM_LENGTH];
-	tmpUserNew : STRING[MAX_ITEM_LENGTH];
+	tmpUser : STRING[MAX_USER_ITEM_LEN];
+	tmpUserOld : STRING[MAX_USER_ITEM_LEN];
+	tmpUserNew : STRING[MAX_USER_ITEM_LEN];
 	idx : USINT;
 	idy : USINT;
 	override : USINT;
@@ -29,7 +29,7 @@ END_VAR
 VAR
 	RoleCounter : USINT;
 	UserCounter : USINT;
-	UserCounterTotal : ARRAY[0..MAX_CLIENTS] OF USINT;
+	UserCounterTotal : ARRAY[0..MAX_USER_CLIENTS] OF USINT;
 END_VAR
 (*List types *)
 VAR CONSTANT

@@ -434,7 +434,7 @@ PROGRAM _CYCLIC
 						UserCounter := 0;																
 	
 						// Make sure user name fits
-						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_ITEM_LENGTH) THEN
+						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 							ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
 							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
 							// Reset function block and init counters
@@ -471,7 +471,7 @@ PROGRAM _CYCLIC
 					// Success
 					IF ArUserGetNext_0.Done THEN
 						// Make sure user name fits
-						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_ITEM_LENGTH) THEN
+						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 							// Store user name and generate data provider for vis
 							ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
 							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
@@ -522,7 +522,7 @@ PROGRAM _CYCLIC
 						// Success
 						IF ArUserGetFirst_0.Done THEN
 							// Make sure role name fits
-							IF(brsstrlen(ADR(ArUserInitList_0.ElementName)) < MAX_ITEM_LENGTH) THEN
+							IF(brsstrlen(ADR(ArUserInitList_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 								ArUser.DAT.Users[UserCounter].Roles[0] := ArUserGetFirst_0.ElementName;
 								ArUserGetFirst_0(Execute := FALSE , List := ArUserInitList_0.List);									
 								RoleCounter := 1;
@@ -561,7 +561,7 @@ PROGRAM _CYCLIC
 				// Success
 				IF ArUserGetNext_0.Done THEN
 					// Make sure user name fits
-					IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_ITEM_LENGTH) THEN
+					IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 						ArUser.DAT.Users[UserCounter].Roles[RoleCounter] := ArUserGetNext_0.ElementName;
 						ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
 						//	UserCounter := UserCounter + 1;
@@ -600,7 +600,7 @@ PROGRAM _CYCLIC
 					// Store role names and generate data provider for vis
 					IF ArUserGetFirst_0.Done THEN
 						// Make sure role name fits
-						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_ITEM_LENGTH) THEN
+						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 							ArUser.DAT.Roles[RoleCounter] := ArUserGetFirst_0.ElementName;
 							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
 							// Reset function block and init counters
@@ -634,7 +634,7 @@ PROGRAM _CYCLIC
 					// Store user name and generate data provider for vis
 					IF ArUserGetNext_0.Done THEN
 						// Make sure user name fits
-						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_ITEM_LENGTH) THEN				
+						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN				
 							ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
 							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
 							// Reset function block and get next name

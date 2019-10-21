@@ -2,8 +2,8 @@
 VAR CONSTANT
 	MAX_USER_ROLES : USINT := 20; (*Maximum number of user roles*)
 	MAX_USER_NAMES : USINT := 50; (*Maximum number of users*)
-	MAX_CLIENTS : USINT := 2; (*Maximum number of concurrent web clients*)
-	MAX_ITEM_LENGTH : USINT := 60; (*String length for users and roles*)
+	MAX_USER_CLIENTS : USINT := 2; (*Maximum number of concurrent web clients*)
+	MAX_USER_ITEM_LEN : USINT := 60; (*String length for users and roles*)
 END_VAR
 (*Global variable structure*)
 VAR
