@@ -24,7 +24,7 @@ PROGRAM _CYCLIC
 				// --------------------------------------------------------------------------------------------------------------------
 				// Make sure we dont exceed maximum number of web clients
 				IF(ArUser.PAR.VisuSlotID >= SIZEOF(ArUser.VIS)/SIZEOF(ArUser.VIS[0])) THEN
-					ArUser.ERR.No := ERR_TOO_MANY_CLIENTS;
+					ArUser.ERR.No := ERR_USER_TOO_MANY_CLIENTS;
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorUser;
 					RETURN;

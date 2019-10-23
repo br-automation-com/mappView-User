@@ -45,7 +45,7 @@ VAR CONSTANT
 	ERR_DELETE_CURRENT_USER : DINT := 50003; (*Logged in user can not be deleted*)
 	ERR_RENAME_CURRENT_USER : DINT := 50004; (*Logged in user can not be renamed*)
 	ERR_USER_ROLE_NAME_SIZE : DINT := 50005; (*Logged in user can not be renamed*)
-	ERR_TOO_MANY_CLIENTS : DINT := 50010; (*More than 3 clients try to connect to user managment*)
+	ERR_USER_TOO_MANY_CLIENTS : DINT := 50010; (*More than 3 clients try to connect to user managment*)
 	END_OF_LIST : DINT := -2144327714; (*End of list reached*)
 	ONE : BOOL := TRUE;
 END_VAR
