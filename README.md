@@ -8,7 +8,7 @@
 
 <a name="Introduction"></a>
 ## Introduction
-This is a sample project for a user managment with mappView. It uses the B&R library ArUser to access and modify user rights. There is an extended sample with RFID reader support available as separat [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
+This is a sample project for a user management with mappView. It uses the B&R library ArUser to access and modify user rights. There is an extended sample with RFID reader support available as separate [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
@@ -24,7 +24,7 @@ Recommended task class is #8 with a 10ms cycle time.
 
 <a name="Description"></a>
 ## Description
-The sample consists of two main components. The sample page is used to display all important settings for users and roles. The task UserManagement drives the user managamnet and uses the ArUser library in the background. The following functions are currently supported.
+The sample consists of two main components. The sample page is used to display all important settings for users and roles. The task UserManagement drives the user management and uses the ArUser library in the background. The following functions are currently supported.
 
 * Create, rename and delete user
 * Assign and remove roles from users
@@ -123,7 +123,7 @@ The sample supports up to 3 concurrent client connections. While the task itself
     <tr>
    <td></td>
    <td>PasswordRepeat</td>
-   <td colspan="4">Must match the password in prvious variable 'Password'</td>
+   <td colspan="4">Must match the password in previous variable 'Password'</td>
   </tr>
   <tr>
    <td></td>
@@ -259,7 +259,7 @@ The sample supports up to 3 concurrent client connections. While the task itself
 
 <a name="Errors"></a>
 ## Error
-The sample generates the following list of error messages. All other error numbers are generated from inlcuded libraries that can be found in the Automation Studio help.
+The sample generates the following list of error messages. All other error numbers are generated from included libraries that can be found in the Automation Studio help.
 
 | No | Constant | Text |
 |---|---|---|
@@ -269,7 +269,7 @@ The sample generates the following list of error messages. All other error numbe
 | 50003 | ERR_DELETE_CURRENT_USER  | Logged in user can not be deleted  |
 | 50004 | ERR_RENAME_CURRENT_USER  | Logged in user can not be renamed  |
 | 50005 | ERR_USER_ROLE_NAME_SIZE  | Logged in user can not be renamed*  |
-| 50010 | ERR_TOO_MANY_CLIENTS  | More than 3 clients try to connect to user managment  |
+| 50010 | ERR_TOO_MANY_CLIENTS  | More than 3 clients try to connect to user management  |
  
 <a name="Limitations"></a>
 ## Limitations
