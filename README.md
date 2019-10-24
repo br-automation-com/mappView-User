@@ -9,7 +9,7 @@ This is a sample project for a user management with mappView. It uses the B&R li
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
-The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/mappUser/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/releases/latest) Detailed information are avialbale in the [**Wiki**](https://github.com/stephan1827/mappView-User/wiki).
+The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/mappUser/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/releases/latest) Detailed information are available in the [**Wiki**](https://github.com/stephan1827/mappView-User/wiki).
 
 <a name="Requirements"></a>
 ## Requirements
