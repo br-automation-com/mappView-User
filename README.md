@@ -22,6 +22,9 @@ Recommended task class is #8 with a 10ms cycle time.
 <a name="Revision-History"></a>
 ## Revision History
 
-#### Version 0.5
-- Multi client support
-- Changed error structure
+#### Version 0.6
+- Added message box before deleting user
+- Changed constant to avoid conflict with other samples
+- Fixed user selection after create and rename
+- Updated mappView to 5.7.1
+- Code optimizations
