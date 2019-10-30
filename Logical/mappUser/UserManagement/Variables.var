@@ -13,10 +13,11 @@ VAR
 	ArUserInitList_0 : ArUserInitList;
 	ArUserGetProperty_0 : ArUserGetProperty;
 	ArUserSetProperty_0 : ArUserSetProperty;
-	PropertyName : STRING[40];
+	PropertyName : STRING[100];
 	tmpUserIdx : USINT;
-	tmpUser : STRING[40];
-	tmpUserOld : STRING[40];
+	tmpUser : STRING[MAX_USER_ITEM_LEN];
+	tmpUserOld : STRING[MAX_USER_ITEM_LEN];
+	tmpUserNew : STRING[MAX_USER_ITEM_LEN];
 	idx : USINT;
 	idy : USINT;
 	override : USINT;
@@ -28,7 +29,7 @@ END_VAR
 VAR
 	RoleCounter : USINT;
 	UserCounter : USINT;
-	UserCounterTotal : ARRAY[0..2] OF USINT;
+	UserCounterTotal : ARRAY[0..MAX_USER_CLIENTS] OF USINT;
 END_VAR
 (*List types *)
 VAR CONSTANT
@@ -43,7 +44,8 @@ VAR CONSTANT
 	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002; (*More roles found than fit into the role list*)
 	ERR_DELETE_CURRENT_USER : DINT := 50003; (*Logged in user can not be deleted*)
 	ERR_RENAME_CURRENT_USER : DINT := 50004; (*Logged in user can not be renamed*)
-	ERR_TOO_MANY_CLIENTS : DINT := 50005; (*More than 3 clients try to connect to user managment*)
+	ERR_USER_ROLE_NAME_SIZE : DINT := 50005; (*Logged in user can not be renamed*)
+	ERR_USER_TOO_MANY_CLIENTS : DINT := 50010; (*More than 3 clients try to connect to user managment*)
 	END_OF_LIST : DINT := -2144327714; (*End of list reached*)
 	ONE : BOOL := TRUE;
 END_VAR

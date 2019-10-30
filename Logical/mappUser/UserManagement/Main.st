@@ -4,7 +4,7 @@
 // - Create and delete roles
 // - Change password and assign roles to users
 // - Export and import user data
-// Version 0.5
+// Version 0.6
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
 	ArUser.CMD.ListRefresh	:= TRUE;								// Refresh user data on boot
@@ -24,7 +24,7 @@ PROGRAM _CYCLIC
 				// --------------------------------------------------------------------------------------------------------------------
 				// Make sure we dont exceed maximum number of web clients
 				IF(ArUser.PAR.VisuSlotID >= SIZEOF(ArUser.VIS)/SIZEOF(ArUser.VIS[0])) THEN
-					ArUser.ERR.No := ERR_TOO_MANY_CLIENTS;
+					ArUser.ERR.No := ERR_USER_TOO_MANY_CLIENTS;
 					ArUser.ERR.State := UserManagementState;
 					UserManagementState := ErrorUser;
 					RETURN;
@@ -38,11 +38,7 @@ PROGRAM _CYCLIC
 					idx := 0;
 					brsmemset(ADR(ArUser.VIS[idy].ListUserRole), 0, SIZEOF(ArUser.VIS[idy].ListUserRole));			
 					WHILE brsstrcmp(ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]), ADR('')) <> 0 DO
-						ArUser.VIS[idy].ListUserRole[idx] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('","text":"'));	
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]));
-						brsstrcat(ADR(ArUser.VIS[idy].ListUserRole[idx]), ADR('"}'));
+						String2DataProvider(ADR(ArUser.DAT.Users[ArUser.VIS[idy].ListUserIndex].Roles[idx]), ADR(ArUser.VIS[idy].ListUserRole[idx]));
 						idx := idx + 1;
 					END_WHILE;
 					// Make sure we dont delete last user role
@@ -196,12 +192,14 @@ PROGRAM _CYCLIC
 				ELSIF ArUser.CMD.UserRename AND ((ArUserAssignRole_0.Done AND NOT ArUserAssignRole_0.Busy) OR (ArUserAssignRole_0.ErrorID = arUSER_ERR_ALREADY_EXISTS)) THEN
 					idx := idx +1;
 					// Assign next role if it exists
-					IF ArUser.DAT.Users[tmpUserIdx].Roles[idx] <> '' AND idx < MaxUserRoles THEN
+					IF ArUser.DAT.Users[tmpUserIdx].Roles[idx] <> '' AND idx < MAX_USER_ROLES THEN
 						ArUserAssignRole_0(Execute := FALSE);
 						ArUser.PAR.UserRole := ArUser.DAT.Users[tmpUserIdx].Roles[idx];
 					// Delete old user
 					ELSE
-						tmpUser := tmpUserOld;
+						// Move user names around
+						tmpUserNew 	:= tmpUser;
+						tmpUser 	:= tmpUserOld;
 						UserManagementState := DeleteUser;	
 					END_IF
 				// Error
@@ -247,16 +245,16 @@ PROGRAM _CYCLIC
 						ArUser.DAT.Status := 'User >';
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(tmpUser));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR('< deleted'));					
-						tmpUser := '';
-					// User rename command
+						// User rename command
 					ELSE			
 						ArUser.DAT.Status := 'User ';
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(tmpUserOld));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(' renamed to >'));					
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(ArUser.PAR.UserNameNew));
 						brsstrcat(ADR(ArUser.DAT.Status), ADR('<'));					
-						ArUser.PAR.UserName := '';
 					END_IF
+					ArUser.PAR.UserName := '';
+					tmpUser := '';
 					UserManagementState := CreateUserListGetFirst;
 				// Error
 				ELSIF ArUserDelete_0.Error THEN
@@ -271,13 +269,13 @@ PROGRAM _CYCLIC
 			RenameUser:
 				tmpUserIdx := 0;
 				// Find user name in list
-				WHILE (brsstrcmp(ADR(ArUser.DAT.Users[tmpUserIdx].Name), ADR(tmpUserOld)) <> 0) AND (tmpUserIdx < MaxUserNames) DO
+				WHILE (brsstrcmp(ADR(ArUser.DAT.Users[tmpUserIdx].Name), ADR(tmpUserOld)) <> 0) AND (tmpUserIdx < MAX_USER_NAMES) DO
 					tmpUserIdx := tmpUserIdx + 1;
 				END_WHILE;
 				
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Success
-				IF(tmpUserIdx < MaxUserNames) THEN
+				IF(tmpUserIdx < MAX_USER_NAMES) THEN
 					ArUserCreate_0(Execute := FALSE);
 					UserManagementState := CreateUser;
 				// Error when user was not found
@@ -414,9 +412,9 @@ PROGRAM _CYCLIC
 					UserManagementState := ErrorUser;
 				END_IF;
 							
-				// --------------------------------------------------------------------------------------------------------------------
-				// Create list of users and roles
-				// --------------------------------------------------------------------------------------------------------------------	
+			// --------------------------------------------------------------------------------------------------------------------
+			// Create list of users and roles
+			// --------------------------------------------------------------------------------------------------------------------	
 			CreateUserListGetFirst:
 				// Initialize user list
 				ArUserInitList_0(Execute := TRUE, ListType := USER_LISTTYPE, ElementName :='');	
@@ -435,24 +433,32 @@ PROGRAM _CYCLIC
 						brsmemset(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles), 0, SIZEOF(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles));
 						UserCounter := 0;																
 	
-						ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
-						ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetFirst_0.ElementName));					
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
-	
-						// Reset function block and init counters
-						ArUserGetFirst_0(Execute := FALSE);
-						UserCounter := 1;																
-						RoleCounter := 0;															
-						UserManagementState := CreateUserListGetNext;
+						// Make sure user name fits
+						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
+							ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
+							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
+							// Reset function block and init counters
+							ArUserGetFirst_0(Execute := FALSE);
+							UserCounter := 1;																
+							RoleCounter := 0;															
+							UserManagementState := CreateUserListGetNext;
+							// User name is too long
+						ELSE
+							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+							ArUser.ERR.State := UserManagementState;
+							UserManagementState := ErrorUser;					
+						END_IF;
 					// Error
 					ELSIF ArUserGetFirst_0.Error THEN
 						ArUser.ERR.No := ArUserGetFirst_0.ErrorID;
 						ArUser.ERR.State := UserManagementState;
 						UserManagementState := ErrorUser;					
 					END_IF;
+				// Error
+				ELSIF ArUserInitList_0.Error THEN
+					ArUser.ERR.No := ArUserInitList_0.ErrorID;
+					ArUser.ERR.State := UserManagementState;
+					UserManagementState := ErrorUser;					
 				END_IF;
 				
 			CreateUserListGetNext:
@@ -464,16 +470,20 @@ PROGRAM _CYCLIC
 					// --------------------------------------------------------------------------------------------------------------------	
 					// Success
 					IF ArUserGetNext_0.Done THEN
-						// Store user name and generate data provider for vis
-						ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
-						ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('","text":"'));	
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR(ArUserGetNext_0.ElementName));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]), ADR('"}'));
-						// Reset function block and get next name
-						ArUserGetNext_0(Execute := FALSE);
-						UserCounter := UserCounter + 1;
+						// Make sure user name fits
+						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
+							// Store user name and generate data provider for vis
+							ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
+							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
+							// Reset function block and get next name
+							ArUserGetNext_0(Execute := FALSE);
+							UserCounter := UserCounter + 1;
+							// User name is too long
+						ELSE
+							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+							ArUser.ERR.State := UserManagementState;
+							UserManagementState := ErrorUser;					
+						END_IF;
 					// Error
 					ELSIF ArUserGetNext_0.Error AND NOT (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN
 						ArUser.ERR.No := ArUserGetNext_0.ErrorID;
@@ -490,7 +500,7 @@ PROGRAM _CYCLIC
 						RoleCounter := 0;
 						UserManagementState := RoleListInitList;
 					END_IF;			
-				// Error
+				// User list is too short
 				ELSE
 					ArUser.ERR.No := ERR_USER_LIST_TOO_SHORT;
 					ArUser.ERR.State := UserManagementState;
@@ -508,11 +518,28 @@ PROGRAM _CYCLIC
 					// Success
 					IF ArUserInitList_0.Done  AND NOT ArUserInitList_0.Busy THEN
 						ArUserGetFirst_0(Execute := TRUE , List := ArUserInitList_0.List);
-						ArUser.DAT.Users[UserCounter].Roles[0] := ArUserGetFirst_0.ElementName;
-						ArUserGetFirst_0(Execute := FALSE , List := ArUserInitList_0.List);									
-						RoleCounter := 1;
-						UserManagementState:= RoleListGetNext;							
+						// --------------------------------------------------------------------------------------------------------------------	
+						// Success
+						IF ArUserGetFirst_0.Done THEN
+							// Make sure role name fits
+							IF(brsstrlen(ADR(ArUserInitList_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
+								ArUser.DAT.Users[UserCounter].Roles[0] := ArUserGetFirst_0.ElementName;
+								ArUserGetFirst_0(Execute := FALSE , List := ArUserInitList_0.List);									
+								RoleCounter := 1;
+								UserManagementState:= RoleListGetNext;	
+							// User role is too long
+							ELSE
+								ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+								ArUser.ERR.State := UserManagementState;
+								UserManagementState := ErrorUser;					
+							END_IF;
 						// Error
+						ELSIF ArUserGetFirst_0.Error THEN						
+							ArUser.ERR.No := ArUserGetFirst_0.ErrorID;
+							ArUser.ERR.State := UserManagementState;
+							UserManagementState := ErrorUser;
+						END_IF;
+					// Error
 					ELSIF ArUserInitList_0.Error THEN						
 						ArUser.ERR.No := ArUserInitList_0.ErrorID;
 						ArUser.ERR.State := UserManagementState;
@@ -532,11 +559,19 @@ PROGRAM _CYCLIC
 				
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Success
-				IF ArUserGetNext_0.Done THEN				
-					ArUser.DAT.Users[UserCounter].Roles[RoleCounter] := ArUserGetNext_0.ElementName;
-					ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
-					//	UserCounter := UserCounter + 1;
-					RoleCounter := RoleCounter + 1;
+				IF ArUserGetNext_0.Done THEN
+					// Make sure user name fits
+					IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
+						ArUser.DAT.Users[UserCounter].Roles[RoleCounter] := ArUserGetNext_0.ElementName;
+						ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
+						//	UserCounter := UserCounter + 1;
+						RoleCounter := RoleCounter + 1;
+					// User role is too long
+					ELSE
+						ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+						ArUser.ERR.State := UserManagementState;
+						UserManagementState := ErrorUser;					
+					END_IF;
 				// List is complete
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN					
 					UserCounter := UserCounter + 1;
@@ -562,20 +597,23 @@ PROGRAM _CYCLIC
 					ArUserGetFirst_0(Execute := TRUE , List := ArUserInitList_0.List );						
 	
 					// --------------------------------------------------------------------------------------------------------------------	
-					// Success
+					// Store role names and generate data provider for vis
 					IF ArUserGetFirst_0.Done THEN
-						// Store role names and generate data provider for vis
-						ArUser.DAT.Roles[RoleCounter] := ArUserGetFirst_0.ElementName;
-						ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetFirst_0.ElementName));					
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
-						// Reset function block and init counters
-						ArUserGetFirst_0(Execute := FALSE);
-						RoleCounter := 1;
-						UserManagementState := CreateRoleListGetNext;
-						// Error				
+						// Make sure role name fits
+						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
+							ArUser.DAT.Roles[RoleCounter] := ArUserGetFirst_0.ElementName;
+							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
+							// Reset function block and init counters
+							ArUserGetFirst_0(Execute := FALSE);
+							RoleCounter := 1;
+							UserManagementState := CreateRoleListGetNext;
+						// Role name is too long
+						ELSE
+							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+							ArUser.ERR.State := UserManagementState;
+							UserManagementState := ErrorUser;					
+						END_IF;
+					// Error				
 					ELSIF ArUserGetFirst_0.Error THEN
 						ArUser.ERR.No := ArUserGetFirst_0.ErrorID;
 						ArUser.ERR.State := UserManagementState;
@@ -593,18 +631,21 @@ PROGRAM _CYCLIC
 					ArUserGetNext_0(Execute := TRUE , List := ArUserInitList_0.List);
 	
 					// --------------------------------------------------------------------------------------------------------------------	
-					// Success
+					// Store user name and generate data provider for vis
 					IF ArUserGetNext_0.Done THEN
-						// Store user name and generate data provider for vis
-						ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
-						ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter] := '{"value":"';
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('","text":"'));	
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR(ArUserGetNext_0.ElementName));
-						brsstrcat(ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]), ADR('"}'));
-						// Reset function block and get next name
-						ArUserGetNext_0(Execute := FALSE);
-						RoleCounter := RoleCounter + 1;
+						// Make sure user name fits
+						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN				
+							ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
+							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
+							// Reset function block and get next name
+							ArUserGetNext_0(Execute := FALSE);
+							RoleCounter := RoleCounter + 1;
+						// Role name is too long
+						ELSE
+							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
+							ArUser.ERR.State := UserManagementState;
+							UserManagementState := ErrorUser;					
+						END_IF;
 					// Error				
 					ELSIF ArUserGetNext_0.Error AND NOT (ArUserGetNext_0.ErrorID = END_OF_LIST) THEN
 						ArUser.ERR.No := ArUserGetNext_0.ErrorID;
@@ -626,6 +667,8 @@ PROGRAM _CYCLIC
 						// Select last user if possible
 						IF(tmpUser <> '') THEN
 							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserValue := tmpUser;
+						ELSIF(tmpUserNew <> '') THEN
+							ArUser.VIS[ArUser.PAR.VisuSlotID].ListUserValue := tmpUserNew;
 						ELSE
 							ArUser.PAR.UserName := ArUser.DAT.Users[0].Name;
 						END_IF
@@ -640,7 +683,7 @@ PROGRAM _CYCLIC
 						UserManagementState := IdleUser;
 						RETURN;
 					END_IF;			
-					// Error				
+				// Role list is too short				
 				ELSE
 					ArUser.ERR.No := ERR_ROLE_LIST_TOO_SHORT;
 					ArUser.ERR.State := UserManagementState;
@@ -650,7 +693,22 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------
 			// Error 
 			// --------------------------------------------------------------------------------------------------------------------					
-			ErrorUser:		
+			ErrorUser:
+				// --------------------------------------------------------------------------------------------------------------------					
+				// Reset function blocks
+				ArUserInitList_0(Execute := FALSE);
+				ArUserGetFirst_0(Execute := FALSE);
+				ArUserGetNext_0(Execute := FALSE);
+				ArUserCreate_0(Execute := FALSE);
+				ArUserReleaseRole_0(Execute := FALSE);
+				ArUserReleaseRole_0(Execute := FALSE);
+				ArUserDelete_0(Execute := FALSE);
+				ArUserGetProperty_0(Execute := FALSE);
+				ArUserSetProperty_0(Execute := FALSE);
+				ArUserSetPassword_0(Execute := FALSE);
+				ArUserImport_0(Execute := FALSE);
+				ArUserExport_0(Execute := FALSE);
+				
 				// --------------------------------------------------------------------------------------------------------------------					
 				// Generate text for most common errors
 				IF(ArUser.ERR.No = arUSER_ERR_ALREADY_EXISTS) THEN
@@ -667,6 +725,8 @@ PROGRAM _CYCLIC
 					ArUser.ERR.Text := 'ERR: Role list is too short';
 				ELSIF(ArUser.ERR.No = ERR_DELETE_CURRENT_USER) THEN
 					ArUser.ERR.Text := 'ERR: Can not delete user that is logged in';
+				ELSIF(ArUser.ERR.No = ERR_USER_ROLE_NAME_SIZE) THEN
+					ArUser.ERR.Text := 'ERR: User name or role exceeds maximum size of ITEM_LENGTH';
 				ELSIF(ArUser.ERR.No = ERR_RENAME_CURRENT_USER) THEN
 					ArUser.ERR.Text := 'ERR: Can not rename user that is logged in';
 				ELSE
@@ -679,8 +739,6 @@ PROGRAM _CYCLIC
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Return to idle state
 				IF ArUser.CMD.ErrorReset THEN
-					ArUser.ERR.Text := '';
-					
 					UserCounter := 1;	
 					RoleCounter := 0;	
 				

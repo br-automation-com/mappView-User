@@ -1,6 +1,57 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="ArUser_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Bindings>	
+	<Bindings>
+		<!-- Select list box item />-->
+		<EventBinding id="contentArUser.SelectRecipe_0">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[0].ListUserValue" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<EventHandler condition="slotId=0" >
+				<Action>					
+					<Target xsi:type="widgets.brease.ListBox.Action" contentRefId="contentUser" widgetRefId="lstUsers" >
+						<Method xsi:type="widgets.brease.ListBox.Action.SetSelectedValue" value="=newValue" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser.SelectRecipe_1">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[1].ListUserValue" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<EventHandler condition="slotId=0" >
+				<Action>					
+					<Target xsi:type="widgets.brease.ListBox.Action" contentRefId="contentUser" widgetRefId="lstUsers" >
+						<Method xsi:type="widgets.brease.ListBox.Action.SetSelectedValue" value="=newValue" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+		<EventBinding id="contentArUser.SelectRecipe_2">
+			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[2].ListUserValue" event="ValueChanged" />
+			<!-- Read session id />-->
+			<Operand name="slotId" datatype="ANY_INT">
+				<ReadTarget xsi:type="session.VariableAction.Read" refId="::SYSTEM:clientInfo.slotId" >
+					<Method xsi:type="session.VariableAction.GetValue" />
+				</ReadTarget>
+			</Operand>
+			<EventHandler condition="slotId=0" >
+				<Action>					
+					<Target xsi:type="widgets.brease.ListBox.Action" contentRefId="contentUser" widgetRefId="lstUsers" >
+						<Method xsi:type="widgets.brease.ListBox.Action.SetSelectedValue" value="=newValue" />
+					</Target>
+				</Action>
+			</EventHandler>
+		</EventBinding>
+
+		
 		<!-- Command create new user />-->
 		<EventBinding id="contentUser.btnCreateUser.Click">
 			<Source contentRefId="contentUser" widgetRefId="btnCreateUser" xsi:type="widgets.brease.Button.Event" event="Click" />
@@ -225,32 +276,42 @@
 			</Operand>
 			
 			<EventHandler>
-				<Sequence>
-					<!-- Set slot ID />-->
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
-								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set user name />-->
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set command />-->
-					<Step order="2">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
+				<Action>					 
+					<!-- Show message box before saving />--> 
+					<Target xsi:type="clientSystem.Action"> 
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="YesNo" message="Delete this user?" header="=lstUsers" icon="Question"  /> 
+					</Target> 
+					<Result> 
+						<ResultHandler condition="result = 1"> 
+							<Sequence>
+								<!-- Set slot ID />-->
+								<Step order="0">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+											<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+										</Target>
+									</Action>
+								</Step>
+								<!-- Set user name />-->
+								<Step order="1">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+											<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
+										</Target>
+									</Action>
+								</Step>
+								<!-- Set command />-->
+								<Step order="2">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
+											<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+										</Target>
+									</Action>
+								</Step>
+							</Sequence>
+						</ResultHandler> 
+					</Result> 
+				</Action>	
 			</EventHandler>
 		</EventBinding>
 		

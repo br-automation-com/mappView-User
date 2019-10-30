@@ -88,7 +88,7 @@ TYPE
 		CMD : userCMD;
 		PAR : userPAR;
 		DAT : userDAT;
-		VIS : ARRAY[0..2]OF userVIS;
+		VIS : ARRAY[0..MAX_USER_CLIENTS]OF userVIS;
 		ERR : userERR;
 	END_STRUCT;
 	userCMD : 	STRUCT 
@@ -104,27 +104,27 @@ TYPE
 		ErrorReset : BOOL;
 	END_STRUCT;
 	userPAR : 	STRUCT 
-		FilePath : STRING[80];
-		UserName : STRING[40];
-		UserNameNew : STRING[40];
-		UserRole : STRING[40];
-		Password : STRING[40];
-		PasswordRepeat : STRING[40];
+		FilePath : STRING[100];
+		UserName : STRING[MAX_USER_ITEM_LEN];
+		UserNameNew : STRING[MAX_USER_ITEM_LEN];
+		UserRole : STRING[MAX_USER_ITEM_LEN];
+		Password : STRING[MAX_USER_ITEM_LEN];
+		PasswordRepeat : STRING[MAX_USER_ITEM_LEN];
 		VisuSlotID : USINT;
 	END_STRUCT;
 	userDAT : 	STRUCT 
-		Users : ARRAY[0..MaxUserNames]OF userDETAILS;
-		Roles : ARRAY[0..MaxUserRoles]OF STRING[40];
-		Status : STRING[80];
-		UserActive : ARRAY[0..2]OF STRING[40];
+		Users : ARRAY[0..MAX_USER_NAMES]OF userDETAILS;
+		Roles : ARRAY[0..MAX_USER_ROLES]OF STRING[MAX_USER_ITEM_LEN];
+		Status : STRING[100];
+		UserActive : ARRAY[0..MAX_USER_CLIENTS]OF STRING[MAX_USER_ITEM_LEN];
 	END_STRUCT;
 	userVIS : 	STRUCT 
-		ListUsers : ARRAY[0..MaxUserNames]OF STRING[80];
+		ListUsers : ARRAY[0..MAX_USER_NAMES]OF STRING[MAX_USER_ITEM_LEN];
 		ListUserIndex : UINT;
-		ListUserValue : STRING[80];
-		ListUserRole : ARRAY[0..MaxUserRoles]OF STRING[80];
+		ListUserValue : STRING[MAX_USER_ITEM_LEN];
+		ListUserRole : ARRAY[0..MAX_USER_ROLES]OF STRING[MAX_USER_ITEM_LEN];
 		ListUserRoleIndex : UINT;
-		ListRoles : ARRAY[0..MaxUserRoles]OF STRING[80];
+		ListRoles : ARRAY[0..MAX_USER_ROLES]OF STRING[MAX_USER_ITEM_LEN];
 		ListRoleIndex : UINT;
 		RoleDeleteEnabled : BOOL;
 		UserDeleteEnabled : BOOL;
@@ -134,10 +134,10 @@ TYPE
 	userERR : 	STRUCT 
 		No : DINT;
 		State : userManagementEnum;
-		Text : STRING[200];
+		Text : STRING[100];
 	END_STRUCT;
 	userDETAILS : 	STRUCT 
-		Roles : ARRAY[0..9]OF STRING[40];
-		Name : STRING[40];
+		Roles : ARRAY[0..MAX_USER_ROLES]OF STRING[MAX_USER_ITEM_LEN];
+		Name : STRING[MAX_USER_ITEM_LEN];
 	END_STRUCT;
 END_TYPE
