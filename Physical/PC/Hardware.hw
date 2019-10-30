@@ -6,7 +6,7 @@
       <Parameter ID="InaPort" Value="11159" />
     </Connector>
     <Parameter ID="ConfigurationID" Value="ARuser_PC" />
-    <Parameter ID="VolatileGlobalPvSize" Value="120000" />
+    <Parameter ID="VolatileGlobalPvSize" Value="200000" />
     <Parameter ID="Cyclic1Duration" Value="10000" />
     <Parameter ID="Cyclic3Tolerance" Value="60000000" />
     <Parameter ID="Cyclic8Duration" Value="10000" />

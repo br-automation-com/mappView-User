@@ -276,32 +276,42 @@
 			</Operand>
 			
 			<EventHandler>
-				<Sequence>
-					<!-- Set slot ID />-->
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
-								<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set user name />-->
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set command />-->
-					<Step order="2">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
+				<Action>					 
+					<!-- Show message box before saving />--> 
+					<Target xsi:type="clientSystem.Action"> 
+						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="YesNo" message="Delete this user?" header="=lstUsers" icon="Question"  /> 
+					</Target> 
+					<Result> 
+						<ResultHandler condition="result = 1"> 
+							<Sequence>
+								<!-- Set slot ID />-->
+								<Step order="0">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.VisuSlotID" >
+											<Method xsi:type="opcUa.NodeAction.SetValueNumber" value="=slotId" />
+										</Target>
+									</Action>
+								</Step>
+								<!-- Set user name />-->
+								<Step order="1">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.PAR.UserName" >
+											<Method xsi:type="opcUa.NodeAction.SetValueString" value="=lstUsers" />
+										</Target>
+									</Action>
+								</Step>
+								<!-- Set command />-->
+								<Step order="2">
+									<Action>
+										<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:ArUser.CMD.UserDelete" >
+											<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+										</Target>
+									</Action>
+								</Step>
+							</Sequence>
+						</ResultHandler> 
+					</Result> 
+				</Action>	
 			</EventHandler>
 		</EventBinding>
 		
