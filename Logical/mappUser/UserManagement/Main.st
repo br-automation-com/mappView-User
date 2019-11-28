@@ -48,7 +48,7 @@ PROGRAM _CYCLIC
 						ArUser.VIS[idy].RoleDeleteEnabled := FALSE;
 					END_IF
 					// Make sure we dont delete last user
-					IF(UserCounterTotal[idy] > 1) THEN				
+					IF(UserCounterTotal[idy] > 0) THEN				
 						ArUser.VIS[idy].UserDeleteEnabled := TRUE;
 					ELSE
 						ArUser.VIS[idy].UserDeleteEnabled := FALSE;
@@ -435,14 +435,19 @@ PROGRAM _CYCLIC
 	
 						// Make sure user name fits
 						IF(brsstrlen(ADR(ArUserGetFirst_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
-							ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
-							String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
+							// Ignore use an anonymous
+							IF(ArUserGetFirst_0.ElementName <> 'Anonymous') THEN 
+								ArUser.DAT.Users[UserCounter].Name := ArUserGetFirst_0.ElementName;
+								String2DataProvider(ADR(ArUserGetFirst_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
+								UserCounter := 1;
+							ELSE
+								UserCounter := 0;														
+							END_IF
 							// Reset function block and init counters
 							ArUserGetFirst_0(Execute := FALSE);
-							UserCounter := 1;																
 							RoleCounter := 0;															
 							UserManagementState := CreateUserListGetNext;
-							// User name is too long
+						// User name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 							ArUser.ERR.State := UserManagementState;
@@ -472,13 +477,16 @@ PROGRAM _CYCLIC
 					IF ArUserGetNext_0.Done THEN
 						// Make sure user name fits
 						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
-							// Store user name and generate data provider for vis
-							ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
-							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
-							// Reset function block and get next name
+							// Ignore use an anonymous
+							IF(ArUserGetNext_0.ElementName <> 'Anonymous') THEN 
+								// Store user name and generate data provider for vis
+								ArUser.DAT.Users[UserCounter].Name := ArUserGetNext_0.ElementName;
+								String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListUsers[UserCounter]));	
+								// Reset function block and get next name
+								UserCounter := UserCounter + 1;
+							END_IF
 							ArUserGetNext_0(Execute := FALSE);
-							UserCounter := UserCounter + 1;
-							// User name is too long
+						// User name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 							ArUser.ERR.State := UserManagementState;
@@ -526,8 +534,8 @@ PROGRAM _CYCLIC
 								ArUser.DAT.Users[UserCounter].Roles[0] := ArUserGetFirst_0.ElementName;
 								ArUserGetFirst_0(Execute := FALSE , List := ArUserInitList_0.List);									
 								RoleCounter := 1;
-								UserManagementState:= RoleListGetNext;	
-							// User role is too long
+								UserManagementState:= RoleListGetNext;
+								// User role is too long
 							ELSE
 								ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 								ArUser.ERR.State := UserManagementState;
@@ -563,9 +571,8 @@ PROGRAM _CYCLIC
 					// Make sure user name fits
 					IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 						ArUser.DAT.Users[UserCounter].Roles[RoleCounter] := ArUserGetNext_0.ElementName;
-						ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
-						//	UserCounter := UserCounter + 1;
 						RoleCounter := RoleCounter + 1;
+						ArUserGetNext_0(Execute := FALSE, List := ArUserInitList_0.List);
 					// User role is too long
 					ELSE
 						ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
@@ -607,7 +614,7 @@ PROGRAM _CYCLIC
 							ArUserGetFirst_0(Execute := FALSE);
 							RoleCounter := 1;
 							UserManagementState := CreateRoleListGetNext;
-						// Role name is too long
+							// Role name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
 							ArUser.ERR.State := UserManagementState;
@@ -634,12 +641,12 @@ PROGRAM _CYCLIC
 					// Store user name and generate data provider for vis
 					IF ArUserGetNext_0.Done THEN
 						// Make sure user name fits
-						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN				
+						IF(brsstrlen(ADR(ArUserGetNext_0.ElementName)) < MAX_USER_ITEM_LEN) THEN
 							ArUser.DAT.Roles[RoleCounter] := ArUserGetNext_0.ElementName;
 							String2DataProvider(ADR(ArUserGetNext_0.ElementName), ADR(ArUser.VIS[ArUser.PAR.VisuSlotID].ListRoles[RoleCounter]));	
 							// Reset function block and get next name
-							ArUserGetNext_0(Execute := FALSE);
 							RoleCounter := RoleCounter + 1;
+							ArUserGetNext_0(Execute := FALSE);
 						// Role name is too long
 						ELSE
 							ArUser.ERR.No := ERR_USER_ROLE_NAME_SIZE;
