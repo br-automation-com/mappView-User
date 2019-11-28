@@ -1,3 +1,6 @@
+Version 0.7
+- Removed user anonymous from user list
+
 Version 0.6
 - Added message box before deleting user
 - Changed constant to avoid conflict with other samples
