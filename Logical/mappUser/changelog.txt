@@ -1,4 +1,5 @@
-Version 0.7
+Next version
+- Clear password field when user is created, password is changed, login or logout
 - Removed user anonymous from user list
 
 Version 0.6
