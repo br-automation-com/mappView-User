@@ -397,7 +397,9 @@ PROGRAM _CYCLIC
 					IF ArUser.CMD.PasswordChange THEN
 						ArUser.DAT.Status := 'Password for user >';
 						brsstrcat(ADR(ArUser.DAT.Status), ADR(tmpUser));
-						brsstrcat(ADR(ArUser.DAT.Status), ADR('< changed'));					
+						brsstrcat(ADR(ArUser.DAT.Status), ADR('< changed'));
+						ArUser.PAR.Password := '';
+						ArUser.PAR.PasswordRepeat := '';
 						ArUser.CMD.PasswordChange := FALSE;
 						ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 						UserManagementState := IdleUser;
