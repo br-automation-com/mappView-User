@@ -3,7 +3,7 @@
 	<Bindings>
 		
 		<!-- Select list box item />-->
-		<EventBinding id="contentArUser.SelectRecipe_0">
+		<EventBinding id="contentArUser.SelectUser_0">
 			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[0].ListUserValue" event="ValueChanged" />
 			<!-- Read session id />-->
 			<Operand name="slotId" datatype="ANY_INT">
@@ -19,7 +19,7 @@
 				</Action>
 			</EventHandler>
 		</EventBinding>
-		<EventBinding id="contentArUser.SelectRecipe_1">
+		<EventBinding id="contentArUser.SelectUser_1">
 			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[1].ListUserValue" event="ValueChanged" />
 			<!-- Read session id />-->
 			<Operand name="slotId" datatype="ANY_INT">
@@ -35,7 +35,7 @@
 				</Action>
 			</EventHandler>
 		</EventBinding>
-		<EventBinding id="contentArUser.SelectRecipe_2">
+		<EventBinding id="contentArUser.SelectUser_2">
 			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:ArUser.VIS[2].ListUserValue" event="ValueChanged" />
 			<!-- Read session id />-->
 			<Operand name="slotId" datatype="ANY_INT">
