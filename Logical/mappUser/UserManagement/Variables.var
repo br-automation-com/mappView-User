@@ -1,19 +1,21 @@
 (*General*)
 VAR
 	UserManagementState : userManagementEnum := IdleUser; (*State Machine for UserManagementState*)
-	ArUserCreate_0 : ArUserCreate; (*UserCreate -> Create an user with given name; default no password *)
-	ArUserDelete_0 : ArUserDelete; (*UserDelete -> Delete an user  *)
-	ArUserExport_0 : ArUserExport;
-	ArUserImport_0 : ArUserImport;
-	ArUserSetPassword_0 : ArUserSetPassword;
-	ArUserAssignRole_0 : ArUserAssignRole;
-	ArUserReleaseRole_0 : ArUserReleaseRole;
-	ArUserGetNext_0 : ArUserGetNext;
-	ArUserGetFirst_0 : ArUserGetFirst;
-	ArUserInitList_0 : ArUserInitList;
-	ArUserGetProperty_0 : ArUserGetProperty;
-	ArUserSetProperty_0 : ArUserSetProperty;
-	PropertyName : STRING[100];
+	ArUserCreate_0 : ArUserCreate; (*Create an user with given name; default no password *)
+	ArUserDelete_0 : ArUserDelete; (*Delete an user  *)
+	ArUserExport_0 : ArUserExport; (*Export all user and role data*)
+	ArUserImport_0 : ArUserImport; (*Import all user and role data*)
+	ArUserSetPassword_0 : ArUserSetPassword; (*Set user password*)
+	ArUserAssignRole_0 : ArUserAssignRole; (*Aisign a role to a user*)
+	ArUserReleaseRole_0 : ArUserReleaseRole; (*Remove a role from a user*)
+	ArUserGetNext_0 : ArUserGetNext; (*Get next user information*)
+	ArUserGetFirst_0 : ArUserGetFirst; (*Get first user information*)
+	ArUserInitList_0 : ArUserInitList; (*Initialize user or role list*)
+	ArUserDestroyList_0 : ArUserDestroyList; (*Free up memory for list*)
+	ArUserIdent : ArUserIdentType; (*Ident from user ot role list*)
+	ArUserGetProperty_0 : ArUserGetProperty; (*Read property*)
+	ArUserSetProperty_0 : ArUserSetProperty; (*Write a property*)
+	PropertyName : STRING[100]; (*Name of the property*)
 	tmpUserIdx : USINT;
 	tmpUser : STRING[MAX_USER_ITEM_LEN];
 	tmpUserOld : STRING[MAX_USER_ITEM_LEN];

@@ -1,3 +1,7 @@
+Next Version
+- Add destroy user list to free up memory
+- Code cleanup
+
 Version 0.7
 - Clear password field when user is created, password is changed, login or logout
 - Removed user anonymous from user list

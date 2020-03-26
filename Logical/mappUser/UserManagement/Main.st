@@ -501,6 +501,10 @@ PROGRAM _CYCLIC
 						UserManagementState := ErrorUser;		
 					// List is complete
 					ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN
+						// Free up memory
+						ArUserIdent := ArUserInitList_0.List;
+						ArUserDestroyList_0(Execute := TRUE, List := ArUserIdent);
+						ArUserDestroyList_0(Execute := FALSE, List := ArUserIdent);
 						// Reset function blocks and counters
 						ArUserGetNext_0(Execute := FALSE);
 						ArUserGetFirst_0(Execute := FALSE);
@@ -557,6 +561,7 @@ PROGRAM _CYCLIC
 					END_IF;
 				// Finish when user roles are complete
 				ELSE
+					// Reset function blocks
 					ArUserInitList_0(Execute := FALSE);
 					ArUserGetFirst_0(Execute := FALSE);
 					UserCounter := 1;
@@ -584,6 +589,11 @@ PROGRAM _CYCLIC
 				// List is complete
 				ELSIF ArUserGetNext_0.ErrorID = END_OF_LIST THEN					
 					UserCounter := UserCounter + 1;
+					// Free up memory
+					ArUserIdent := ArUserInitList_0.List;
+					ArUserDestroyList_0(Execute := TRUE, List := ArUserIdent);
+					ArUserDestroyList_0(Execute := FALSE, List := ArUserIdent);
+					// Reset function blocks
 					ArUserGetNext_0(Execute := FALSE);				
 					ArUserInitList_0(Execute := FALSE);
 					UserManagementState := RoleListInitList;	
@@ -666,6 +676,9 @@ PROGRAM _CYCLIC
 						IF(NOT ArUser.CMD.ListRefresh) THEN
 							ArUser.VIS[ArUser.PAR.VisuSlotID].ShowMessageBoxOK := TRUE;
 						END_IF
+						// Reset function blocks
+						ArUserGetNext_0(Execute := FALSE);				
+						ArUserInitList_0(Execute := FALSE);
 						// Reset function blocks
 						ArUserGetNext_0(Execute := FALSE);
 						ArUserGetFirst_0(Execute := FALSE);
