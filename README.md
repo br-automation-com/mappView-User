@@ -22,7 +22,6 @@ Recommended task class is #8 with a 10ms cycle time.
 <a name="Revision-History"></a>
 ## Revision History
 
-#### Version 0.7
-- Clear password field when user is created, password is changed, login or logout
-- Removed user anonymous from user list
-- Increased length of status message
+#### Version 0.8
+- Add destroy user list to free up memory
+- Code cleanup
