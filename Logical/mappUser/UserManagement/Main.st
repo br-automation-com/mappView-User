@@ -4,7 +4,7 @@
 // - Create and delete roles
 // - Change password and assign roles to users
 // - Export and import user data
-// Version 0.6
+// Version 0.8
 // --------------------------------------------------------------------------------------------------------------------
 PROGRAM _INIT
 	ArUser.CMD.ListRefresh	:= TRUE;								// Refresh user data on boot

@@ -25,6 +25,12 @@ TYPE
 		CloseDevice, (*Close serial connection*)
 		ErrorRFID (*Error state*)
 		);
+	enumRFIDtype : 
+		(
+		RFID_5E9010_29,
+		RFID_5E9030_29,
+		RFID_NONE
+		);
 	rfidCMD : 	STRUCT 
 		ReaderEnable : BOOL; (*Scan USB ports automatically*)
 		TokenAssign : BOOL;
@@ -40,6 +46,7 @@ TYPE
 	END_STRUCT;
 	rfidDAT : 	STRUCT 
 		IsConnected : BOOL; (*Shows if a USB stick is connected*)
+		Type : enumRFIDtype := RFID_NONE;
 		Data : STRING[80];
 		Cnt : UDINT;
 		Status : STRING[80];

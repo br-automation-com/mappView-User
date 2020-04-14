@@ -1,6 +1,6 @@
-Next Version
-- Add destroy user list to free up memory
-- Code cleanup
+Version 0.8
+- Update user managment to version 0.8
+- Added support for RFID reader 5E9030
 
 Version 0.7
 - Clear password field when user is created, password is changed, login or logout
