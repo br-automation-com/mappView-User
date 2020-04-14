@@ -158,6 +158,10 @@ PROGRAM _CYCLIC
 			IF(RFID.DAT.Data = '') THEN
 				tmpTokenOld := RFID.DAT.Data;
 			END_IF
+			// Reset error
+			IF(RFID.CMD.ErrorReset) THEN
+				RFID.CMD.ErrorReset := FALSE;
+			END_IF
 		// --------------------------------------------------------------------------------------------------------------------
 		// Set user token
 		// --------------------------------------------------------------------------------------------------------------------	
