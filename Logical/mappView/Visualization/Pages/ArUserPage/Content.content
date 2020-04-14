@@ -54,16 +54,16 @@
     </Widget>
     <Widget xsi:type="widgets.brease.GroupBox" id="grpRFID" top="180" left="10" width="610" height="225" zIndex="4" text="RFID">
       <Widgets>
-        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDenable" top="63" left="4" width="165" zIndex="0" imageAlign="right" text="User auto login" textAlign="right" />
-        <Widget xsi:type="widgets.brease.Label" id="labTokenData" top="13" left="4" width="130" zIndex="1" text="Token data" textAlign="right" padding="0px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnUserAssignToken" top="8" left="379" width="200" height="40" zIndex="2" text="AssignToken" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDenable" top="63" left="4" width="149" zIndex="0" imageAlign="right" text="User auto login" textAlign="right" />
+        <Widget xsi:type="widgets.brease.Label" id="labTokenData" top="13" left="4" width="114" zIndex="1" text="Token data" textAlign="right" padding="0px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnUserAssignToken" top="8" left="394" width="200" height="40" zIndex="2" text="AssignToken" cornerRadius="10px" />
         <Widget xsi:type="widgets.brease.TextOutput" id="txtUserTokenData" top="13" left="144" width="211" zIndex="3" borderWidth="1px" borderStyle="solid" padding="0px 5px 0px 5px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnUserRemoveToken" top="53" left="379" width="200" height="40" zIndex="4" text="Remove Token" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.Button" id="btnUserReset" top="98" left="379" width="200" height="40" zIndex="5" text="Reset" cornerRadius="10px" />
-        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDconnected" top="103" left="184" width="181" zIndex="6" text="Reader is connected" disabledTextColor="rgba(0, 0, 0, 1)" textAlign="left" fontSize="14px" enable="false" />
-        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDscan" top="103" left="4" width="165" zIndex="7" imageAlign="right" text="Reader enable" textAlign="right" />
-        <Widget xsi:type="widgets.brease.Label" id="labReaderStatus" top="148" left="4" width="130" zIndex="8" text="Last message" textAlign="right" padding="0px" />
-        <Widget xsi:type="widgets.brease.TextOutput" id="txtReaderState" top="148" left="144" width="436" zIndex="9" borderWidth="1px" borderStyle="solid" padding="0px 5px 0px 5px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnUserRemoveToken" top="53" left="394" width="200" height="40" zIndex="4" text="Remove Token" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.Button" id="btnUserReset" top="98" left="394" width="200" height="40" zIndex="5" text="Reset" cornerRadius="10px" />
+        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDconnected" top="103" left="174" width="181" zIndex="6" text="Reader is connected" disabledTextColor="rgba(0, 0, 0, 1)" textAlign="left" fontSize="14px" enable="false" />
+        <Widget xsi:type="widgets.brease.CheckBox" id="chkRFIDscan" top="103" left="4" width="149" zIndex="7" imageAlign="right" text="Reader enable" textAlign="right" />
+        <Widget xsi:type="widgets.brease.Label" id="labReaderStatus" top="148" left="4" width="114" zIndex="8" text="Last message" textAlign="right" padding="0px" />
+        <Widget xsi:type="widgets.brease.TextOutput" id="txtReaderState" top="148" left="124" width="471" zIndex="9" borderWidth="1px" borderStyle="solid" padding="0px 5px 0px 5px" />
       </Widgets>
     </Widget>
   </Widgets>

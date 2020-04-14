@@ -38,12 +38,8 @@ PROGRAM _CYCLIC
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Remove token from user
 			IF (RFID.CMD.TokenRemove) THEN
-				// Use user name from ArUser template when it exists
-				IF(ArUserNameAdr <> 0 AND ArUserPasswordAdr <> 0) THEN
-					brsstrcpy(ADR(RFID.PAR.UserName), ArUserNameAdr);					
-					brsstrcpy(ADR(RFID.PAR.Password), ArUserNameAdr);					
-				END_IF
 				ArUserSetToken_0(Execute := FALSE);
+				RFID.PAR.Password := RFID.PAR.UserName;
 				rfid_state := SetToken;
 			END_IF
 			// Refresh USB data every X seconds when enabled
@@ -70,10 +66,6 @@ PROGRAM _CYCLIC
 					// --------------------------------------------------------------------------------------------------------------------	
 					// Assign token to user
 					IF (RFID.CMD.TokenAssign) THEN
-						// Use user name from ArUser template when it exists
-						IF(ArUserNameAdr <> 0 AND ArUserPasswordAdr <> 0) THEN
-							brsstrcpy(ADR(RFID.PAR.UserName), ArUserNameAdr);					
-						END_IF
 						RFID.PAR.Password := RFID.DAT.Data;
 						ArUserSetToken_0(Execute := FALSE);
 						rfid_state := SetToken;
@@ -160,6 +152,7 @@ PROGRAM _CYCLIC
 			END_IF
 			// Reset error
 			IF(RFID.CMD.ErrorReset) THEN
+				brsmemset(ADR(RFID.DAT.Data), 0, SIZEOF(RFID.DAT.Data));
 				RFID.CMD.ErrorReset := FALSE;
 			END_IF
 		// --------------------------------------------------------------------------------------------------------------------
@@ -190,14 +183,16 @@ PROGRAM _CYCLIC
 			// Success
 			IF ArUserSetPassword_0.Done AND NOT ArUserSetPassword_0.Busy THEN
 				IF(RFID.CMD.TokenAssign) THEN
-					RFID.DAT.Status := 'Token assigned to user ';
+					RFID.DAT.Status := 'Token was assigned to user ';
 					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
+					brsmemset(ADR(RFID.DAT.Data), 0, SIZEOF(RFID.DAT.Data));
 					RFID.CMD.TokenAssign := FALSE;
 				ELSE
-					RFID.DAT.Status := 'Token removed from user ';
+					RFID.DAT.Status := 'Token was removed from user ';
 					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
-					brsstrcat(ADR(RFID.DAT.Status), ADR(' password was set to '));
+					brsstrcat(ADR(RFID.DAT.Status), ADR(' password is set to '));
 					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
+					brsmemset(ADR(RFID.DAT.Data), 0, SIZEOF(RFID.DAT.Data));
 					RFID.CMD.TokenRemove := FALSE;
 				END_IF
 				RFID.VIS.ShowMessageBoxOK := TRUE;
@@ -221,6 +216,9 @@ PROGRAM _CYCLIC
 				IF ArUserAuthToken_0.IsAuthentic THEN
 					RFID.PAR.UserName := ArUserAuthToken_0.UserName;
 					RFID.PAR.Password := ArUserAuthToken_0.Token;
+					RFID.DAT.Status := 'Token from user ';
+					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
+					brsstrcat(ADR(RFID.DAT.Status), ADR(' identified'));
 					// Transfer user name and password from ArUser template when it exists
 					IF(ArUserNameAdr <> 0 AND ArUserPasswordAdr <> 0) THEN
 						brsstrcpy(ArUserNameAdr, ADR(RFID.PAR.UserName));					
@@ -228,6 +226,7 @@ PROGRAM _CYCLIC
 					END_IF
 					IF(RFID.PAR.AutoLogin) THEN
 						RFID.VIS.ExecuteLogin := TRUE;
+						brsstrcat(ADR(RFID.DAT.Status), ADR(' and logged in'));
 					END_IF
 				ELSE
 					RFID.DAT.Status := 'Token is not assigned to any user ';
