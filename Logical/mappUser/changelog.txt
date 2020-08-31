@@ -1,3 +1,6 @@
+Next Version
+- Fixed password is not created
+
 Version 0.8
 - Add destroy user list to free up memory
 - Code cleanup
