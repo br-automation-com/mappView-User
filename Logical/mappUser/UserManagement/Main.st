@@ -66,6 +66,7 @@ PROGRAM _CYCLIC
 					ELSE					
 						tmpUser := ArUser.PAR.UserName;
 						ArUserCreate_0(Execute := FALSE);
+						ArUserSetPassword_0(Execute := FALSE);	
 						UserManagementState := CreateUser;
 					END_IF
 				// Assign role to user

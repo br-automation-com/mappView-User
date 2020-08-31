@@ -1,3 +1,6 @@
+Next Version
+- Fixed password is not created
+
 Version 0.8
 - Update user management to version 0.8
 - Added support for RFID reader 5E9030
