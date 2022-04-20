@@ -7,7 +7,7 @@
       </Selector>
       <Property ID="MaxClientConnections" Value="3" />
       <Property ID="MaxBRClientConnections" Value="0" />
-      <Selector ID="ClientConnectionsLicensingMode" Value="LicensingModeConfiguredMaxClients" />
+      <Selector ID="AuthenticationMode" Value="AuthenticationModeMpUserX" />
       <Group ID="TcpProxyConf">
         <Selector ID="InsecureMode" Value="1" />
       </Group>
@@ -33,6 +33,9 @@
         <Property ID="preserveOldValues" Value="TRUE" />
       </Group>
       <Property ID="defaultVisu" Value="visArUser" />
+      <Group ID="Widget">
+        <Selector ID="renderingPolicy" Value="1" />
+      </Group>
     </Group>
   </Element>
 </Configuration>

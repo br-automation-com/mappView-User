@@ -1,53 +1,10 @@
 (*General*)
 VAR
 	UserManagementState : userManagementEnum := IdleUser; (*State Machine for UserManagementState*)
-	ArUserCreate_0 : ArUserCreate; (*Create an user with given name; default no password *)
-	ArUserDelete_0 : ArUserDelete; (*Delete an user  *)
 	ArUserExport_0 : ArUserExport; (*Export all user and role data*)
 	ArUserImport_0 : ArUserImport; (*Import all user and role data*)
-	ArUserSetPassword_0 : ArUserSetPassword; (*Set user password*)
-	ArUserAssignRole_0 : ArUserAssignRole; (*Aisign a role to a user*)
-	ArUserReleaseRole_0 : ArUserReleaseRole; (*Remove a role from a user*)
-	ArUserGetNext_0 : ArUserGetNext; (*Get next user information*)
-	ArUserGetFirst_0 : ArUserGetFirst; (*Get first user information*)
-	ArUserInitList_0 : ArUserInitList; (*Initialize user or role list*)
-	ArUserDestroyList_0 : ArUserDestroyList; (*Free up memory for list*)
-	ArUserIdent : ArUserIdentType; (*Ident from user ot role list*)
-	ArUserGetProperty_0 : ArUserGetProperty; (*Read property*)
-	ArUserSetProperty_0 : ArUserSetProperty; (*Write a property*)
-	PropertyName : STRING[100]; (*Name of the property*)
-	tmpUserIdx : USINT;
-	tmpUser : STRING[MAX_USER_ITEM_LEN];
-	tmpUserOld : STRING[MAX_USER_ITEM_LEN];
-	tmpUserNew : STRING[MAX_USER_ITEM_LEN];
-	idx : USINT;
-	idy : USINT;
 	override : USINT;
 END_VAR
 VAR CONSTANT
 	MAX_CYCLES : USINT := 10; (*Maximum number of override cycles*)
-END_VAR
-(*Loop counter*)
-VAR
-	RoleCounter : USINT;
-	UserCounter : USINT;
-	UserCounterTotal : ARRAY[0..MAX_USER_CLIENTS] OF USINT;
-END_VAR
-(*List types *)
-VAR CONSTANT
-	USER_LISTTYPE : BYTE := 1; (*List Type User*)
-	ROLE_LISTTYPE : BYTE := 2; (*List Type Role*)
-	USERROLE_LISTTYPE : BYTE := 3; (*List Type UserRole*)
-END_VAR
-(*Error Constants*)
-VAR CONSTANT
-	ERR_PASSWORD_MISMATCH : DINT := 50000; (*Passwords dont match*)
-	ERR_USER_LIST_TOO_SHORT : DINT := 50001; (*More users found than fit into user list*)
-	ERR_ROLE_LIST_TOO_SHORT : DINT := 50002; (*More roles found than fit into the role list*)
-	ERR_DELETE_CURRENT_USER : DINT := 50003; (*Logged in user can not be deleted*)
-	ERR_RENAME_CURRENT_USER : DINT := 50004; (*Logged in user can not be renamed*)
-	ERR_USER_ROLE_NAME_SIZE : DINT := 50005; (*Logged in user can not be renamed*)
-	ERR_USER_TOO_MANY_CLIENTS : DINT := 50010; (*More than 3 clients try to connect to user managment*)
-	END_OF_LIST : DINT := -2144327714; (*End of list reached*)
-	ONE : BOOL := TRUE;
 END_VAR
