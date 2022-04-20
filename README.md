@@ -80,6 +80,9 @@ If the token is removed from a user the password will be set identically to the 
 <a name="Revision-History"></a>
 ## Revision History
 
+Version 1.0
+- Fixed password is not created
+
 Version 0.8
 - Update user managment to version 0.8
 - Added support for RFID reader 5E9030
