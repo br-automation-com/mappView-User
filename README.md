@@ -5,7 +5,7 @@
 
 <a name="Introduction"></a>
 ## Introduction
-This is a sample project for a user management with mappView. It uses the B&R library ArUser to access and modify user rights. There is an extended sample with RFID reader support available as separate [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
+This is a sample project for a user management with mappView. It uses the B&R library ArUser to export and import user data as well as the mappView user widget. There is an extended sample with RFID reader support available as separate [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
@@ -13,15 +13,14 @@ The passwords for the users in this demo is the user name all lower case. Also s
 
 <a name="Requirements"></a>
 ## Requirements
-* Automation Studio 4.5
-* mappView 5.7.1
-* Automation Runtime D4.52
+* Automation Studio 4.10
+* mappView 5.17
+* Automation Runtime D4.91
 
 Recommended task class is #8 with a 10ms cycle time.
 
 <a name="Revision-History"></a>
 ## Revision History
 
-#### Version 0.8
-- Add destroy user list to free up memory
-- Code cleanup
+#### Version 2.0
+- First release with new user controls
