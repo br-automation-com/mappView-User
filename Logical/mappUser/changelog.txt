@@ -1,46 +1,6 @@
-Next Version
-- Fixed password is not created
+Version 2.0
+- Update to mapp 5.17
+- Update to AS 4.10
+- Update HMI to use new user widgets
+- Added mappUserX support
 
-Version 0.8
-- Update user management to version 0.8
-- Added support for RFID reader 5E9030
-
-Version 0.7
-- Clear password field when user is created, password is changed, login or logout
-- Removed user anonymous from user list
-- Increased length of status message
-
-Version 0.6
-- Added message box before deleting user
-- Changed constant to avoid conflict with other samples
-- Fixed user selection after create and rename
-- Updated mappView to 5.7.1
-- Code optimizations
-
-Version 0.5
-- Code cleanup
-
-Version 0.5
-- Multi client support
-- Changed error structure
-
-Version 0.4
-- Software structure change to work with future expansion
-- Make sure passwords match before user is created
-- Added support for RFID reader
-
-Version 0.3
-- Automatically set password when new user is created
-- Erase password field when user logs out
-- New command to rename user
-
-Version 0.2
-- Make sure last user can not be deleted
-- Make sure last user can not delete himself
-- Make sure last user can not be deleted
-- Added group box with login
-- Added message boxes for success and failed commands
-- Visual tweaks and bugfixes
-
-Version 0.1
-- First public release

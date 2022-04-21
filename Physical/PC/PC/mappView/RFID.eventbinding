@@ -1,167 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <EventBindingSet id="RFID_eventbinding" xmlns="http://www.br-automation.com/iat2014/eventbinding/v2" xmlns:types="http://www.br-automation.com/iat2015/widgetTypes/v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<Bindings>
-    
-		<!-- Assign user token />-->
-		<EventBinding id="contentUser.btnUserAssignToken.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnUserAssignToken" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<!-- Read user name />-->
-			<Operand name="txtUserNameManagment" datatype="ANY_STRING">
-				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameManagment" >
-					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
-				</ReadTarget>
-			</Operand>
-			<EventHandler>
-				<Sequence>
-					<!-- Set user name />-->
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.PAR.UserName" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set command />-->
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.TokenAssign" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>	
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Remove user token />-->
-		<EventBinding id="contentUser.btnUserRemoveToken.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnUserRemoveToken" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<!-- Read user name />-->
-			<Operand name="txtUserNameManagment" datatype="ANY_STRING">
-				<ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameManagment" >
-					<Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
-				</ReadTarget>
-			</Operand>
-			<EventHandler>
-				<Sequence>
-					<!-- Set user name />-->
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.PAR.UserName" >
-								<Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
-							</Target>
-						</Action>
-					</Step>
-					<!-- Set command />-->
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.TokenRemove" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>	
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Reset errors />-->
-		<EventBinding id="contentUser.btnUserReset.Click">
-			<Source contentRefId="contentUser" widgetRefId="btnUserReset" xsi:type="widgets.brease.Button.Event" event="Click" />
-			<EventHandler>
-				<Sequence>
-					<Step order="0">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.ErrorReset" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.ReaderEnable" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Auto login user />-->
-		<EventBinding id="RFIDlogin">
-			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:RFID.VIS.ExecuteLogin" event="ValueChanged" />
-			
-			<Operand name="user" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.PAR.UserName">
-					<Method xsi:type="opcUa.NodeAction.GetValue" />
-				</ReadTarget>
-			</Operand>
-
-			<Operand name="pwd" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.PAR.Password">
-					<Method xsi:type="opcUa.NodeAction.GetValue" />
-				</ReadTarget>
-			</Operand>
-
-			<EventHandler condition="newValue=true">
-				<Sequence>
-					<Step order="0">
-						<Action>
-							<Target xsi:type="clientSystem.Action">
-								<Method xsi:type="clientSystem.Action.Login" userName="=user" password="=pwd" />
-							</Target>
-						</Action>
-					</Step>
-					<Step order="1">
-						<Action>
-							<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.VIS.ExecuteLogin" >
-								<Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
-							</Target>
-						</Action>
-					</Step>
-				</Sequence>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Open message OK />-->
-		<EventBinding>
-			<Source xsi:type="opcUa.Event" refId="::AsGlobalPV:RFID.VIS.ShowMessageBoxOK" event="ValueChanged" />
-			<!-- Read value from PLC />-->	
-			<Operand name="MessageBoxText" datatype="ANY_STRING">
-				<ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.DAT.Status" >
-					<Method xsi:type="opcUa.NodeAction.GetValue" />
-				</ReadTarget>
-			</Operand>
-			
-			<EventHandler condition="newValue" >		
-				<Action>					
-					<Target xsi:type="clientSystem.Action">
-						<Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Information" icon="Information"  />
-					</Target>
-					<Result>
-						<ResultHandler condition="result = 4">
-							<Action>					
-								<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.VIS.ShowMessageBoxOK" >
-									<Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
-								</Target>
-							</Action>
-						</ResultHandler>
-					</Result>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-		
-		<!-- Logout />-->
-		<EventBinding id="contentUser.btnLogoutButton.Click.RFID">
-			<Source contentRefId="contentUser" widgetRefId="btnLogoutButton" xsi:type="widgets.brease.LogoutButton.Event" event="Click" />
-			<EventHandler>
-				<Action>
-					<Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.DAT.Data" >
-						<Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
-					</Target>
-				</Action>
-			</EventHandler>
-		</EventBinding>
-
-	</Bindings>
+  <Bindings>
+    <EventBinding id="contentUser.btnUserAssignToken.Click">
+      <Source xsi:type="widgets.brease.Button.Event" contentRefId="contentUser" widgetRefId="btnUserAssignToken" event="Click" />
+      <Operand datatype="ANY_STRING" name="txtUserNameManagment">
+        <ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameData">
+          <Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+        </ReadTarget>
+      </Operand>
+      <EventHandler>
+        <Sequence>
+          <Step order="0">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.PAR.UserName">
+                <Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
+              </Target>
+            </Action>
+          </Step>
+          <Step order="1">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.TokenAssign">
+                <Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+              </Target>
+            </Action>
+          </Step>
+        </Sequence>
+      </EventHandler>
+    </EventBinding>
+    <EventBinding id="contentUser.btnUserRemoveToken.Click">
+      <Source xsi:type="widgets.brease.Button.Event" contentRefId="contentUser" widgetRefId="btnUserRemoveToken" event="Click" />
+      <Operand datatype="ANY_STRING" name="txtUserNameManagment">
+        <ReadTarget xsi:type="widgets.brease.TextInput.ReadAction" contentRefId="contentUser" widgetRefId="txtUserNameData">
+          <Method xsi:type="widgets.brease.TextInput.Action.GetValue" />
+        </ReadTarget>
+      </Operand>
+      <EventHandler>
+        <Sequence>
+          <Step order="0">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.PAR.UserName">
+                <Method xsi:type="opcUa.NodeAction.SetValueString" value="=txtUserNameManagment" />
+              </Target>
+            </Action>
+          </Step>
+          <Step order="1">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.TokenRemove">
+                <Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+              </Target>
+            </Action>
+          </Step>
+        </Sequence>
+      </EventHandler>
+    </EventBinding>
+    <EventBinding id="contentUser.btnUserReset.Click">
+      <Source xsi:type="widgets.brease.Button.Event" contentRefId="contentUser" widgetRefId="btnUserReset" event="Click" />
+      <EventHandler>
+        <Sequence>
+          <Step order="0">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.ErrorReset">
+                <Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+              </Target>
+            </Action>
+          </Step>
+          <Step order="1">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.CMD.ReaderEnable">
+                <Method xsi:type="opcUa.NodeAction.SetValueBool" value="true" />
+              </Target>
+            </Action>
+          </Step>
+        </Sequence>
+      </EventHandler>
+    </EventBinding>
+    <EventBinding id="RFIDlogin">
+      <Source xsi:type="opcUa.Event" refId="::AsGlobalPV:RFID.VIS.ExecuteLogin" event="ValueChanged" />
+      <Operand datatype="ANY_STRING" name="user">
+        <ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.PAR.UserName">
+          <Method xsi:type="opcUa.NodeAction.GetValue" />
+        </ReadTarget>
+      </Operand>
+      <Operand datatype="ANY_STRING" name="pwd">
+        <ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.PAR.Password">
+          <Method xsi:type="opcUa.NodeAction.GetValue" />
+        </ReadTarget>
+      </Operand>
+      <EventHandler condition="newValue=true">
+        <Sequence>
+          <Step order="0">
+            <Action>
+              <Target xsi:type="clientSystem.Action">
+                <Method xsi:type="clientSystem.Action.Login" userName="=user" password="=pwd" />
+              </Target>
+            </Action>
+          </Step>
+          <Step order="1">
+            <Action>
+              <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.VIS.ExecuteLogin">
+                <Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
+              </Target>
+            </Action>
+          </Step>
+        </Sequence>
+      </EventHandler>
+    </EventBinding>
+    <EventBinding id="eventbinding_0">
+      <Source xsi:type="opcUa.Event" refId="::AsGlobalPV:RFID.VIS.ShowMessageBoxOK" event="ValueChanged" />
+      <Operand datatype="ANY_STRING" name="MessageBoxText">
+        <ReadTarget xsi:type="opcUa.NodeAction.Read" refId="::AsGlobalPV:RFID.DAT.Status">
+          <Method xsi:type="opcUa.NodeAction.GetValue" />
+        </ReadTarget>
+      </Operand>
+      <EventHandler condition="newValue">
+        <Action>
+          <Target xsi:type="clientSystem.Action">
+            <Method xsi:type="clientSystem.Action.ShowMessageBox" type="OK" message="=MessageBoxText" header="Information" icon="Information" />
+          </Target>
+          <Result>
+            <ResultHandler condition="result = 4">
+              <Action>
+                <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.VIS.ShowMessageBoxOK">
+                  <Method xsi:type="opcUa.NodeAction.SetValueBool" value="false" />
+                </Target>
+              </Action>
+            </ResultHandler>
+          </Result>
+        </Action>
+      </EventHandler>
+    </EventBinding>
+  </Bindings>
 </EventBindingSet>

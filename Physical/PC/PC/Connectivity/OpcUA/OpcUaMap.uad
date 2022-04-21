@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<OpcUaSource FileVersion="4" ArVersion="B4.53">
+<?AutomationStudio FileVersion="4.9"?>
+<OpcUaSource FileVersion="7" ArVersion="D4.52">
   <Aliases>
     <ACLAliases>
       <ACL Id="1">
-        <ACE RoleId="2" RoleName="Everyone" Access="0x015F" />
+        <ACE RoleName="Everyone" Access="0x015F" />
       </ACL>
       <ACL Id="2">
-        <ACE RoleId="2" RoleName="Everyone" Access="0x017F" />
+        <ACE RoleName="Everyone" Access="0x017F" />
       </ACL>
     </ACLAliases>
     <EURangeViolationAliases />
@@ -16,12 +17,7 @@
   <DefaultView AclId="2">
     <Module Name="&lt;Default&gt;">
       <GlobalVariables Name="Global Variables">
-        <Variable Name="ArUser" AutomaticEnable="True">
-          <Variable Name="VIS" EnableArrayElements="True" />
-          <Variable Name="DAT">
-            <Variable Name="UserActive" EnableArrayElements="True" />
-          </Variable>
-        </Variable>
+        <Variable Name="ArUser" AutomaticEnable="True" />
         <Variable Name="RFID" AutomaticEnable="True" />
       </GlobalVariables>
       <Task Name="UserManage" />

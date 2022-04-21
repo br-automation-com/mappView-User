@@ -27,17 +27,18 @@ PROGRAM _CYCLIC
 		IdleRFID:
 			// --------------------------------------------------------------------------------------------------------------------	
 			// Remove token from user
-			IF (RFID.CMD.TokenRemove) THEN
+			IF RFID.CMD.TokenRemove THEN
 				ArUserSetToken_0(Execute := FALSE);
 				RFID.PAR.Password := RFID.PAR.UserName;
 				rfid_state := SetToken;
 			END_IF
+			
 			// Refresh USB data when enabled
-			IF RFID.CMD.ReaderEnable = TRUE THEN
+			IF RFID.CMD.ReaderEnable THEN
 				// --------------------------------------------------------------------------------------------------------------------	
 				// Get new RFID data
 				TimerAutoScan(IN:=1, PT:=RFID.PAR.RefreshInterval);
-				IF(TimerAutoScan.Q) THEN
+				IF TimerAutoScan.Q THEN
 					TimerAutoScan(IN:=0);
 					node := 0;
 					IF(RFID.DAT.IsConnected) THEN
@@ -63,7 +64,7 @@ PROGRAM _CYCLIC
 				IF RFID.DAT.IsConnected = TRUE THEN
 					// --------------------------------------------------------------------------------------------------------------------	
 					// Assign token to user
-					IF (RFID.CMD.TokenAssign) THEN
+					IF RFID.CMD.TokenAssign THEN
 						RFID.PAR.Password := RFID.DAT.Data;
 						ArUserSetToken_0(Execute := FALSE);
 						rfid_state := SetToken;
@@ -83,8 +84,9 @@ PROGRAM _CYCLIC
 						TimerTimeout(IN:=0);
 						brsmemset(ADR(data_read), 0, SIZEOF(data_read));
 						brsmemcpy(ADR(data_read), FRM_read_0.buffer, FRM_read_0.buflng);
+						
 						// Make sure data is valid
-						IF(RFID.DAT.IsConnected AND brsmemcmp(ADR(data_read), ADR('[,'), 2) <> 0 AND brsmemcmp(ADR(data_read), ADR('PiccRemove:'), 11) <> 0) THEN
+						IF RFID.DAT.IsConnected AND brsmemcmp(ADR(data_read), ADR('[,'), 2) <> 0 AND brsmemcmp(ADR(data_read), ADR('PiccRemove:'), 11) <> 0 THEN
 							// Remove unwanted characters from token data
 							idx := 0;
 							REPEAT
@@ -107,8 +109,9 @@ PROGRAM _CYCLIC
 								END_IF
 								UNTIL idx = FRM_read_0.buflng
 							END_REPEAT;
+							
 							// Check RFID data size
-							IF(brsstrlen(ADR(data_read)) >= RFID.PAR.DataMinLen) THEN
+							IF brsstrlen(ADR(data_read)) >= RFID.PAR.DataMinLen THEN
 								// Maintain stats, move data, identify token
 								RFID.DAT.Cnt := RFID.DAT.Cnt + 1;
 								RFID.VIS.ExecuteLogin := FALSE;
@@ -119,25 +122,26 @@ PROGRAM _CYCLIC
 									rfid_state := IdentifyToken;
 								END_IF
 								tmpTokenOld := RFID.DAT.Data;
-							END_IF
+							END_IF					
 						// Reset old token when it was removed from reader
-						ELSIF(RFID.DAT.IsConnected AND brsmemcmp(ADR(data_read), ADR('PiccRemove:'), 11) = 0) THEN
+						ELSIF RFID.DAT.IsConnected AND brsmemcmp(ADR(data_read), ADR('PiccRemove:'), 11) = 0 THEN
 							tmpTokenOld := '';
 						END_IF
+						
 						// Release read buffer
 						FRM_rbuf_0.buffer := FRM_read_0.buffer;
 						FRM_rbuf_0.buflng := FRM_read_0.buflng;
 						FRM_rbuf_0.ident := FRM_xopen_0.ident;
 						FRM_rbuf_0.enable := 1;
-						FRM_rbuf_0();
+						FRM_rbuf_0();					
 					// Read response timeout
-					ELSIF(TimerTimeout.Q) THEN
+					ELSIF TimerTimeout.Q THEN
 						// Ignore timeout for 5E9030
-						IF(RFID.DAT.Type <> RFID_5E9030_29) THEN
+						IF RFID.DAT.Type <> RFID_5E9030_29 THEN
 							RFID.ERR.Number := 50020;
 							RFID.DAT.Status := 'Read response timeout';
 							rfid_state := ErrorRFID;
-						END_IF
+						END_IF			
 					// Cyclic read error
 					ELSIF FRM_read_0.status <> frmERR_NOINPUT AND FRM_read_0.status <> ERR_FUB_BUSY THEN
 						RFID.ERR.Number := FRM_read_0.status;
@@ -147,19 +151,29 @@ PROGRAM _CYCLIC
 				ELSE
 					RFID.CMD.TokenAssign := FALSE;
 				END_IF
+				
+			// --------------------------------------------------------------------------------------------------------------------	
 			// Close USB connection
 			ELSIF RFID.DAT.IsConnected = TRUE THEN
 				rfid_state := CloseDevice;
+				
+			// --------------------------------------------------------------------------------------------------------------------	
+			// Function is disabled
 			ELSE
 				RFID.CMD.TokenAssign := FALSE;
 				TimerAutoScan(IN:=0);
+				RFID.DAT.Status := 'Disabled';
 			END_IF;
+			
+			// --------------------------------------------------------------------------------------------------------------------	
 			// Reset old data
-			IF(RFID.DAT.Data = '') THEN
+			IF RFID.DAT.Data = '' THEN
 				tmpTokenOld := RFID.DAT.Data;
 			END_IF
+			
+			// --------------------------------------------------------------------------------------------------------------------	
 			// Reset error
-			IF(RFID.CMD.ErrorReset) THEN
+			IF RFID.CMD.ErrorReset  THEN
 				brsmemset(ADR(RFID.DAT.Data), 0, SIZEOF(RFID.DAT.Data));
 				RFID.CMD.ErrorReset := FALSE;
 			END_IF
@@ -199,7 +213,7 @@ PROGRAM _CYCLIC
 					RFID.DAT.Status := 'Token was removed from user ';
 					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
 					brsstrcat(ADR(RFID.DAT.Status), ADR(' password is set to '));
-					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.UserName));
+					brsstrcat(ADR(RFID.DAT.Status), ADR(RFID.PAR.Password));
 					RFID.CMD.TokenRemove := FALSE;
 				END_IF
 				RFID.VIS.ShowMessageBoxOK := TRUE;
@@ -315,12 +329,12 @@ PROGRAM _CYCLIC
 		// -----------------------------------------------------------------------------------------------------------			
 		CheckDevice:
 			// Check if device is already linked
-			IF(RFID.DAT.IsConnected) THEN
+			IF RFID.DAT.IsConnected THEN
 				// Device is already linked, return to IdleRFID state
-				IF(brsmemcmp(ADR(usb_data_linked), ADR(usb_data[idx]), SIZEOF(usb_data[idx])) = 0) THEN
+				IF brsmemcmp(ADR(usb_data_linked), ADR(usb_data[idx]), SIZEOF(usb_data[idx])) = 0 THEN
 					rfid_state := IdleRFID;
 				// Check next device
-				ELSIF(idx < node) THEN
+				ELSIF idx < node THEN
 					idx := idx + 1;
 				// Reader was disconnected
 				ELSE
@@ -332,7 +346,7 @@ PROGRAM _CYCLIC
 				END_IF	
 			ELSE
 				// Device is RFID reader type 5E9010.29
-				IF(usb_data[idx].productId = DEV_PRODUCT_ID[RFID_5E9010_29] AND usb_data[idx].vendorId = DEV_VENDOR_ID[RFID_5E9010_29]) THEN
+				IF usb_data[idx].productId = DEV_PRODUCT_ID[RFID_5E9010_29] AND usb_data[idx].vendorId = DEV_VENDOR_ID[RFID_5E9010_29] THEN
 					// Copy configuration data and request string
 					brsmemcpy(ADR(usb_data_linked), ADR(usb_data[idx]), SIZEOF(usb_data_linked));
 					brsmemset(ADR(CFG_ACTIVE), 0, SIZEOF(CFG_ACTIVE));
@@ -342,7 +356,7 @@ PROGRAM _CYCLIC
 					RFID.DAT.Status := 'Reader 5E9010 connected';
 					rfid_state := OpenDevice;
 					// Device is RFID reader type 5E9030.29
-				ELSIF(usb_data[idx].productId = DEV_PRODUCT_ID[RFID_5E9030_29] AND usb_data[idx].vendorId = DEV_VENDOR_ID[RFID_5E9030_29]) THEN
+				ELSIF usb_data[idx].productId = DEV_PRODUCT_ID[RFID_5E9030_29] AND usb_data[idx].vendorId = DEV_VENDOR_ID[RFID_5E9030_29] THEN
 					// Copy configuration data and request string
 					brsmemcpy(ADR(usb_data_linked), ADR(usb_data[idx]), SIZEOF(usb_data_linked));
 					brsmemset(ADR(CFG_ACTIVE), 0, SIZEOF(CFG_ACTIVE));
@@ -351,7 +365,7 @@ PROGRAM _CYCLIC
 					RFID.DAT.Status := 'Reader 5E9030 connected';
 					rfid_state := OpenDevice;
 				ELSE
-					IF(idx < node) THEN
+					IF idx < node THEN
 						idx := idx + 1;
 					ELSE
 						RFID.DAT.Status := 'No USB reader detected';
@@ -439,7 +453,7 @@ PROGRAM _CYCLIC
 			IF FRM_read_0.status = 0 THEN
 				TimerTimeout(IN:=0);
 				// Make sure data fits into buffer
-				IF(FRM_read_0.buflng < SIZEOF(data_read)) THEN
+				IF FRM_read_0.buflng < SIZEOF(data_read) THEN
 					brsmemset(ADR(data_write), 0, SIZEOF(data_write));
 					brsmemset(ADR(data_read), 0, SIZEOF(data_read));
 					brsmemcpy(ADR(data_read), FRM_read_0.buffer, FRM_read_0.buflng);
@@ -467,7 +481,7 @@ PROGRAM _CYCLIC
 					END_REPEAT;
 					
 					// Response for 5E9010 should be empty, Initial response for 5E9030 can be ignored
-					IF(brsstrcmp(ADR(data_read), ADR('')) = 0 OR RFID.DAT.Type = RFID_5E9030_29) THEN
+					IF brsstrcmp(ADR(data_read), ADR('')) = 0 OR RFID.DAT.Type = RFID_5E9030_29 THEN
 						rfid_state := callback;
 					ELSE
 						RFID.ERR.Number := ERR_RFID_RESPONSE;
@@ -492,7 +506,7 @@ PROGRAM _CYCLIC
 			// Read response timeout
 			ELSIF(TimerTimeout.Q) THEN
 				// Ignore timeout for 5E9030
-				IF (RFID.DAT.Type = RFID_5E9030_29) THEN
+				IF RFID.DAT.Type = RFID_5E9030_29 THEN
 					rfid_state := callback;
 				ELSE
 					RFID.ERR.Number := ERR_RFID_READ_TIMEOUT;
@@ -521,7 +535,7 @@ PROGRAM _CYCLIC
 				ELSE
 					rfid_state := IdleRFID;
 				END_IF
-				// Error
+			// Error
 			ELSIF FRM_close_0.status <> ERR_FUB_BUSY THEN
 				rfid_state := ErrorRFID;  
 			END_IF;
@@ -537,7 +551,7 @@ PROGRAM _CYCLIC
 			RFID.DAT.IsConnected := FALSE;
 
 			// Reset error
-			IF(RFID.CMD.ErrorReset) THEN
+			IF RFID.CMD.ErrorReset THEN
 				FRM_close_0.ident := FRM_xopen_0.ident;
 				FRM_close_0.enable := 1;
 				FRM_close_0();	
