@@ -144,5 +144,9 @@
 			<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="btnRenameUser" attribute="enable" />
 		</Binding>
 				
-	</Bindings>
+	<Binding mode="twoWay">
+<Source xsi:type="opcUa" refId="::AsGlobalPV:ArUser.PAR.FilePath" attribute="value" />
+<Target xsi:type="brease" contentRefId="contentUser" widgetRefId="txtFilePath" attribute="value" />
+</Binding>
+</Bindings>
 </BindingsSet>
