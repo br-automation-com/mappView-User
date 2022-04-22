@@ -7,7 +7,7 @@
 
 <a name="Introduction"></a>
 ## Introduction
-This is an extension to the sample project for the user managment with mappView. It uses the B&R RFID reader to identify and login users automatically. For details about the standard example see the [**master**](https://github.com/stephan1827/mappView-User) branch.
+This is an extension to the sample project for the user managment with mappView. It uses the B&R RFID reader to identify and login users automatically. For details about the standard example see the [**main**](https://github.com/stephan1827/mappView-User) branch.
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
