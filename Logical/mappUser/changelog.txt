@@ -1,3 +1,6 @@
+Version 1.1
+- Fixed export path not connected to ArUser.PAR.FilePath in mappView
+
 Version 1.0
 - Fixed password is not created
 
