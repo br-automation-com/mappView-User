@@ -194,8 +194,25 @@
         </Action>
       </EventHandler>
     </EventBinding>
-    <EventBinding id="EventBinding_7" comment="Hide login notice and enable add button">
+    <EventBinding id="EventBinding_7" comment="Login with button">
       <Source xsi:type="widgets.brease.Login.Event" contentRefId="contentUser" widgetRefId="LoginWidget" event="LoginSuccess" />
+      <EventHandler>
+        <Action>
+          <Target xsi:type="widgets.brease.Label.Action" contentRefId="contentUser" widgetRefId="labLoginStatus">
+            <Method xsi:type="widgets.brease.Label.Action.SetVisible" value="false" />
+          </Target>
+        </Action>
+      </EventHandler>
+      <EventHandler>
+        <Action>
+          <Target xsi:type="widgets.brease.LoginButton.Action" contentRefId="contentUser" widgetRefId="btnListAdd">
+            <Method xsi:type="widgets.brease.LoginButton.Action.SetEnable" value="true" />
+          </Target>
+        </Action>
+      </EventHandler>
+    </EventBinding>
+    <EventBinding id="EventBinding_12" comment="Login with RFID key">
+      <Source xsi:type="clientSystem.Event" event="LoginSuccess" />
       <EventHandler>
         <Action>
           <Target xsi:type="widgets.brease.Label.Action" contentRefId="contentUser" widgetRefId="labLoginStatus">
@@ -241,10 +258,34 @@
           </Target>
         </Action>
       </EventHandler>
+    </EventBinding>
+    <EventBinding id="EventBinding_13" comment="Logout with button">
+      <Source xsi:type="widgets.brease.LogoutButton.Event" contentRefId="contentUser" widgetRefId="btnLogoutButton" event="Click" />
       <EventHandler>
         <Action>
-          <Target xsi:type="opcUa.NodeAction" refId="::AsGlobalPV:RFID.DAT.Data">
-            <Method xsi:type="opcUa.NodeAction.SetValueString" value="" />
+          <Target xsi:type="widgets.brease.Label.Action" contentRefId="contentUser" widgetRefId="labLoginStatus">
+            <Method xsi:type="widgets.brease.Label.Action.SetVisible" value="true" />
+          </Target>
+        </Action>
+      </EventHandler>
+      <EventHandler>
+        <Action>
+          <Target xsi:type="widgets.brease.LoginButton.Action" contentRefId="contentUser" widgetRefId="btnListAdd">
+            <Method xsi:type="widgets.brease.LoginButton.Action.SetEnable" value="false" />
+          </Target>
+        </Action>
+      </EventHandler>
+      <EventHandler>
+        <Action>
+          <Target xsi:type="widgets.brease.LoginButton.Action" contentRefId="contentUser" widgetRefId="btnListModify">
+            <Method xsi:type="widgets.brease.LoginButton.Action.SetEnable" value="false" />
+          </Target>
+        </Action>
+      </EventHandler>
+      <EventHandler>
+        <Action>
+          <Target xsi:type="widgets.brease.LoginButton.Action" contentRefId="contentUser" widgetRefId="btnListDelete">
+            <Method xsi:type="widgets.brease.LoginButton.Action.SetEnable" value="false" />
           </Target>
         </Action>
       </EventHandler>
