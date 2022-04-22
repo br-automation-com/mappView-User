@@ -15,9 +15,9 @@ Also see [**How to import the user management into an existing project.**](/Logi
 
 <a name="Requirements"></a>
 ## Requirements
-* Automation Studio 4.5
-* mappView 5.7.1
-* Automation Runtime B4.53
+* Automation Studio 4.10
+* mappView 5.17
+* Automation Runtime D4.91
 * RFID Reader 5E9010.29, 5E9030.29
 
 Recommended task class is #8 with a 10ms cycle time.
