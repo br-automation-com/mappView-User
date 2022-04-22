@@ -79,8 +79,10 @@ If the token is removed from a user the password will be set identically to the 
 
 <a name="Revision-History"></a>
 ## Revision History
+#### Version 2.1
+- Fixed buttons enable/disable when login/logout with RFID key
 
-Version 2.0
+#### Version 2.0
 - Update to mapp 5.17
 - Update to AS 4.10
 - Update HMI to use new user widgets
