@@ -5,7 +5,7 @@
 
 <a name="Introduction"></a>
 ## Introduction
-This is a sample project for a user management with mappView. It uses the B&R library ArUser to export and import user data as well as the mappView user widget. There is an extended sample with RFID reader support available as separate [**branch**](https://github.com/stephan1827/mappView-User/tree/RFID).
+This is a sample project for a user management with mappView. It uses the B&R library ArUser to export and import user data as well as the mappView user widget. There is an extended sample with RFID reader support available as separate [**branch**](https://github.com/br-automation-com/mappView-User/tree/V2_RFID).
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
