@@ -111,7 +111,7 @@ TYPE
 		ErrorReset : BOOL;
 	END_STRUCT;
 	userPAR : 	STRUCT 
-		FilePath : STRING[100];
+		FilePath : STRING[100] := 'F:/UserDataExport.txt';
 		UserName : STRING[MAX_USER_ITEM_LEN];
 		UserNameNew : STRING[MAX_USER_ITEM_LEN];
 		UserRole : STRING[MAX_USER_ITEM_LEN];
