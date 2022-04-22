@@ -11,7 +11,7 @@ This is an extension to the sample project for the user managment with mappView.
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
-Also see [**How to import the user management into an existing project.**](/Logical/mappUser/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/releases/latest)
+Also see [**How to import the user management into an existing project.**](/Logical/mappUser/HowToImport.pdf) 
 
 <a name="Requirements"></a>
 ## Requirements
@@ -80,6 +80,8 @@ If the token is removed from a user the password will be set identically to the 
 <a name="Revision-History"></a>
 ## Revision History
 
-Version 0.8
-- Update user managment to version 0.8
-- Added support for RFID reader 5E9030
+Version 2.0
+- Update to mapp 5.17
+- Update to AS 4.10
+- Update HMI to use new user widgets
+- Added mappUserX support
