@@ -9,7 +9,7 @@ This is a sample project for a user management with mappView. It uses the B&R li
 
 ![](Logical/mappView/Resources/Media/screenshot.png)
 
-The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/mappUser/HowToImport.pdf) Download the latest release from [**here.**](https://github.com/stephan1827/mappView-User/releases/latest) Detailed information are available in the [**Wiki**](https://github.com/stephan1827/mappView-User/wiki). This sample can run in simualtion mode (http://127.0.0.1:81/).
+The passwords for the users in this demo is the user name all lower case. Also see [**How to import the user management into an existing project.**](Logical/mappUser/HowToImport.pdf) Detailed information are available in the [**Wiki**](https://github.com/stephan1827/mappView-User/wiki). This sample can run in simualtion mode (http://127.0.0.1:81/).
 
 <a name="Requirements"></a>
 ## Requirements
@@ -22,6 +22,5 @@ Recommended task class is #8 with a 10ms cycle time.
 <a name="Revision-History"></a>
 ## Revision History
 
-#### Version 0.8
-- Add destroy user list to free up memory
-- Code cleanup
+#### Version 1.1
+- Fixed export path not connected to ArUser.PAR.FilePath in mappView
