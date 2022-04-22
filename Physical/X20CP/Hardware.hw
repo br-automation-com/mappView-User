@@ -8,7 +8,6 @@
     <Parameter ID="ConfigurationID" Value="ARuser_X20CP" />
     <Parameter ID="UserPartitionSize" Value="16" />
     <Parameter ID="VolatileGlobalPvSize" Value="120000" />
-    <Parameter ID="ActivateSdm" Value="0" />
     <Parameter ID="ActivateOpcUa" Value="1" />
     <Parameter ID="OpcUaInformationModels_PV_Version" Value="1" />
   </Module>
